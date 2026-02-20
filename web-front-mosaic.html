@@ -1149,22 +1149,47 @@
                                     </div>
 
                                     <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-                                        <button onclick="autoFillAndSwitch('contract')"
+                                        <button onclick="showDocPreview('contract')"
                                             class="bg-white hover:bg-blue-50 text-blue-600 border border-blue-100 font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-xs md:text-sm">
                                             <i class="fa-solid fa-file-contract"></i> 위탁계약서
                                         </button>
-                                        <button onclick="autoFillAndSwitch('pledge')"
+                                        <button onclick="showDocPreview('pledge')"
                                             class="bg-white hover:bg-blue-50 text-blue-600 border border-blue-100 font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-xs md:text-sm">
                                             <i class="fa-solid fa-file-signature"></i> 보안서약서
                                         </button>
-                                        <button onclick="autoFillAndSwitch('destroy')"
+                                        <button onclick="showDocPreview('destroy')"
                                             class="bg-white hover:bg-red-50 text-red-600 border border-red-100 font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-xs md:text-sm">
                                             <i class="fa-solid fa-file-shredder"></i> 파기확인서
                                         </button>
-                                        <button onclick="autoFillAndSwitch('receipt')"
+                                        <button onclick="showDocPreview('receipt')"
                                             class="bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-xs md:text-sm">
                                             <i class="fa-solid fa-receipt"></i> 현금영수증
                                         </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Inline Doc Preview Overlay (inside detail view) -->
+                            <div id="doc-inline-preview" class="hidden absolute inset-0 bg-slate-50 z-20 flex flex-col">
+                                <!-- Header bar -->
+                                <div
+                                    class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between shrink-0 shadow-sm">
+                                    <div class="flex items-center gap-3">
+                                        <button onclick="closeDocPreview()"
+                                            class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-4 py-2 rounded-xl font-bold transition-all text-sm flex items-center gap-2">
+                                            <i class="fa-solid fa-arrow-left"></i> 뒤로
+                                        </button>
+                                        <span id="doc-preview-title" class="text-lg font-black text-slate-800"></span>
+                                    </div>
+                                    <button id="doc-preview-send-btn" onclick="simulateSend(this, '발송이 완료되었습니다.')"
+                                        class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-2.5 rounded-xl transition-all text-sm flex items-center gap-2 shadow-lg">
+                                        <i class="fa-solid fa-paper-plane"></i> 발송하기
+                                    </button>
+                                </div>
+                                <!-- Scrollable doc body -->
+                                <div class="flex-1 overflow-y-auto scrollbar-thin p-6 md:p-10">
+                                    <div id="doc-inline-preview-content" class="flex flex-col items-center gap-8">
+                                        <!-- populated by JS -->
                                     </div>
                                 </div>
                             </div>
@@ -1172,126 +1197,222 @@
 
                         <!-- Tab: Contract -->
                         <div id="admin-tab-contract" class="admin-tab-content hidden h-full flex flex-col w-full">
-                            <h4 class="text-2xl font-black text-slate-800 mb-6">표준 개인정보처리위탁 계약서 발송</h4>
-                            <div class="flex gap-8 h-full overflow-hidden">
+                            <h4 class="text-2xl font-black text-slate-800 mb-4">표준 개인정보처리위탁 계약서 발송</h4>
+                            <div class="flex gap-6 h-full overflow-hidden">
+                                <!-- Left: Input Panel -->
                                 <div
-                                    class="w-80 bg-white p-6 rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-100 overflow-y-auto shrink-0 h-fit">
+                                    class="w-80 bg-white p-6 rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-100 overflow-y-auto shrink-0 max-h-[calc(100%-2rem)] h-fit">
                                     <h5
-                                        class="font-bold border-b border-slate-100 pb-3 mb-5 text-slate-800 flex items-center gap-2">
+                                        class="font-bold border-b border-slate-100 pb-3 mb-4 text-slate-800 flex items-center gap-2">
                                         <i class="fa-solid fa-pen-to-square text-blue-500"></i> 정보 입력
                                     </h5>
-                                    <div class="space-y-4">
-                                        <div><label class="text-xs font-bold text-slate-500 mb-1 block">위탁자</label>
+                                    <div class="space-y-3">
+                                        <div>
+                                            <label class="text-xs font-bold text-slate-500 mb-1 block">위탁자</label>
                                             <input type="text" id="ct_truster"
                                                 class="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
                                                 placeholder="신갈초등학교" oninput="updateContractPreview()">
+                                            <p class="text-[10px] text-slate-400 mt-1">위탁자 입력시 계약서 시작과, 하단 기관명에 동시 반영
+                                            </p>
                                         </div>
-                                        <div><label class="text-xs font-bold text-slate-500 mb-1 block">계약기간</label>
+                                        <div>
+                                            <label class="text-xs font-bold text-slate-500 mb-1 block">계약기간</label>
                                             <input type="text" id="ct_period"
                                                 class="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
                                                 placeholder="2024년 6월 7일 ~ 2024년 6월 7일"
                                                 oninput="updateContractPreview()">
                                         </div>
-                                        <div><label class="text-xs font-bold text-slate-500 mb-1 block">계약날짜</label>
+                                        <div>
+                                            <label class="text-xs font-bold text-slate-500 mb-1 block">계약날짜</label>
                                             <input type="text" id="ct_date"
                                                 class="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
                                                 placeholder="2024. 6. 7." oninput="updateContractPreview()">
                                         </div>
-                                        <div><label class="text-xs font-bold text-slate-500 mb-1 block">위탁자주소</label>
+                                        <div>
+                                            <label class="text-xs font-bold text-slate-500 mb-1 block">위탁자주소</label>
                                             <input type="text" id="ct_addr"
                                                 class="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
                                                 placeholder="용인시 기흥구 신갈로76" oninput="updateContractPreview()">
                                         </div>
-                                        <div><label class="text-xs font-bold text-slate-500 mb-1 block">대표자성명</label>
+                                        <div>
+                                            <label class="text-xs font-bold text-slate-500 mb-1 block">대표자성명</label>
                                             <input type="text" id="ct_rep"
                                                 class="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
-                                                placeholder="김복자" oninput="updateContractPreview()">
+                                                placeholder="김 복 자" oninput="updateContractPreview()">
                                         </div>
-
+                                        <div>
+                                            <label class="text-xs font-bold text-slate-500 mb-1 block">위탁업무내용 <span
+                                                    class="text-blue-400 font-normal">(제3조)</span></label>
+                                            <input type="text" id="ct_task"
+                                                class="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
+                                                placeholder="CCTV영상 모자이크" oninput="updateContractPreview()">
+                                        </div>
                                         <button onclick="updateContractPreview()"
                                             class="w-full bg-blue-100 text-blue-600 py-3 rounded-xl font-bold hover:bg-blue-200 transition-all">미리보기</button>
-
-                                        <div class="pt-4 border-t border-slate-100 space-y-3">
-                                            <div><label class="text-xs font-bold text-slate-500 mb-1 block">메일
-                                                    주소</label>
+                                        <div class="pt-3 border-t border-slate-100 space-y-3">
+                                            <div>
+                                                <label class="text-xs font-bold text-slate-500 mb-1 block">메일 주소</label>
                                                 <input type="email" id="ct_mail_to"
                                                     class="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50 outline-none"
                                                     placeholder="example@mail.com">
                                             </div>
-                                            <div><label class="text-xs font-bold text-slate-500 mb-1 block">메일
-                                                    제목</label>
+                                            <div>
+                                                <label class="text-xs font-bold text-slate-500 mb-1 block">메일 제목</label>
                                                 <input type="text" id="ct_mail_subject"
                                                     class="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50 outline-none"
                                                     placeholder="위탁 계약서 송부의 건">
                                             </div>
-                                            <div><label class="text-xs font-bold text-slate-500 mb-1 block">메일
-                                                    내용</label>
+                                            <div>
+                                                <label class="text-xs font-bold text-slate-500 mb-1 block">메일 내용</label>
                                                 <textarea id="ct_mail_body"
                                                     class="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50 outline-none h-20 resize-none"
                                                     placeholder="내용을 입력하세요"></textarea>
                                             </div>
                                         </div>
-
                                         <button onclick="simulateSend(this, '계약서가 발송되었습니다.')"
                                             class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-bold shadow-lg transition-all">발송하기</button>
+                                        <div
+                                            class="text-[10px] text-slate-400 space-y-1 pt-2 border-t border-slate-100">
+                                            <p>■ 계약서는 3page로 구성됨</p>
+                                            <p>■ 미리보기 클릭시 입력한 사항 적용된 계약서 미리보기</p>
+                                            <p>■ 메일 주소,제목,내용 입력하고 발송하기 보내면 계약서 발송</p>
+                                        </div>
                                     </div>
                                 </div>
+
+                                <!-- Right: 3-page A4 Preview -->
                                 <div
                                     class="flex-1 bg-slate-200/50 rounded-2xl overflow-y-auto overflow-x-hidden border border-slate-200/50 scrollbar-thin">
-                                    <div class="doc-preview-wrapper min-h-full">
-                                        <div class="a4-paper doc-preview leading-relaxed shadow-xl text-slate-800">
-                                            <div
-                                                class="text-2xl font-bold text-center mb-8 border-b-2 border-black pb-4">
-                                                표준
-                                                개인정보처리위탁 계약서(안)</div>
-                                            <p class="mb-6 text-justify"><span id="prev_ct_truster"
-                                                    class="font-bold border-b border-black px-1">OO기관</span>(이하 "위탁자"이라
-                                                한다)와
+                                    <div
+                                        class="doc-preview-wrapper min-h-full py-6 px-4 space-y-6 flex flex-col items-center">
+
+                                        <!-- Page 1 -->
+                                        <div
+                                            class="a4-paper doc-preview leading-relaxed shadow-xl text-slate-800 w-full max-w-[620px]">
+                                            <div class="text-xl font-bold text-center mb-1 text-black">표준 개인정보처리위탁
+                                                계약서(안)</div>
+                                            <div class="border-b-2 border-black mb-5"></div>
+                                            <p class="mb-4 text-sm text-justify leading-relaxed">
+                                                <span id="prev_ct_truster" class="font-bold underline">OO기관</span>(이하
+                                                "위탁자"이라 한다)와
                                                 <span class="font-bold">(주)비디와이드</span>(이하 "수탁자"라 한다)는 "위탁자"의 개인정보 처리업무를
-                                                "수탁자"에게
-                                                위탁함에 있어 다음과 같은 내용으로 본 업무위탁계약을 체결한다.
+                                                "수탁자"에게 위탁함에 있어 다음과 같은 내용으로 본 업무위탁계약을 체결한다.
                                             </p>
-
-                                            <h5 class="font-bold mt-6 mb-2 text-sm text-black">[제1조 (목적)]</h5>
-                                            <p class="text-xs text-justify text-slate-700 mb-2">이 계약은 "위탁자"가 개인정보처리업무를
-                                                "수탁자"에게
-                                                위탁하고, "수탁자"는 이를 승낙하여 "수탁자"의 책임 아래 성실하게 업무를 완성하도록 하는데 필요한 사항을 정함을 목적으로
-                                                한다.
-                                            </p>
-
-                                            <h5 class="font-bold mt-4 mb-2 text-sm text-black">[제2조 (용어의 정의)]</h5>
-                                            <p class="text-xs text-justify text-slate-700 mb-2">본 계약에서 별도로 정의되지 아니한 용어는
-                                                「개인정보
-                                                보호법」, 동법 시행령 및 고시, 「개인정보의 안전성 확보조치 기준」(개인정보보호위원회 고시 제2021-2호) 및 「표준 개인정보
-                                                보호지침」(개인정보보호위원회 고시 제2020-1호)에서 정의된 바에 따른다.</p>
-
-                                            <h5 class="font-bold mt-4 mb-2 text-sm text-black">[제4조 (위탁업무 기간)]</h5>
-                                            <p class="text-xs text-justify text-slate-700">이 계약서에 의한 개인정보 처리업무의 기간은 다음과
-                                                같다.
-                                            </p>
+                                            <h5 class="font-bold mt-3 mb-1 text-sm text-black">제1조(목적)</h5>
+                                            <p class="text-xs text-justify text-slate-700 mb-3 leading-relaxed">이 계약은
+                                                "위탁자"가 개인정보처리업무를 "수탁자"에게 위탁하고, "수탁자"는 이를 승낙하여 "수탁자"의 책임 아래 성실하게 업무를
+                                                완성하도록 하는데 필요한 사항을 정함을 목적으로 한다.</p>
+                                            <h5 class="font-bold mt-3 mb-1 text-sm text-black">제2조(용어의 정의)</h5>
+                                            <p class="text-xs text-justify text-slate-700 mb-3 leading-relaxed">본 계약에서
+                                                별도로 정의되지 아니한 용어는 「개인정보 보호법」, 동법 시행령 및 고시, 「개인정보의 안전성 확보조치 기준」(개인정보보호위원회
+                                                고시 제2021-2호) 및 「표준 개인정보 보호지침」(개인정보보호위원회 고시 제2020-1호)에서 정의된 바에 따른다.</p>
+                                            <h5 class="font-bold mt-3 mb-1 text-sm text-black">제3조(위탁업무의 목적 및 범위)</h5>
+                                            <p class="text-xs text-justify text-slate-700 mb-2 leading-relaxed">"수탁자"는
+                                                계약이 정하는 바에 따라 아래와 같은 목적으로 다음과 같이 개인정보 처리 업무를 수행한다.</p>
+                                            <p class="text-xs text-slate-700 mb-3 pl-4">1. <span id="prev_ct_task"
+                                                    class="font-bold">CCTV영상 모자이크</span></p>
+                                            <h5 class="font-bold mt-3 mb-1 text-sm text-black">제4조(위탁업무 기간)</h5>
+                                            <p class="text-xs text-justify text-slate-700 mb-2 leading-relaxed">이 계약서에
+                                                의한 개인정보 처리업무의 기간은 다음과 같다.</p>
                                             <div
-                                                class="bg-slate-50 border p-3 my-3 text-sm font-bold text-center border-slate-200">
-                                                계약기간: <span id="prev_ct_period"></span></div>
-
-                                            <div class="mt-16 pt-8 border-t border-slate-300">
-                                                <p class="text-center mb-8 font-bold text-lg" id="prev_ct_date">2024. 6.
-                                                    7.</p>
-                                                <div class="flex justify-between px-4 text-xs">
-                                                    <div class="w-[45%]">
-                                                        <p class="font-bold mb-2 border-b border-black pb-1">[위탁자]</p>
-                                                        <p class="mb-1">주소: <span id="prev_ct_addr"></span></p>
-                                                        <p class="mb-1">기관명: <span id="prev_ct_truster_2"></span></p>
-                                                        <p>대표자: <span id="prev_ct_rep"></span> (인)</p>
+                                                class="bg-slate-50 border border-slate-300 p-2 my-2 text-sm font-bold text-center">
+                                                계약기간 : <span id="prev_ct_period"></span></div>
+                                            <div class="mt-8 pt-5 border-t border-slate-300">
+                                                <p class="text-center mb-5 font-bold text-base" id="prev_ct_date">2024.
+                                                    6. 7.</p>
+                                                <div class="flex justify-between px-2 text-xs">
+                                                    <div class="w-[48%]">
+                                                        <p class="font-bold mb-1 border-b border-black pb-1">[위탁자]</p>
+                                                        <p class="mb-1">주소 : <span id="prev_ct_addr">용인시 기흥구
+                                                                신갈로76</span></p>
+                                                        <p class="mb-1">기관(회사)명 : <span
+                                                                id="prev_ct_truster_2">OO기관</span></p>
+                                                        <p>대표자 성명 : <span id="prev_ct_rep">김 복 자</span>　(인)</p>
                                                     </div>
-                                                    <div class="w-[45%]">
-                                                        <p class="font-bold mb-2 border-b border-black pb-1">[수탁자]</p>
-                                                        <p class="mb-1">주소: 경기도 구리시 갈매중앙로 190</p>
-                                                        <p class="mb-1">기관명: (주)비디와이드</p>
-                                                        <p>대표자: 이정혁 (인)</p>
+                                                    <div class="w-[48%]">
+                                                        <p class="font-bold mb-1 border-b border-black pb-1">[수탁자]</p>
+                                                        <p class="mb-1">주소 : 경기도 구리시 갈매중앙로 190 429호</p>
+                                                        <p class="mb-1">기관(회사)명 : (주)비디와이드</p>
+                                                        <p class="flex items-center gap-2">대표자 성명 : 이 정 혁　<img
+                                                                src="images/seal_red.png"
+                                                                class="w-14 h-14 object-contain inline-block" alt="직인">
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <!-- Page 2 -->
+                                        <div
+                                            class="a4-paper doc-preview leading-relaxed shadow-xl text-slate-800 w-full max-w-[620px]">
+                                            <div class="text-center text-xs text-slate-400 mb-4">— 2 —</div>
+                                            <h5 class="font-bold mb-1 text-sm text-black">제5조(개인정보의 기술적·관리적 보호조치)</h5>
+                                            <p class="text-xs text-justify text-slate-700 mb-2 leading-relaxed">"수탁자"는
+                                                개인정보의 안전성 확보를 위해 다음과 같은 관리적·기술적·물리적 조치를 취하여야 한다.</p>
+                                            <ol class="text-xs text-slate-700 space-y-1 pl-4 mb-4 list-decimal">
+                                                <li>개인정보 내부 관리계획 수립·시행</li>
+                                                <li>개인정보에 대한 접근 통제 및 권한 관리</li>
+                                                <li>개인정보 암호화 조치</li>
+                                                <li>접속기록 보관 및 위·변조 방지 조치</li>
+                                                <li>보안프로그램 설치 및 갱신</li>
+                                                <li>개인정보의 안전한 보관을 위한 물리적 보호조치</li>
+                                            </ol>
+                                            <h5 class="font-bold mt-3 mb-1 text-sm text-black">제6조(재위탁 제한)</h5>
+                                            <p class="text-xs text-justify text-slate-700 mb-3 leading-relaxed">"수탁자"는
+                                                "위탁자"의 사전 승낙 없이 개인정보처리업무를 제3자에게 재위탁하여서는 아니 된다.</p>
+                                            <h5 class="font-bold mt-3 mb-1 text-sm text-black">제7조(개인정보의 처리 제한)</h5>
+                                            <p class="text-xs text-justify text-slate-700 mb-3 leading-relaxed">"수탁자"는
+                                                계약기간 중 또는 계약 종료 후에 위탁받은 개인정보를 계약의 목적 이외의 용도로 사용하거나 제3자에게 제공하여서는 아니 된다.
+                                            </p>
+                                            <h5 class="font-bold mt-3 mb-1 text-sm text-black">제8조(개인정보의 반환 및 파기)</h5>
+                                            <p class="text-xs text-justify text-slate-700 mb-3 leading-relaxed">① "수탁자"는
+                                                위탁업무 완료 또는 계약 해지 시 위탁받은 개인정보를 즉시 파기하여야 한다.<br>② 다만, "위탁자"가 다른 법령에 따라 보존
+                                                요청을 할 경우에는 해당 기간 동안 보관한 후 파기하여야 한다.</p>
+                                            <h5 class="font-bold mt-3 mb-1 text-sm text-black">제9조(개인정보 침해사고 시 처리)</h5>
+                                            <p class="text-xs text-justify text-slate-700 mb-3 leading-relaxed">"수탁자"는
+                                                개인정보 유출 등 침해사고 발생 시 지체 없이 "위탁자"에게 통보하고, 피해 최소화를 위하여 필요한 조치를 취하여야 한다.</p>
+                                            <h5 class="font-bold mt-3 mb-1 text-sm text-black">제10조(손해배상)</h5>
+                                            <p class="text-xs text-justify text-slate-700 mb-3 leading-relaxed">"수탁자"가 이
+                                                계약의 의무를 위반하거나 "수탁자"의 귀책사유로 인해 "위탁자" 또는 정보주체가 손해를 받은 경우, "수탁자"는 해당 손해를
+                                                배상하여야 한다.</p>
+                                        </div>
+
+                                        <!-- Page 3 -->
+                                        <div
+                                            class="a4-paper doc-preview leading-relaxed shadow-xl text-slate-800 w-full max-w-[620px]">
+                                            <div class="text-center text-xs text-slate-400 mb-4">— 3 —</div>
+                                            <h5 class="font-bold mb-1 text-sm text-black">제11조(분쟁의 해결)</h5>
+                                            <p class="text-xs text-justify text-slate-700 mb-3 leading-relaxed">이 계약에 관한
+                                                분쟁은 당사자 간에 협의하여 해결하며, 협의가 이루어지지 않을 경우 관할법원에 의한다.</p>
+                                            <h5 class="font-bold mt-3 mb-1 text-sm text-black">제12조(계약의 해석)</h5>
+                                            <p class="text-xs text-justify text-slate-700 mb-4 leading-relaxed">이 계약에서
+                                                정하지 아니한 사항 및 이 계약의 해석에 관한 분쟁은 개인정보 보호법 등 관계 법령 및 관계기관의 유권해석에 따른다.</p>
+                                            <div class="mt-4 bg-slate-50 border border-slate-200 rounded-lg p-4">
+                                                <p class="text-xs font-bold text-slate-700 mb-3">[별첨] 위탁업무 세부내용</p>
+                                                <table class="w-full text-xs border-collapse border border-slate-300">
+                                                    <tr class="bg-slate-100">
+                                                        <th class="border border-slate-300 p-2 text-center font-bold">
+                                                            위탁업무명</th>
+                                                        <th class="border border-slate-300 p-2 text-center font-bold">처리
+                                                            항목</th>
+                                                        <th class="border border-slate-300 p-2 text-center font-bold">수행
+                                                            목적</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="border border-slate-300 p-2 text-center"
+                                                            id="prev_ct_task_2">CCTV영상 모자이크</td>
+                                                        <td class="border border-slate-300 p-2 text-center">영상 내 개인 식별
+                                                            정보</td>
+                                                        <td class="border border-slate-300 p-2 text-center">개인정보 보호</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="mt-8 pt-5 border-t border-slate-300 text-center">
+                                                <p class="text-xs text-slate-500">본 계약서는 2부를 작성하여 위탁자와 수탁자가 각 1부씩 보관한다.
+                                                </p>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -1302,7 +1423,7 @@
                             <h4 class="text-2xl font-black text-slate-800 mb-6">보안 서약서 발송</h4>
                             <div class="flex gap-8 h-full overflow-hidden">
                                 <div
-                                    class="w-80 bg-white p-6 rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-100 overflow-y-auto shrink-0 h-fit">
+                                    class="w-80 bg-white p-6 rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-100 overflow-y-auto shrink-0 max-h-[calc(100%-2rem)] h-fit">
                                     <h5
                                         class="font-bold border-b border-slate-100 pb-3 mb-5 text-slate-800 flex items-center gap-2">
                                         <i class="fa-solid fa-pen-to-square text-blue-500"></i> 정보 입력
@@ -1381,13 +1502,8 @@
                                                 </p>
                                                 <div class="flex justify-end pr-10 items-center gap-4">
                                                     <span class="text-lg font-bold">위탁 업체 : (주)비디와이드</span>
-                                                    <div class="relative w-16 h-16">
-                                                        <div
-                                                            class="absolute inset-0 border-2 border-red-600 rounded-full flex items-center justify-center text-red-600 font-bold opacity-80 rotate-12 text-xs">
-                                                            비디<br>와이드<br>인</div>
-                                                        <span
-                                                            class="absolute bottom-0 right-0 text-black text-sm">(인)</span>
-                                                    </div>
+                                                    <img src="images/seal_red.png" class="w-14 h-14 object-contain"
+                                                        alt="직인">
                                                 </div>
                                             </div>
                                         </div>
@@ -1398,10 +1514,11 @@
 
                         <!-- Tab: Destroy -->
                         <div id="admin-tab-destroy" class="admin-tab-content hidden h-full flex flex-col w-full">
-                            <h4 class="text-2xl font-black text-slate-800 mb-6">개인정보 파기확인서 발송</h4>
+                            <h4 class="text-2xl font-black text-slate-800 mb-6 flex items-center gap-3"><i
+                                    class="fa-solid fa-file-shredder text-red-400"></i> 개인정보 파기확인서 발송</h4>
                             <div class="flex gap-8 h-full overflow-hidden">
                                 <div
-                                    class="w-80 bg-white p-6 rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-100 overflow-y-auto shrink-0 h-fit">
+                                    class="w-80 bg-white p-6 rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-100 overflow-y-auto shrink-0 max-h-[calc(100%-2rem)] h-fit">
                                     <h5
                                         class="font-bold border-b border-slate-100 pb-3 mb-5 text-slate-800 flex items-center gap-2">
                                         <i class="fa-solid fa-pen-to-square text-blue-500"></i> 정보 입력
@@ -1523,10 +1640,8 @@
                                                 </p>
                                                 <div class="flex justify-center items-center gap-6">
                                                     <span class="text-xl font-bold">확인자 (수탁업체) : (주)비디와이드</span>
-                                                    <div
-                                                        class="w-16 h-16 border-2 border-red-600 rounded-full flex items-center justify-center text-red-600 font-bold opacity-80 rotate-[-10deg] text-xs">
-                                                        비디<br>와이드<br>인</div>
-                                                    <span class="text-sm">(인)</span>
+                                                    <img src="images/seal_red.png" class="w-14 h-14 object-contain"
+                                                        alt="직인">
                                                 </div>
                                             </div>
                                         </div>
@@ -1539,7 +1654,8 @@
                                 <h4 class="text-2xl font-black text-slate-800 mb-6">현금 영수증 발송</h4>
                                 <div
                                     class="bg-white p-6 md:p-10 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 flex flex-col md:flex-row gap-8 h-full max-h-[850px] overflow-hidden">
-                                    <div class="w-full md:w-80 flex flex-col gap-6 shrink-0 h-fit">
+                                    <div
+                                        class="w-full md:w-80 flex flex-col gap-6 shrink-0 overflow-y-auto max-h-[calc(100%-2rem)] h-fit">
                                         <h5
                                             class="font-bold border-b border-slate-100 pb-3 mb-2 text-slate-800 flex items-center gap-2">
                                             <i class="fa-solid fa-pen-to-square text-blue-500"></i> 정보 입력
@@ -1620,11 +1736,8 @@
                                                         <p>공급자: (주)비디와이드</p>
                                                         <p>사업자번호: 123-45-67890</p>
                                                     </div>
-                                                    <div class="relative w-12 h-12">
-                                                        <div
-                                                            class="absolute inset-0 border-2 border-red-600 rounded-full flex items-center justify-center text-red-600 font-bold opacity-80 rotate-12 text-[8px]">
-                                                            비디<br>와이드<br>인</div>
-                                                    </div>
+                                                    <img src="images/seal_red.png" class="w-14 h-14 object-contain"
+                                                        alt="직인">
                                                 </div>
                                             </div>
                                         </div>
@@ -1682,6 +1795,7 @@
                             return;
                         }
                         modal.classList.add('active');
+                        document.body.style.overflow = 'hidden';
                         if (modalId === 'quoteModal') {
                             if (typeof quoteItems !== 'undefined' && quoteItems.length === 0) addQuoteItem();
                             if (typeof calculateQuote === 'function') calculateQuote();
@@ -1708,7 +1822,12 @@
                 function closeModal(modalId) {
                     try {
                         const modal = document.getElementById(modalId);
-                        if (modal) modal.classList.remove('active');
+                        if (modal) {
+                            modal.classList.remove('active');
+                            // Restore scroll if no other modal is active
+                            const anyActive = document.querySelector('.modal.active');
+                            if (!anyActive) document.body.style.overflow = '';
+                        }
                     } catch (err) {
                         console.error('Error closing modal:', err);
                     }
@@ -2151,10 +2270,159 @@
                     }
 
                     // Content Switch
-                    const tabs = document.querySelectorAll('.admin-tab-content');
-                    tabs.forEach(t => t.classList.add('hidden'));
-                    const targetTab = document.getElementById(`admin-tab-${tabName}`);
-                    if (targetTab) targetTab.classList.remove('hidden');
+                    const DOC_TABS = ['contract', 'pledge', 'destroy', 'receipt'];
+                    const listTab = document.getElementById('admin-tab-list');
+                    const listView = document.getElementById('request-list-view');
+                    const detailView = document.getElementById('request-detail-view');
+
+                    if (tabName === 'list') {
+                        // Show the list tab with its content
+                        listTab.classList.remove('hidden');
+                        listView.classList.remove('hidden');
+                        // Hide all document tabs
+                        DOC_TABS.forEach(t => {
+                            const el = document.getElementById(`admin-tab-${t}`);
+                            if (el) el.classList.add('hidden');
+                        });
+                    } else if (DOC_TABS.includes(tabName)) {
+                        // Keep parent (admin-tab-list) visible but hide its sub-views
+                        listTab.classList.remove('hidden');
+                        if (listView) listView.classList.add('hidden');
+                        if (detailView) detailView.classList.add('hidden');
+                        // Hide all doc tabs first
+                        DOC_TABS.forEach(t => {
+                            const el = document.getElementById(`admin-tab-${t}`);
+                            if (el) el.classList.add('hidden');
+                        });
+                        // Receipt is nested inside destroy - must un-hide destroy as parent container
+                        if (tabName === 'receipt') {
+                            const destroyTab = document.getElementById('admin-tab-destroy');
+                            if (destroyTab) destroyTab.classList.remove('hidden');
+                        }
+                        const target = document.getElementById(`admin-tab-${tabName}`);
+                        if (target) target.classList.remove('hidden');
+                    }
+                }
+
+
+                function showDocPreview(type) {
+                    const name = document.getElementById('detail-name').innerText.trim();
+                    const msg = document.getElementById('detail-msg').innerText.trim();
+                    const today = new Date();
+                    const dateDot = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
+                    const dateKR = `${today.getFullYear()}년 ${String(today.getMonth() + 1).padStart(2, '0')}월 ${String(today.getDate()).padStart(2, '0')}일`;
+                    const sealImg = `<img src="images/seal_red.png" class="w-14 h-14 object-contain inline-block" alt="직인">`;
+
+                    const titles = { contract: '위탁계약서', pledge: '보안서약서', destroy: '파기확인서', receipt: '현금영수증' };
+                    document.getElementById('doc-preview-title').textContent = titles[type] || '';
+
+                    let html = '';
+                    if (type === 'contract') {
+                        html = `
+                        <div class="a4-paper doc-preview text-[10pt] leading-relaxed shadow-xl w-full max-w-[620px]">
+                            <div class="text-center text-[9pt] text-slate-400 mb-4">— 1 —</div>
+                            <div class="text-center mb-6">
+                                <p class="text-[20pt] font-bold underline decoration-4 underline-offset-8">표준 위탁계약서</p>
+                                <p class="text-xs text-slate-500 mt-2">(개인정보 처리업무 위탁)</p>
+                            </div>
+                            <p class="mb-4 text-sm text-justify leading-relaxed"><span class="font-bold underline">${name || 'OO기관'}</span>(이하 "위탁자"이라 한다)와 <span class="font-bold">(주)비디와이드</span>(이하 "수탁자"라 한다)는 "위탁자"의 개인정보 처리업무를 "수탁자"에게 위탁함에 있어 다음과 같은 내용으로 본 업무위탁계약을 체결한다.</p>
+                            <h5 class="font-bold mt-3 mb-1 text-sm text-black">제1조(목적)</h5>
+                            <p class="text-xs text-justify text-slate-700 mb-3 leading-relaxed">이 계약은 "위탁자"가 개인정보처리업무를 "수탁자"에게 위탁하고, "수탁자"는 이를 승낙하여 성실하게 업무를 완성하도록 하는데 필요한 사항을 정함을 목적으로 한다.</p>
+                            <h5 class="font-bold mt-3 mb-1 text-sm text-black">제2조(용어의 정의)</h5>
+                            <p class="text-xs text-justify text-slate-700 mb-3 leading-relaxed">본 계약에서 별도로 정의되지 아니한 용어는 「개인정보 보호법」 및 동법 시행령·고시에서 정의된 바에 따른다.</p>
+                            <h5 class="font-bold mt-3 mb-1 text-sm text-black">제3조(위탁업무의 목적 및 범위)</h5>
+                            <p class="text-xs text-justify text-slate-700 mb-2 leading-relaxed">"수탁자"는 계약이 정하는 바에 따라 다음과 같이 개인정보 처리 업무를 수행한다.</p>
+                            <p class="text-xs text-slate-700 mb-3 pl-4">1. <span class="font-bold">CCTV영상 모자이크</span></p>
+                            <h5 class="font-bold mt-3 mb-1 text-sm text-black">제4조(위탁업무 기간)</h5>
+                            <div class="bg-slate-50 border border-slate-300 p-2 my-2 text-sm font-bold text-center">계약기간 : ${dateKR} ~ ${dateKR}</div>
+                            <div class="mt-8 pt-5 border-t border-slate-300">
+                                <p class="text-center mb-5 font-bold text-base">${dateDot}</p>
+                                <div class="flex justify-between px-2 text-xs">
+                                    <div class="w-[48%]">
+                                        <p class="font-bold mb-1 border-b border-black pb-1">[위탁자]</p>
+                                        <p class="mb-1">기관(회사)명 : <span class="font-bold">${name || 'OO기관'}</span></p>
+                                        <p class="flex items-center gap-2">대표자 성명 : (서명)　${sealImg}</p>
+                                    </div>
+                                    <div class="w-[48%]">
+                                        <p class="font-bold mb-1 border-b border-black pb-1">[수탁자]</p>
+                                        <p class="mb-1">기관(회사)명 : (주)비디와이드</p>
+                                        <p class="flex items-center gap-2">대표자 성명 : 이 정 혁　${sealImg}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+                    } else if (type === 'pledge') {
+                        html = `
+                        <div class="a4-paper doc-preview text-[10pt] leading-relaxed shadow-xl w-full max-w-[620px]">
+                            <div class="text-center text-[9pt] text-slate-400 mb-4">— 1 —</div>
+                            <div class="text-center mb-8">
+                                <p class="text-[20pt] font-bold underline decoration-4 underline-offset-8">보안 서약서</p>
+                                <p class="text-xs text-slate-500 mt-2">(개인정보 처리 위탁 관련)</p>
+                            </div>
+                            <p class="mb-4 text-sm text-justify leading-relaxed">본인은 <span class="font-bold underline">${name || 'OO기관'}</span>의 개인정보 처리업무를 수탁하여 수행함에 있어 다음 사항을 성실히 준수할 것을 서약합니다.</p>
+                            <ol class="text-xs text-slate-700 space-y-2 pl-4 mb-6 list-decimal leading-relaxed">
+                                <li>개인정보 위탁 업무 처리 시 기술적·관리적 보호 조치</li>
+                                <li>위탁 업무 수행 목적 외 개인정보의 처리 금지</li>
+                                <li>수요자가 위탁한 개인정보 처리 업무의 재 위탁 제한</li>
+                                <li>개인정보에 대한 접근 제한 등 안전성 확보 조치 준수 (개인정보보호법 제29조)</li>
+                                <li>위탁 업무와 관련하여 보유하고 있는 개인정보의 관리 현황 점검 및 감독 철저</li>
+                                <li>위탁 업무의 종료 시 개인정보 파기 등 의무사항 이행</li>
+                            </ol>
+                            <div class="mt-20 text-center text-slate-800">
+                                <p class="mb-10 text-lg">상기 사항을 숙지하고 이를 성실히 준수할 것을 서약합니다.</p>
+                                <p class="mb-6 text-lg font-bold">${dateKR}</p>
+                                <div class="flex justify-end pr-10 items-center gap-4">
+                                    <span class="text-lg font-bold">위탁 업체 : (주)비디와이드</span>
+                                    ${sealImg}
+                                </div>
+                            </div>
+                        </div>`;
+                    } else if (type === 'destroy') {
+                        html = `
+                        <div class="a4-paper doc-preview text-[10pt] leading-relaxed shadow-xl w-full max-w-[620px]">
+                            <div class="flex items-center justify-center gap-4 mb-12">
+                                <i class="fa-solid fa-file-shield text-slate-300 text-4xl"></i>
+                                <div class="text-3xl font-bold underline decoration-4 decoration-slate-300 underline-offset-8 text-slate-900">개인정보파일 파기서</div>
+                            </div>
+                            <table class="doc-table w-full border-collapse border border-slate-300 text-sm">
+                                <tr><th class="bg-slate-50 border border-slate-300 p-3 text-center font-bold w-1/4">작성일</th><td colspan="3" class="border border-slate-300 p-3">${dateDot}</td></tr>
+                                <tr><th class="bg-slate-50 border border-slate-300 p-3 text-center font-bold">파기대상</th><td colspan="3" class="border border-slate-300 p-3">${msg || '원본 동영상 파일'}</td></tr>
+                                <tr><th class="bg-slate-50 border border-slate-300 p-3 text-center font-bold">파기사유</th><td colspan="3" class="border border-slate-300 p-3">작업 완료 후 파기 요청</td></tr>
+                                <tr><th class="bg-slate-50 border border-slate-300 p-3 text-center font-bold">특기사항</th><td colspan="3" class="border border-slate-300 p-3">해당 사항 없음</td></tr>
+                                <tr><th class="bg-slate-50 border border-slate-300 p-3 text-center font-bold">파기방법</th><td colspan="3" class="border border-slate-300 p-3">영구 삭제 (Wiping)</td></tr>
+                            </table>
+                            <div class="mt-20 text-center text-slate-800">
+                                <p class="mb-8 text-xl font-bold">위와 같이 개인정보파일을 파기함을 확인 및 서약합니다.</p>
+                                <p class="mb-12 text-lg">${dateKR}</p>
+                                <div class="flex justify-center items-center gap-6">
+                                    <span class="text-xl font-bold">확인자 (수탁업체) : (주)비디와이드</span>
+                                    ${sealImg}
+                                </div>
+                            </div>
+                        </div>`;
+                    } else if (type === 'receipt') {
+                        html = `
+                        <div class="a4-paper doc-preview bg-white shadow-xl max-w-[500px] h-fit p-10 text-slate-800">
+                            <div class="text-2xl font-bold text-center mb-8 border-b-2 border-black pb-4 text-slate-900">현금(지출증빙) 영수증</div>
+                            <div class="border border-black p-6 space-y-4">
+                                <div class="flex justify-between border-b border-slate-200 pb-2"><span class="font-bold">발행일자</span><span>${dateDot}</span></div>
+                                <div class="flex justify-between border-b border-slate-200 pb-2"><span class="font-bold">공급받는자</span><span class="font-bold">${name || '(공급받는자)'}</span></div>
+                                <div class="flex justify-between border-b border-slate-200 pb-2"><span class="font-bold">합계금액</span><span class="text-xl font-black">₩ <span>0</span></span></div>
+                            </div>
+                            <div class="mt-8 text-sm text-slate-500 text-center">위 금액을 정히 영수함</div>
+                            <div class="mt-12 flex justify-between items-end">
+                                <div class="text-xs space-y-1"><p>공급자: (주)비디와이드</p><p>사업자번호: 123-45-67890</p></div>
+                                ${sealImg}
+                            </div>
+                        </div>`;
+                    }
+
+                    document.getElementById('doc-inline-preview-content').innerHTML = html;
+                    document.getElementById('doc-inline-preview').classList.remove('hidden');
+                }
+
+                function closeDocPreview() {
+                    document.getElementById('doc-inline-preview').classList.add('hidden');
                 }
 
                 function autoFillAndSwitch(type) {
@@ -2192,6 +2460,7 @@
                     }
                     closeAdminDetail();
                 }
+
 
                 // --- Admin Data & Logic ---
                 let ADMIN_REQUESTS = [
@@ -2319,13 +2588,20 @@
 
                 // Preview Updaters
                 function updateContractPreview() {
-                    document.getElementById('prev_ct_truster').innerText = document.getElementById('ct_truster').value || "(기관명)";
-                    document.getElementById('prev_ct_truster_2').innerText = document.getElementById('ct_truster').value || "(기관명)";
-                    document.getElementById('prev_ct_period').innerText = document.getElementById('ct_period').value || "";
-                    document.getElementById('prev_ct_date').innerText = document.getElementById('ct_date').value || "";
-                    document.getElementById('prev_ct_addr').innerText = document.getElementById('ct_addr').value || "";
-                    document.getElementById('prev_ct_rep').innerText = document.getElementById('ct_rep').value || "";
+                    const truster = document.getElementById('ct_truster').value || '(기관명)';
+                    const task = document.getElementById('ct_task') ? document.getElementById('ct_task').value || 'CCTV영상 모자이크' : 'CCTV영상 모자이크';
+                    document.getElementById('prev_ct_truster').innerText = truster;
+                    document.getElementById('prev_ct_truster_2').innerText = truster;
+                    document.getElementById('prev_ct_period').innerText = document.getElementById('ct_period').value || '';
+                    document.getElementById('prev_ct_date').innerText = document.getElementById('ct_date').value || '';
+                    document.getElementById('prev_ct_addr').innerText = document.getElementById('ct_addr').value || '';
+                    document.getElementById('prev_ct_rep').innerText = document.getElementById('ct_rep').value || '';
+                    const taskEl = document.getElementById('prev_ct_task');
+                    const taskEl2 = document.getElementById('prev_ct_task_2');
+                    if (taskEl) taskEl.innerText = task;
+                    if (taskEl2) taskEl2.innerText = task;
                 }
+
 
                 function updatePledgePreview() {
                     document.getElementById('prev_pl_name').innerText = document.getElementById('pl_name').value || "(기관명)";
