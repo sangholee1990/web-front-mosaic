@@ -1,0 +1,1526 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BDWIDE - CCTV 영상 모자이크 서비스</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- html2canvas & jspdf -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&display=swap');
+
+        /* Global Reset & Typography */
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            scroll-behavior: smooth;
+        }
+
+        .font-serif {
+            font-family: 'Nanum Myeongjo', serif;
+        }
+
+        /* Premium Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Utilities */
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .delay-100 {
+            animation-delay: 0.1s;
+        }
+
+        .delay-200 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-300 {
+            animation-delay: 0.3s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Modal Transitions */
+        .modal {
+            transition: opacity 0.3s ease, visibility 0.3s;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            transform: scale(0.95) translateY(10px);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        /* Document Styles */
+        .a4-paper {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 20mm;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            color: #333;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        /* Tables */
+        .doc-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 11pt;
+        }
+
+        .doc-table th,
+        .doc-table td {
+            border: 1px solid #cbd5e1;
+            padding: 10px;
+        }
+
+        .doc-table th {
+            background-color: #f8fafc;
+            text-align: center;
+            font-weight: 700;
+            width: 120px;
+        }
+
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11pt;
+        }
+
+        .invoice-table th,
+        .invoice-table td {
+            border: 1px solid #9ca3af;
+            padding: 6px 8px;
+        }
+
+        .invoice-table th {
+            background-color: #f3f4f6;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* Toast */
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .toast {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(4px);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            margin-top: 10px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1), fadeOut 0.3s 2.7s forwards;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 relative selection:bg-blue-100 selection:text-blue-900">
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Header -->
+    <header class="fixed w-full top-0 z-50 transition-all duration-300 glass shadow-sm">
+        <div class="container mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center">
+            <!-- Logo Area -->
+            <div class="flex items-center gap-3 cursor-pointer group"
+                onclick="window.scrollTo({top:0, behavior:'smooth'})">
+                <div
+                    class="relative w-10 h-10 flex items-center justify-center bg-gradient-to-br from-blue-600 to-indigo-700 text-white rounded-xl shadow-lg group-hover:rotate-6 transition-transform duration-300">
+                    <span class="text-lg font-black italic">K</span>
+                </div>
+                <div>
+                    <h1
+                        class="text-xl font-black text-slate-800 tracking-tight group-hover:text-blue-600 transition-colors">
+                        BDWIDE
+                        <span
+                            class="text-xs font-semibold text-slate-400 ml-1 tracking-normal font-sans">(주)비디와이드</span>
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Nav Buttons -->
+            <div class="flex gap-3 mt-4 md:mt-0">
+                <button onclick="scrollToSection('process-section')"
+                    class="px-4 py-2 text-sm font-bold text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
+                    이용 안내
+                </button>
+                <button onclick="openModal('quoteModal')"
+                    class="px-5 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-calculator"></i> 실시간 견적
+                </button>
+                <button onclick="openModal('consultModal')"
+                    class="px-5 py-2.5 text-sm font-bold text-red-600 bg-red-50 hover:bg-red-100 border border-red-100 rounded-xl transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-headset"></i> 긴급 상담
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-32 overflow-hidden bg-slate-50">
+        <!-- Abstract Background -->
+        <div class="absolute inset-0 z-0">
+            <div
+                class="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-100/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 opacity-70 animate-pulse">
+            </div>
+            <div
+                class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-indigo-100/50 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3 opacity-70">
+            </div>
+            <div
+                class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03]">
+            </div>
+        </div>
+
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <div
+                class="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-white border border-blue-100 shadow-sm text-blue-800 text-xs font-bold mb-8 animate-fade-in-up">
+                <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
+                관공서 · 경찰서 · 학교 최다 수행 실적 보유 1위
+            </div>
+
+            <h2
+                class="text-5xl md:text-7xl font-black text-slate-900 mb-8 leading-tight tracking-tight animate-fade-in-up delay-100">
+                개인정보 보호를 위한<br>
+                <span class="text-gradient">가장 확실한 모자이크</span>
+            </h2>
+
+            <p
+                class="text-xl md:text-2xl text-slate-500 mb-12 max-w-2xl mx-auto leading-relaxed animate-fade-in-up delay-200 font-light">
+                벤처인증기업 <b>비디와이드</b>가 빠르고 정확한 영상 비식별화 서비스를 제공합니다.<br>
+                복잡한 절차 없이 온라인으로 <span
+                    class="text-blue-600 font-semibold underline decoration-blue-200 decoration-2 underline-offset-4">즉시
+                    견적</span>부터 결과물 수령까지.
+            </p>
+
+            <!-- Quick Info Cards -->
+            <div
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto text-left animate-fade-in-up delay-300">
+                <div
+                    class="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+                    <div
+                        class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 text-xl mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <h4 class="font-bold text-slate-800 text-lg mb-1">보안 철저</h4>
+                    <p class="text-sm text-slate-500 leading-snug">보안서약서 및 파기확인서<br>100% 필수 발급 준수</p>
+                </div>
+
+                <div
+                    class="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+                    <div
+                        class="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 text-xl mb-4 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <h4 class="font-bold text-slate-800 text-lg mb-1">신속 작업</h4>
+                    <p class="text-sm text-slate-500 leading-snug">평균 24시간 내 완료<br>긴급 당일 처리 지원</p>
+                </div>
+
+                <div
+                    class="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+                    <div
+                        class="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 text-xl mb-4 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-file-invoice-dollar"></i>
+                    </div>
+                    <h4 class="font-bold text-slate-800 text-lg mb-1">투명한 견적</h4>
+                    <p class="text-sm text-slate-500 leading-snug">정찰제 운영 시스템<br>실시간 자동 견적 산출</p>
+                </div>
+
+                <div
+                    class="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+                    <div
+                        class="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center text-amber-600 text-xl mb-4 group-hover:bg-amber-600 group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <h4 class="font-bold text-slate-800 text-lg mb-1">벤처 인증</h4>
+                    <p class="text-sm text-slate-500 leading-snug">기술력이 검증된 기업<br>직접 책임 수행</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section id="process-section" class="py-24 bg-white relative">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-20 animate-fade-in-up">
+                <span class="text-blue-600 font-bold tracking-wider text-sm uppercase mb-2 block">Process</span>
+                <h3 class="text-4xl font-black text-slate-900 leading-tight">
+                    복잡한 절차는 줄이고<br>
+                    <span class="text-slate-400">정확도는 높였습니다</span>
+                </h3>
+            </div>
+
+            <div class="relative">
+                <!-- Connecting Line (Desktop) -->
+                <div
+                    class="hidden md:block absolute top-[2.5rem] left-0 w-full h-0.5 bg-gradient-to-r from-blue-100 via-indigo-100 to-blue-100 -z-10">
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <!-- Step 1 -->
+                    <div
+                        class="bg-white p-8 rounded-3xl shadow-lg border border-slate-50 text-center group hover:-translate-y-2 transition-transform duration-300 relative">
+                        <div
+                            class="w-20 h-20 mx-auto bg-white border-4 border-blue-50 text-blue-600 rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:border-blue-500 group-hover:scale-110 transition-all duration-300 relative z-10">
+                            <i class="fa-solid fa-magnifying-glass-dollar"></i>
+                            <span
+                                class="absolute -top-2 -right-2 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold border-4 border-white">1</span>
+                        </div>
+                        <h4 class="font-bold text-xl text-slate-800 mb-3">상담 및 견적</h4>
+                        <p class="text-slate-500 leading-relaxed font-light">영상 내용을 바탕으로<br>합리적인 비용 산출</p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div
+                        class="bg-white p-8 rounded-3xl shadow-lg border border-slate-50 text-center group hover:-translate-y-2 transition-transform duration-300 relative">
+                        <div
+                            class="w-20 h-20 mx-auto bg-white border-4 border-indigo-50 text-indigo-600 rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:border-indigo-500 group-hover:scale-110 transition-all duration-300 relative z-10">
+                            <i class="fa-solid fa-file-contract"></i>
+                            <span
+                                class="absolute -top-2 -right-2 w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-bold border-4 border-white">2</span>
+                        </div>
+                        <h4 class="font-bold text-xl text-slate-800 mb-3">보안 서약</h4>
+                        <p class="text-slate-500 leading-relaxed font-light">철저한 보안 서약서 발송<br>및 안전 결제 진행</p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div
+                        class="bg-white p-8 rounded-3xl shadow-lg border border-slate-50 text-center group hover:-translate-y-2 transition-transform duration-300 relative">
+                        <div
+                            class="w-20 h-20 mx-auto bg-white border-4 border-violet-50 text-violet-600 rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:border-violet-500 group-hover:scale-110 transition-all duration-300 relative z-10">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            <span
+                                class="absolute -top-2 -right-2 w-8 h-8 bg-violet-600 text-white rounded-full flex items-center justify-center text-sm font-bold border-4 border-white">3</span>
+                        </div>
+                        <h4 class="font-bold text-xl text-slate-800 mb-3">모자이크 작업</h4>
+                        <p class="text-slate-500 leading-relaxed font-light">전문가의 정밀 비식별화<br>작업 및 검수</p>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div
+                        class="bg-white p-8 rounded-3xl shadow-lg border border-slate-50 text-center group hover:-translate-y-2 transition-transform duration-300 relative">
+                        <div
+                            class="w-20 h-20 mx-auto bg-white border-4 border-emerald-50 text-emerald-600 rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:border-emerald-500 group-hover:scale-110 transition-all duration-300 relative z-10">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span
+                                class="absolute -top-2 -right-2 w-8 h-8 bg-emerald-600 text-white rounded-full flex items-center justify-center text-sm font-bold border-4 border-white">4</span>
+                        </div>
+                        <h4 class="font-bold text-xl text-slate-800 mb-3">전송 및 파기</h4>
+                        <p class="text-slate-500 leading-relaxed font-light">결과물 암호화 전송 후<br>데이터 영구 파기</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-20 text-center">
+                <button onclick="openModal('quoteModal')"
+                    class="inline-flex items-center gap-3 px-8 py-4 text-lg font-bold text-white bg-slate-900 rounded-full hover:bg-black hover:scale-105 transition-all shadow-xl">
+                    <span>지체 없이 바로 견적 확인하기</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-16 border-t border-slate-800">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-12">
+                <!-- Brand Info -->
+                <div class="lg:col-span-4 space-y-6">
+                    <div class="flex items-center gap-3 text-white">
+                        <div class="w-10 h-10 flex items-center justify-center bg-blue-600 rounded-lg">
+                            <span class="text-xl font-black italic">K</span>
+                        </div>
+                        <span class="text-2xl font-black tracking-tighter">BDWIDE</span>
+                    </div>
+                    <p class="text-slate-500 leading-relaxed text-sm">
+                        비디와이드는 대한민국 최고의 CCTV 영상 비식별화 솔루션을 제공합니다. 관공서, 학교, 기업의 개인정보보호를 위해 최선을 다하겠습니다.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all"><i
+                                class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-pink-600 hover:text-white transition-all"><i
+                                class="fa-brands fa-instagram"></i></a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-green-500 hover:text-white transition-all"><i
+                                class="fa-solid fa-blog"></i></a>
+                    </div>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="lg:col-span-4 lg:col-start-6 space-y-4">
+                    <h5 class="text-white font-bold mb-2">Contact Us</h5>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-phone mt-1 text-blue-500"></i>
+                            <div>
+                                <span class="block text-slate-300 font-bold">070.7664.2221</span>
+                                <span class="text-xs text-slate-600">평일 10:00 ~ 18:00 (주말/공휴일 휴무)</span>
+                            </div>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-envelope text-blue-500"></i>
+                            <span class="text-slate-300">bdwide77@gmail.com</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-location-dot mt-1 text-blue-500"></i>
+                            <span class="text-slate-300">경기도 구리시 갈매중앙로 190, 4층 429호</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Admin & Legal -->
+                <div class="lg:col-span-3 space-y-4 text-right">
+                    <h5 class="text-white font-bold mb-2">Information</h5>
+                    <ul class="space-y-2 text-sm text-slate-500">
+                        <li><a href="#" class="hover:text-blue-400 transition">이용약관</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition font-bold text-slate-300">개인정보처리방침</a>
+                        </li>
+                        <li><a href="#" class="hover:text-blue-400 transition">사업자 정보확인</a></li>
+                    </ul>
+                    <button onclick="toggleAdminMode()"
+                        class="inline-flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-xs font-bold text-slate-300 transition-colors mt-4">
+                        <i class="fa-solid fa-lock"></i> 관리자 접속
+                    </button>
+                </div>
+            </div>
+
+            <div
+                class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-600">
+                <p>&copy; 2026 BDWIDE Inc. All rights reserved.</p>
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                    <span>System Operational</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========================================================================================= -->
+    <!-- MODALS -->
+    <!-- ========================================================================================= -->
+
+    <!-- 1. Real-time Quote Modal -->
+    <div id="quoteModal"
+        class="modal fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+        <div
+            class="modal-content bg-white rounded-3xl shadow-2xl w-full max-w-6xl max-h-[95vh] overflow-hidden flex flex-col ring-1 ring-slate-900/5">
+            <!-- Header -->
+            <div class="flex justify-between items-center px-8 py-5 border-b border-slate-100 bg-white">
+                <h3 class="text-2xl font-black text-slate-800 flex items-center gap-3 tracking-tight">
+                    <span
+                        class="w-10 h-10 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-lg shadow-sm"><i
+                            class="fa-solid fa-calculator"></i></span>
+                    실시간 견적 확인
+                </h3>
+                <button onclick="closeModal('quoteModal')"
+                    class="w-10 h-10 flex items-center justify-center rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-all text-xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="flex flex-1 overflow-hidden flex-col lg:flex-row">
+                <!-- Input Form -->
+                <div class="w-full lg:w-1/3 p-8 bg-white overflow-y-auto border-r border-slate-100 scrollbar-thin">
+                    <div class="bg-blue-50/50 p-6 rounded-2xl mb-8 border border-blue-100/50">
+                        <p class="text-sm text-blue-800 font-bold mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-circle-info"></i> 견적 산출 기준
+                        </p>
+                        <ul
+                            class="text-xs text-blue-600 space-y-2 list-disc list-inside opacity-90 leading-relaxed font-medium">
+                            <li>사람 3명, 번호판 3개까지 <span
+                                    class="text-blue-700 font-bold underline decoration-blue-300/50 underline-offset-2">기본요금</span>
+                            </li>
+                            <li>영상 3분 이내 <span
+                                    class="text-blue-700 font-bold underline decoration-blue-300/50 underline-offset-2">기본요금</span>
+                            </li>
+                            <li>난이도(움직임)에 따라 할증 수수료 적용</li>
+                        </ul>
+                    </div>
+
+                    <form id="quoteForm" oninput="calculateQuote()" class="space-y-6">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wider">신청자
+                                정보</label>
+                            <input type="text" id="q_name"
+                                class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all placeholder:text-slate-400 font-medium text-slate-700"
+                                placeholder="성함 또는 기관명 (예: 홍길동)">
+                        </div>
+                        <div>
+                            <label
+                                class="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wider">연락처</label>
+                            <input type="text" id="q_contact"
+                                class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all placeholder:text-slate-400 font-medium text-slate-700"
+                                placeholder="010-0000-0000">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 mb-2">사람 (명)</label>
+                                <div class="relative">
+                                    <input type="number" id="q_people"
+                                        class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 pl-10 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-bold text-slate-700"
+                                        value="0" min="0">
+                                    <i
+                                        class="fa-solid fa-user absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 mb-2">번호판 (개)</label>
+                                <div class="relative">
+                                    <input type="number" id="q_plate"
+                                        class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 pl-10 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-bold text-slate-700"
+                                        value="0" min="0">
+                                    <i
+                                        class="fa-solid fa-car absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 mb-2">영상 시간</label>
+                            <div class="flex gap-3 items-center">
+                                <div class="relative flex-1">
+                                    <input type="number" id="q_min"
+                                        class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-bold text-slate-700 text-right pr-12"
+                                        placeholder="0" min="0">
+                                    <span
+                                        class="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-400">분</span>
+                                </div>
+                                <div class="relative flex-1">
+                                    <input type="number" id="q_sec"
+                                        class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-bold text-slate-700 text-right pr-12"
+                                        placeholder="0" min="0">
+                                    <span
+                                        class="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-400">초</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 mb-2">난이도 (움직임)</label>
+                            <div class="relative">
+                                <select id="q_move"
+                                    class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 pl-4 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all appearance-none font-medium text-slate-700 cursor-pointer hover:bg-slate-100">
+                                    <option value="1.0">① 가만히 서있거나 앉아있음 (기본)</option>
+                                    <option value="1.2">② 평범하게 걸어다님 (x1.2)</option>
+                                    <option value="1.5">③ 빠르게 뛰거나 차량 이동 (x1.5)</option>
+                                </select>
+                                <i
+                                    class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs pointer-events-none"></i>
+                            </div>
+                        </div>
+
+                        <button type="button" onclick="resetQuoteForm()"
+                            class="w-full py-3 text-sm font-bold text-slate-500 bg-slate-50 hover:bg-slate-100 hover:text-slate-700 rounded-xl transition-all border border-slate-200 mt-2 flex items-center justify-center gap-2 group">
+                            <i
+                                class="fa-solid fa-rotate-right group-hover:rotate-180 transition-transform duration-500"></i>
+                            초기화
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Estimate Preview -->
+                <div class="w-full lg:w-2/3 bg-slate-100/50 p-8 overflow-y-auto flex justify-center items-start">
+                    <div class="flex flex-col gap-6 items-center w-full max-w-2xl">
+                        <div id="invoice-preview"
+                            class="a4-paper transform scale-[0.8] origin-top md:scale-100 transition-transform shadow-lg rounded-sm border border-slate-200/60">
+                            <!-- Invoice Content -->
+                            <h1
+                                class="text-3xl font-black text-center mb-10 tracking-[0.5em] text-slate-800 border-b-4 border-double border-slate-300 pb-2 inline-block mx-auto">
+                                견 적 서
+                            </h1>
+
+                            <!-- Header Grid -->
+                            <table class="invoice-table mb-8">
+                                <tr>
+                                    <td class="bg-slate-50 text-center w-[40px] font-bold text-slate-700" rowspan="5">
+                                        공<br>급<br>자</td>
+                                    <td class="bg-slate-50 w-[80px] font-bold text-slate-700">등록번호</td>
+                                    <td colspan="3" class="font-bold text-blue-800 tracking-wider">271-87-02687</td>
+                                    <td class="bg-slate-50 text-center w-[40px] font-bold text-slate-700" rowspan="5">
+                                        귀<br>하</td>
+                                    <td class="bg-slate-50 w-[80px] font-bold text-slate-700">견적일</td>
+                                    <td colspan="3" id="inv_date" class="font-medium">2026.02.16</td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-slate-50 font-bold text-slate-700">상호</td>
+                                    <td colspan="3">(주)비디와이드</td>
+                                    <td class="bg-slate-50 font-bold text-slate-700">수신</td>
+                                    <td colspan="3" id="inv_client_name" class="font-bold text-slate-900">홍길동</td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-slate-50 font-bold text-slate-700">대표자</td>
+                                    <td class="w-[80px]">이정혁</td>
+                                    <td class="bg-slate-50 text-center w-[50px] font-bold text-slate-700">직인</td>
+                                    <td class="w-[50px] relative p-0">
+                                        <div class="absolute inset-0 flex items-center justify-center">
+                                            <img src="images/seal_red.png" alt="직인"
+                                                class="w-10 h-10 object-contain opacity-80 mix-blend-multiply flex-shrink-0"
+                                                onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                            <div
+                                                class="hidden text-red-600 opacity-80 font-serif font-bold border-2 border-red-600 rounded-full w-10 h-10 m-auto text-[8px] flex items-center justify-center rotate-[-15deg] leading-tight">
+                                                비디<br>와이드<br>인</div>
+                                        </div>
+                                        <div class="text-right pr-1 pt-4 text-xs text-slate-400 z-10 relative">(인)</div>
+                                    </td>
+                                    <td class="bg-slate-50 font-bold text-slate-700">합계금액</td>
+                                    <td colspan="3" id="inv_cost_text" class="font-bold text-lg text-blue-900">영원정</td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-slate-50 font-bold text-slate-700">주소</td>
+                                    <td colspan="3" class="text-[10px]">경기 구리시 갈매중앙로 190, 4층 429호</td>
+                                    <td class="bg-slate-50 font-bold text-slate-700">연락처</td>
+                                    <td colspan="3" id="inv_client_contact"></td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-slate-50 font-bold text-slate-700">업태/종목</td>
+                                    <td colspan="3" class="text-[10px]">서비스업/소프트웨어개발</td>
+                                    <td colspan="4" class="text-[10px] text-center text-slate-400">본 견적은 작성일로부터 7일간 유효함
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Body Table -->
+                            <div class="min-h-[300px]">
+                                <table class="invoice-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="w-[10%] bg-slate-100 text-slate-700">시간</th>
+                                            <th class="w-[35%] bg-slate-100 text-slate-700">내역(품명)</th>
+                                            <th class="w-[10%] bg-slate-100 text-slate-700">수량</th>
+                                            <th class="w-[15%] bg-slate-100 text-slate-700">단가</th>
+                                            <th class="w-[15%] bg-slate-100 text-slate-700">공급가액</th>
+                                            <th class="w-[15%] bg-slate-100 text-slate-700">비고</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="inv_tbody">
+                                        <!-- Dynamic rows -->
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="4" class="text-right bg-slate-50 font-bold text-slate-700">소 계
+                                            </td>
+                                            <td class="text-right font-medium" id="inv_supply">0</td>
+                                            <td class="bg-slate-50"></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4" class="text-right bg-slate-50 font-bold text-slate-700">
+                                                부가가치세 (10%)</td>
+                                            <td class="text-right font-medium" id="inv_vat">0</td>
+                                            <td class="bg-slate-50"></td>
+                                        </tr>
+                                        <tr class="border-t-2 border-slate-800">
+                                            <td colspan="4"
+                                                class="text-right bg-blue-50/50 font-black text-blue-900 text-lg py-3">총
+                                                합 계</td>
+                                            <td class="text-right font-black text-blue-900 text-xl py-3"
+                                                id="inv_grand_total">0</td>
+                                            <td class="bg-blue-50/50"></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+
+                            <div class="mt-16 text-center">
+                                <p
+                                    class="text-xs text-slate-400 mb-8 border border-slate-200 p-3 inline-block rounded-lg bg-slate-50">
+                                    ※ 보완 사항 요청시, 수정 작업 1회 무상 제공합니다.<br>
+                                    ※ 실제 영상 내용(움직임 난이도 등) 확인 시 견적 비용은 변경될 수 있습니다.
+                                </p>
+                                <p class="text-lg font-bold font-serif mb-3 text-slate-600">2026년 <span
+                                        id="inv_year_m_d">02월 16일</span></p>
+                                <h2 class="text-2xl font-black text-slate-900 font-serif tracking-[0.2em]">(주) 비 디 와 이 드
+                                </h2>
+                            </div>
+                        </div>
+
+                        <button onclick="downloadPDF()"
+                            class="group relative inline-flex items-center gap-3 bg-slate-900 hover:bg-blue-900 text-white px-8 py-4 rounded-full shadow-2xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden">
+                            <span class="relative z-10 font-bold text-lg"><i class="fa-solid fa-file-pdf mr-2"></i> 견적서
+                                다운로드 (PDF)</span>
+                            <div
+                                class="absolute inset-0 bg-white/20 group-hover:translate-x-full transition-transform duration-500 ease-in-out -skew-x-12 origin-left">
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Consultation Modal -->
+    <div id="consultModal"
+        class="modal fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+        <div
+            class="modal-content bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden relative ring-1 ring-slate-900/5">
+            <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500">
+            </div>
+
+            <button onclick="closeModal('consultModal')"
+                class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 transition-colors w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="p-8 pt-10">
+                <div class="text-center mb-8">
+                    <div
+                        class="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl shadow-sm animate-bounce-short">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <h3 class="text-2xl font-black text-slate-900 mb-2">긴급 상담 요청</h3>
+                    <p class="text-sm text-slate-500 font-medium">전문 담당자에게 즉시 알림이 전송됩니다.<br>최대한 빠르게 연락드리겠습니다.</p>
+                </div>
+
+                <form onsubmit="event.preventDefault(); submitConsultation();" class="space-y-5">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-2">기관/성함</label>
+                        <input type="text" id="c_name" required
+                            class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 outline-none transition-all placeholder:text-slate-400 font-medium text-slate-800"
+                            placeholder="입력해주세요">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-2">연락처</label>
+                        <input type="tel" id="c_phone" required
+                            class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 outline-none transition-all placeholder:text-slate-400 font-medium text-slate-800"
+                            placeholder="010-0000-0000">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-2">요청 내용</label>
+                        <textarea id="c_msg" rows="3"
+                            class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 outline-none transition-all placeholder:text-slate-400 font-medium text-slate-800 resize-none"
+                            placeholder="궁금하신 점이나 요청사항을 간략히 적어주세요."></textarea>
+                    </div>
+                    <button type="submit"
+                        class="w-full bg-gradient-to-r from-red-500 to-orange-600 hover:from-red-600 hover:to-orange-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-red-500/30 transition-all transform active:scale-95 flex items-center justify-center gap-2">
+                        <span>상담 요청하기</span> <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Admin Dashboard Modal (Refined UI) -->
+    <div id="adminModal"
+        class="modal fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+        <div
+            class="modal-content bg-white rounded-xl shadow-2xl w-full max-w-[95vw] h-[95vh] flex flex-col overflow-hidden">
+            <!-- Top Bar -->
+            <div class="bg-gray-900 text-white px-6 py-3 flex justify-between items-center shadow-md z-10">
+                <div class="flex items-center gap-3">
+                    <span class="bg-blue-600 text-xs px-2 py-1 rounded font-bold">ADMIN</span>
+                    <h3 class="font-bold text-lg">관리자 대시보드</h3>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="text-xs text-gray-400">마지막 접속: 금일 10:23</span>
+                    <button onclick="closeModal('adminModal')" class="text-gray-400 hover:text-white transition"><i
+                            class="fa-solid fa-xmark text-xl"></i></button>
+                </div>
+            </div>
+
+            <div class="flex flex-1 overflow-hidden">
+                <!-- Sidebar -->
+                <div class="w-64 bg-gray-800 text-gray-300 flex flex-col shadow-inner shrink-0">
+                    <div class="p-4 border-b border-gray-700">
+                        <div class="text-xs font-bold text-gray-500 mb-2">MENU</div>
+                        <ul class="space-y-1">
+                            <li onclick="switchAdminTab('list')"
+                                class="admin-menu-item p-3 hover:bg-gray-700 rounded cursor-pointer flex items-center gap-3 bg-gray-700 text-white transition-colors">
+                                <i class="fa-solid fa-list-check w-5 text-center"></i> 요청 목록
+                            </li>
+                            <li onclick="switchAdminTab('contract')"
+                                class="admin-menu-item p-3 hover:bg-gray-700 rounded cursor-pointer flex items-center gap-3 transition-colors">
+                                <i class="fa-solid fa-file-signature w-5 text-center"></i> 위탁 계약서
+                            </li>
+                            <li onclick="switchAdminTab('pledge')"
+                                class="admin-menu-item p-3 hover:bg-gray-700 rounded cursor-pointer flex items-center gap-3 transition-colors">
+                                <i class="fa-solid fa-shield-halved w-5 text-center"></i> 보안 서약서
+                            </li>
+                            <li onclick="switchAdminTab('destroy')"
+                                class="admin-menu-item p-3 hover:bg-gray-700 rounded cursor-pointer flex items-center gap-3 transition-colors">
+                                <i class="fa-solid fa-file-shredder w-5 text-center"></i> 파기 확인서
+                            </li>
+                            <li onclick="switchAdminTab('receipt')"
+                                class="admin-menu-item p-3 hover:bg-gray-700 rounded cursor-pointer flex items-center gap-3 transition-colors">
+                                <i class="fa-solid fa-receipt w-5 text-center"></i> 현금 영수증
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Main Content Area -->
+                <div class="flex-1 bg-gray-100 overflow-y-auto p-8 relative">
+
+                    <!-- Tab: Request List -->
+                    <div id="admin-tab-list" class="admin-tab-content h-full flex flex-col relative">
+                        <!-- List View -->
+                        <div id="request-list-view" class="h-full flex flex-col">
+                            <div class="flex justify-between items-center mb-6">
+                                <h4 class="text-2xl font-bold text-gray-800">상담 요청 관리</h4>
+                                <div class="flex gap-2">
+                                    <span class="bg-white px-3 py-1 rounded shadow text-sm border">전체: <b
+                                            class="text-blue-600">2</b>건</span>
+                                    <span class="bg-white px-3 py-1 rounded shadow text-sm border">대기: <b
+                                            class="text-red-500">1</b>건</span>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-lg shadow border border-gray-200 overflow-hidden flex-1">
+                                <table class="w-full text-sm text-left">
+                                    <thead class="bg-gray-50 text-gray-500 border-b">
+                                        <tr>
+                                            <th class="p-4 font-medium">No</th>
+                                            <th class="p-4 font-medium">접수일시</th>
+                                            <th class="p-4 font-medium">기관/신청인</th>
+                                            <th class="p-4 font-medium">연락처</th>
+                                            <th class="p-4 font-medium">상태</th>
+                                            <th class="p-4 font-medium text-center">관리</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-request-list" class="divide-y divide-gray-100">
+                                        <!-- JS populated -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Detail View (Hidden by default) -->
+                        <div id="request-detail-view" class="hidden absolute inset-0 bg-gray-100 z-10 flex flex-col">
+                            <div class="bg-white rounded-lg shadow border border-gray-200 p-8 h-full flex flex-col">
+                                <div class="flex justify-between items-center mb-6 border-b pb-4">
+                                    <div>
+                                        <h4 class="text-2xl font-bold text-gray-800 mb-1">상담 상세 정보</h4>
+                                        <span id="detail-id" class="text-sm text-gray-400">NO. 1024</span>
+                                    </div>
+                                    <button onclick="closeAdminDetail()"
+                                        class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg font-bold transition">
+                                        <i class="fa-solid fa-arrow-left mr-2"></i>목록으로
+                                    </button>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-8 mb-8">
+                                    <div class="space-y-4">
+                                        <div>
+                                            <label class="block text-xs font-bold text-gray-500 mb-1">기관/신청인</label>
+                                            <div id="detail-name" class="text-lg font-bold text-gray-800"></div>
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs font-bold text-gray-500 mb-1">연락처</label>
+                                            <div id="detail-phone" class="text-lg text-gray-800"></div>
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs font-bold text-gray-500 mb-1">접수일시</label>
+                                            <div id="detail-date" class="text-gray-600"></div>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-4">
+                                        <div>
+                                            <label class="block text-xs font-bold text-gray-500 mb-1">진행 상태</label>
+                                            <div id="detail-status"
+                                                class="inline-block px-3 py-1 rounded font-bold text-sm"></div>
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs font-bold text-gray-500 mb-1">상담 내용</label>
+                                            <div id="detail-msg"
+                                                class="bg-gray-50 p-4 rounded-lg border border-gray-200 h-32 overflow-y-auto text-sm leading-relaxed">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-auto border-t pt-6 flex justify-end gap-3">
+                                    <button
+                                        class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-bold shadow transition">
+                                        <i class="fa-solid fa-check mr-2"></i>상담 완료 처리
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Common Layout for Document Generators -->
+                    <!-- Tab: Contract -->
+                    <div id="admin-tab-contract" class="admin-tab-content hidden h-full flex flex-col">
+                        <h4 class="text-2xl font-bold text-gray-800 mb-4">표준 개인정보처리위탁 계약서 발송</h4>
+                        <div class="flex gap-6 h-full overflow-hidden">
+                            <!-- Controls -->
+                            <div
+                                class="w-80 bg-white p-5 rounded-lg shadow-sm border border-gray-200 overflow-y-auto shrink-0 h-fit">
+                                <h5 class="font-bold border-b pb-2 mb-4">계약 정보 입력</h5>
+                                <div class="space-y-3">
+                                    <div><label class="text-xs font-bold text-gray-500">위탁자(기관명)</label><input
+                                            type="text" id="ct_truster"
+                                            class="w-full border p-2 rounded text-sm bg-gray-50" placeholder="OO초등학교"
+                                            oninput="updateContractPreview()"></div>
+                                    <div><label class="text-xs font-bold text-gray-500">대표자 성명</label><input type="text"
+                                            id="ct_rep" class="w-full border p-2 rounded text-sm bg-gray-50"
+                                            placeholder="홍길동" oninput="updateContractPreview()"></div>
+                                    <div><label class="text-xs font-bold text-gray-500">주소</label><input type="text"
+                                            id="ct_addr" class="w-full border p-2 rounded text-sm bg-gray-50"
+                                            oninput="updateContractPreview()"></div>
+                                    <div><label class="text-xs font-bold text-gray-500">계약 기간</label><input type="text"
+                                            id="ct_period" class="w-full border p-2 rounded text-sm bg-gray-50"
+                                            placeholder="2026.02.16 ~ 2026.02.20" oninput="updateContractPreview()">
+                                    </div>
+                                    <button onclick="simulateSend('계약서가 발송되었습니다.')"
+                                        class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded mt-4 font-bold transition">이메일
+                                        발송</button>
+                                </div>
+                            </div>
+                            <!-- Preview Area -->
+                            <div class="flex-1 bg-gray-200 rounded-lg p-8 overflow-y-auto flex justify-center">
+                                <div class="a4-paper doc-preview text-[10pt] leading-relaxed font-serif">
+                                    <div class="text-2xl font-bold text-center mb-8 border-b-2 border-black pb-4">표준
+                                        개인정보처리위탁 계약서(안)</div>
+                                    <p class="mb-6 text-justify">
+                                        <span id="prev_ct_truster"
+                                            class="font-bold border-b border-black px-1">OO기관</span>(이하 "위탁자"이라 한다)와
+                                        <span class="font-bold">(주)비디와이드</span>(이하 "수탁자"라 한다)는 "위탁자"의 개인정보 처리업무를 "수탁자"에게
+                                        위탁함에 있어 다음과 같은 내용으로 본 업무위탁계약을 체결한다.
+                                    </p>
+
+                                    <h5 class="font-bold mt-6 mb-2 text-sm">[제1조 (목적)]</h5>
+                                    <p class="text-xs text-justify text-gray-700 mb-2">이 계약은 "위탁자"가 개인정보처리업무를 "수탁자"에게
+                                        위탁하고, "수탁자"는 이를 승낙하여 "수탁자"의 책임 아래 성실하게 업무를 완성하도록 하는데 필요한 사항을 정함을 목적으로 한다.</p>
+
+                                    <h5 class="font-bold mt-4 mb-2 text-sm">[제2조 (용어의 정의)]</h5>
+                                    <p class="text-xs text-justify text-gray-700 mb-2">본 계약에서 별도로 정의되지 아니한 용어는 「개인정보
+                                        보호법」, 동법 시행령 및 고시, 「개인정보의 안전성 확보조치 기준」(개인정보보호위원회 고시 제2021-2호) 및 「표준 개인정보
+                                        보호지침」(개인정보보호위원회 고시 제2020-1호)에서 정의된 바에 따른다.</p>
+
+                                    <h5 class="font-bold mt-4 mb-2 text-sm">[제4조 (위탁업무 기간)]</h5>
+                                    <p class="text-xs text-justify text-gray-700">이 계약서에 의한 개인정보 처리업무의 기간은 다음과 같다.</p>
+                                    <div class="bg-gray-50 border p-2 my-2 text-sm font-bold text-center">
+                                        계약기간: <span id="prev_ct_period"></span>
+                                    </div>
+
+                                    <div class="mt-16 pt-8 border-t border-gray-300">
+                                        <p class="text-center mb-8 font-bold">2026년 02월 16일</p>
+                                        <div class="flex justify-between px-4 text-xs">
+                                            <div class="w-[45%]">
+                                                <p class="font-bold mb-2 border-b pb-1">[위탁자]</p>
+                                                <p class="mb-1">주소: <span id="prev_ct_addr"></span></p>
+                                                <p class="mb-1">기관명: <span id="prev_ct_truster_2"></span></p>
+                                                <p>대표자: <span id="prev_ct_rep"></span> (인)</p>
+                                            </div>
+                                            <div class="w-[45%]">
+                                                <p class="font-bold mb-2 border-b pb-1">[수탁자]</p>
+                                                <p class="mb-1">주소: 경기도 구리시 갈매중앙로 190</p>
+                                                <p class="mb-1">기관명: (주)비디와이드</p>
+                                                <p>대표자: 이정혁 (인)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab: Pledge -->
+                    <div id="admin-tab-pledge" class="admin-tab-content hidden h-full flex flex-col">
+                        <h4 class="text-2xl font-bold text-gray-800 mb-4">보안 서약서 발송</h4>
+                        <div class="flex gap-6 h-full overflow-hidden">
+                            <div
+                                class="w-80 bg-white p-5 rounded-lg shadow-sm border border-gray-200 overflow-y-auto shrink-0 h-fit">
+                                <h5 class="font-bold border-b pb-2 mb-4">서약 정보 입력</h5>
+                                <div><label class="text-xs font-bold text-gray-500">수요자(기관명)</label><input type="text"
+                                        id="pl_name" class="w-full border p-2 rounded text-sm bg-gray-50"
+                                        oninput="updatePledgePreview()"></div>
+                                <button onclick="simulateSend(this, '보안서약서가 발송되었습니다.')"
+                                    class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded mt-4 font-bold transition">이메일
+                                    발송</button>
+                            </div>
+                            <div class="flex-1 bg-gray-200 rounded-lg p-8 overflow-y-auto flex justify-center">
+                                <div class="a4-paper doc-preview text-[10pt] leading-relaxed font-serif">
+                                    <div
+                                        class="text-2xl font-bold text-center mb-10 border-4 border-double border-gray-800 py-3">
+                                        개인정보 처리 업무 위탁 보안 서약서</div>
+                                    <p class="mb-6 text-justify indent-4">
+                                        (주)비디와이드(이하 "공급자"라 한다)은 <span id="prev_pl_name"
+                                            class="font-bold border-b border-black px-1 text-lg"></span>(이하 "수요자"라 한다)의
+                                        개인정보 처리 업무 위탁 업무 수행에 따른 개인정보 및 개인정보처리시스템의 안전한 보호를 위해 아래 각 호의 사항을 준수한다.
+                                    </p>
+                                    <div class="bg-gray-50 border p-6 rounded-lg mb-8">
+                                        <ol class="list-decimal list-outside ml-4 space-y-3 text-sm">
+                                            <li>수요자의 정보보안 기본지침 및 개인정보보호 관련 법령 준수</li>
+                                            <li>개인정보 위탁 업무 처리 시 기술적·관리적 보호 조치</li>
+                                            <li>위탁 업무 수행 목적 외 개인정보의 처리 금지</li>
+                                            <li>수요자가 위탁한 개인정보 처리 업무의 재 위탁 제한</li>
+                                            <li>개인정보에 대한 접근 제한 등 안전성 확보 조치 준수 (개인정보보호법 제29조)</li>
+                                            <li>위탁 업무와 관련하여 보유하고 있는 개인정보의 관리 현황 점검 및 감독 철저</li>
+                                            <li>위탁 업무의 종료 시 개인정보 파기 등 의무사항 이행</li>
+                                        </ol>
+                                    </div>
+                                    <div class="mt-20 text-center">
+                                        <p class="mb-10 text-lg">상기 사항을 숙지하고 이를 성실히 준수할 것을 서약합니다.</p>
+                                        <p class="mb-6 text-lg">2026년 02월 16일</p>
+                                        <div class="flex justify-end pr-10 items-center gap-4">
+                                            <span class="text-lg font-bold">위탁 업체 : (주)비디와이드</span>
+                                            <div class="relative w-16 h-16">
+                                                <div
+                                                    class="absolute inset-0 border-2 border-red-600 rounded-full flex items-center justify-center text-red-600 font-bold opacity-80 rotate-12 text-xs">
+                                                    비디<br>와이드<br>인</div>
+                                                <span class="absolute bottom-0 right-0 text-black text-sm">(인)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab: Destroy -->
+                    <div id="admin-tab-destroy" class="admin-tab-content hidden h-full flex flex-col">
+                        <h4 class="text-2xl font-bold text-gray-800 mb-4">개인정보 파기확인서 발송</h4>
+                        <div class="flex gap-6 h-full overflow-hidden">
+                            <div
+                                class="w-80 bg-white p-5 rounded-lg shadow-sm border border-gray-200 overflow-y-auto shrink-0 h-fit">
+                                <h5 class="font-bold border-b pb-2 mb-4">파기 정보 입력</h5>
+                                <div class="space-y-3">
+                                    <div><label class="text-xs font-bold text-gray-500">파기 대상 파일</label><textarea
+                                            id="ds_file" class="w-full border p-2 rounded text-sm bg-gray-50 h-20"
+                                            oninput="updateDestroyPreview()">CH10_20251106.avi 외 2건</textarea></div>
+                                    <div><label class="text-xs font-bold text-gray-500">파기 사유</label><input type="text"
+                                            id="ds_reason" class="w-full border p-2 rounded text-sm bg-gray-50"
+                                            value="작업 완료 및 요청" oninput="updateDestroyPreview()"></div>
+                                    <button onclick="simulateSend(this, '파기확인서가 발송되었습니다.')"
+                                        class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded mt-4 font-bold transition">이메일
+                                        발송</button>
+                                </div>
+                            </div>
+                            <div class="flex-1 bg-gray-200 rounded-lg p-8 overflow-y-auto flex justify-center">
+                                <div class="a4-paper doc-preview text-[10pt] leading-relaxed font-serif">
+                                    <div
+                                        class="text-3xl font-bold text-center mb-12 underline decoration-4 decoration-gray-300 underline-offset-8">
+                                        개인정보파일 파기서</div>
+                                    <table class="doc-table">
+                                        <tr>
+                                            <th>작성일</th>
+                                            <td>2026년 02월 16일</td>
+                                            <th>작성자</th>
+                                            <td>(주)비디와이드</td>
+                                        </tr>
+                                        <tr>
+                                            <th>파기 대상<br>개인정보파일</th>
+                                            <td colspan="3" id="prev_ds_file"
+                                                class="h-32 align-top whitespace-pre-wrap p-4"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>파기 사유</th>
+                                            <td colspan="3" id="prev_ds_reason" class="p-4"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>파기일</th>
+                                            <td colspan="3" class="p-4">2026년 02월 16일</td>
+                                        </tr>
+                                        <tr>
+                                            <th>파기 방법</th>
+                                            <td colspan="3" class="p-4">Digital Forensics 기준 영구 삭제 (Wiping)</td>
+                                        </tr>
+                                    </table>
+                                    <div class="mt-20 text-center">
+                                        <p class="mb-8 text-xl font-bold">위와 같이 개인정보파일을 파기함을 확인 및 서약합니다.</p>
+                                        <p class="mb-12 text-lg">2026년 02월 16일</p>
+                                        <div class="flex justify-center items-center gap-6">
+                                            <span class="text-xl font-bold">확인자 (수탁업체) : (주)비디와이드</span>
+                                            <div
+                                                class="w-16 h-16 border-2 border-red-600 rounded-full flex items-center justify-center text-red-600 font-bold opacity-80 rotate-[-10deg] text-xs">
+                                                비디<br>와이드<br>인</div>
+                                            <span class="text-sm">(인)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab: Receipt -->
+                    <div id="admin-tab-receipt" class="admin-tab-content hidden h-full flex flex-col">
+                        <h4 class="text-2xl font-bold text-gray-800 mb-4">현금 영수증 발송</h4>
+                        <div
+                            class="bg-white p-10 rounded-lg shadow-sm border border-gray-200 flex flex-col items-center justify-center h-96">
+                            <div
+                                class="border-2 border-dashed border-gray-300 rounded-xl p-10 text-center cursor-pointer hover:bg-blue-50 hover:border-blue-400 transition w-full max-w-md">
+                                <i class="fa-solid fa-cloud-arrow-up text-5xl text-blue-200 mb-4"></i>
+                                <p class="text-gray-600 font-bold mb-1">영수증 이미지 업로드</p>
+                                <p class="text-xs text-gray-400">또는 파일을 여기로 드래그하세요</p>
+                            </div>
+                            <div class="w-full max-w-md mt-6">
+                                <label class="block text-xs font-bold text-gray-500 mb-1">받는 사람 이메일</label>
+                                <div class="flex gap-2">
+                                    <input type="email" class="flex-1 border p-2 rounded bg-white"
+                                        placeholder="client@example.com">
+                                    <button onclick="simulateSend(this, '영수증이 발송되었습니다.')"
+                                        class="bg-gray-800 text-white px-6 rounded font-bold hover:bg-black transition">발송</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- Toast Notification ---
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `<i class="fa-solid fa-circle-check text-green-400"></i> <span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        function simulateSend(btn, msg) {
+            const originalText = btn.innerHTML;
+            const originalClasses = btn.className;
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> 전송 중...';
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+
+            setTimeout(() => {
+                showToast(msg);
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+                btn.className = originalClasses;
+            }, 1000);
+        }
+
+        // --- Modal Control ---
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            if (modalId === 'quoteModal') {
+                calculateQuote();
+                const today = new Date();
+                const dateStr = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
+                document.getElementById('inv_date').innerText = dateStr;
+                document.getElementById('inv_year_m_d').innerText = `${String(today.getMonth() + 1).padStart(2, '0')}월 ${String(today.getDate()).padStart(2, '0')}일`;
+            }
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function toggleAdminMode() {
+            openModal('adminModal');
+            loadAdminMockData();
+            updateContractPreview();
+            updatePledgePreview();
+            updateDestroyPreview();
+        }
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- Helper: Number to Korean ---
+        function numberToKorean(number) {
+            if (number === 0) return "영원정";
+            const units = ["", "만", "억"];
+            const hanA = ["", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구"];
+            const hanB = ["", "십", "백", "천"];
+
+            let result = "";
+            let n = number;
+            let unitIndex = 0;
+
+            while (n > 0) {
+                let part = n % 10000;
+                if (part > 0) {
+                    let partStr = "";
+                    let partS = part.toString();
+                    for (let j = 0; j < partS.length; j++) {
+                        let digit = parseInt(partS.charAt(partS.length - 1 - j));
+                        if (digit > 0) {
+                            partStr = hanA[digit] + hanB[j] + partStr;
+                        }
+                    }
+                    result = partStr + units[unitIndex] + result;
+                }
+                n = Math.floor(n / 10000);
+                unitIndex++;
+            }
+            return "일금 " + result + "원정";
+        }
+
+
+        // --- Constants & Configuration ---
+        const PRICING = {
+            PEOPLE: {
+                BASE_COST: 20000,    // Basic cost for up to 3 people
+                LIMIT_BASE: 3,
+                EXTRA_SMALL_COST: 10000, // Additional cost for 4-5 people
+                LIMIT_SMALL_EXTRA: 2,
+                EXTRA_LARGE_COST: 20000, // Additional cost for every 5 people beyond the small extra
+                UNIT_LARGE: 5
+            },
+            PLATES: {
+                LIMIT_FREE: 3,
+                UNIT_COST: 10000,
+                UNIT_COUNT: 3
+            },
+            TIME: {
+                LIMIT_FREE_SEC: 180, // 3 minutes included
+                TIER_1_LIMIT_SEC: 300, // Up to 5 minutes
+                TIER_1_COST: 10000,
+                TIER_2_COST: 20000,
+                TIER_2_UNIT_SEC: 300 // Per 5 minutes additional
+            },
+            MULTIPLIER_DEFAULT: 1.0,
+            VAT_rate: 0.1
+        };
+
+        // --- Quote Logic ---
+        function resetQuoteForm() {
+            document.getElementById('quoteForm').reset();
+            calculateQuote();
+        }
+
+        function calculateQuote() {
+            const name = document.getElementById('q_name').value || "홍길동";
+            const contact = document.getElementById('q_contact').value;
+            let people = parseInt(document.getElementById('q_people').value) || 0;
+            let plates = parseInt(document.getElementById('q_plate').value) || 0;
+            let min = parseInt(document.getElementById('q_min').value) || 0;
+            let sec = parseInt(document.getElementById('q_sec').value) || 0;
+            const multiplier = parseFloat(document.getElementById('q_move').value) || PRICING.MULTIPLIER_DEFAULT;
+
+            // Normalize Time
+            if (sec >= 60) {
+                min += Math.floor(sec / 60);
+                sec = sec % 60;
+            }
+            const totalSeconds = (min * 60) + sec;
+
+            // 1. People Cost Calculation
+            let costPeople = 0;
+            if (people > 0) {
+                if (people <= PRICING.PEOPLE.LIMIT_BASE) {
+                    costPeople = PRICING.PEOPLE.BASE_COST;
+                } else {
+                    costPeople = PRICING.PEOPLE.BASE_COST;
+                    let extra = people - PRICING.PEOPLE.LIMIT_BASE;
+
+                    if (extra <= PRICING.PEOPLE.LIMIT_SMALL_EXTRA) {
+                        costPeople += PRICING.PEOPLE.EXTRA_SMALL_COST;
+                    } else {
+                        // First add the small extra cost
+                        costPeople += PRICING.PEOPLE.EXTRA_SMALL_COST;
+                        // Then calculate the large extra cost
+                        // (extra - 2) because we already accounted for the first 2 extra people
+                        costPeople += Math.ceil((extra - PRICING.PEOPLE.LIMIT_SMALL_EXTRA) / PRICING.PEOPLE.UNIT_LARGE) * PRICING.PEOPLE.EXTRA_LARGE_COST;
+                    }
+                }
+            }
+
+            // 2. License Plates Cost Calculation
+            let costPlates = 0;
+            if (plates > PRICING.PLATES.LIMIT_FREE) {
+                costPlates = Math.ceil((plates - PRICING.PLATES.LIMIT_FREE) / PRICING.PLATES.UNIT_COUNT) * PRICING.PLATES.UNIT_COST;
+            }
+
+            // 3. Time Cost Calculation
+            let costTime = 0;
+            // Time cost applies only if there are people or plates to process
+            if (totalSeconds > PRICING.TIME.LIMIT_FREE_SEC && (people > 0 || plates > 0)) {
+                if (totalSeconds <= PRICING.TIME.TIER_1_LIMIT_SEC) {
+                    costTime = PRICING.TIME.TIER_1_COST;
+                } else {
+                    costTime = PRICING.TIME.TIER_1_COST;
+                    const extraSeconds = totalSeconds - PRICING.TIME.TIER_1_LIMIT_SEC;
+                    costTime += Math.ceil(extraSeconds / PRICING.TIME.TIER_2_UNIT_SEC) * PRICING.TIME.TIER_2_COST;
+                }
+            }
+
+            // Total Calculation
+            const baseTotal = costPeople + costPlates + costTime;
+            const subTotal = Math.floor(baseTotal * multiplier);
+            const vat = Math.floor(subTotal * PRICING.VAT_rate);
+            const grandTotal = subTotal + vat;
+
+            // View Updates
+            document.getElementById('inv_client_name').innerText = name;
+            document.getElementById('inv_client_contact').innerText = contact || "";
+            document.getElementById('inv_cost_text').innerText = numberToKorean(grandTotal);
+
+            const tbody = document.getElementById('inv_tbody');
+            tbody.innerHTML = '';
+
+            // Row 1: Content Summary
+            let timeStr = totalSeconds > 0 ? `${min}분 ${sec}초` : "-";
+            let remarks = [];
+            if (people > 0) remarks.push(`사람 ${people}명`);
+            if (plates > 0) remarks.push(`번호판 ${plates}개`);
+            if (multiplier > 1.0) remarks.push(`난이도 x${multiplier}`);
+
+            tbody.innerHTML += `
+                <tr>
+                    <td class="text-center">${timeStr}</td>
+                    <td>CCTV 영상 모자이크 처리비</td>
+                    <td class="text-center">1</td>
+                    <td class="text-right">${subTotal.toLocaleString()}</td>
+                    <td class="text-right">${subTotal.toLocaleString()}</td>
+                    <td class="text-xs text-center">${remarks.join(', ')}</td>
+                </tr>
+            `;
+            // Fill Empty Rows to maintain Invoice Height
+            for (let i = 0; i < 8; i++) {
+                tbody.innerHTML += `<tr><td class="h-8"></td><td></td><td></td><td></td><td></td><td></td></tr>`;
+            }
+
+            document.getElementById('inv_supply').innerText = subTotal.toLocaleString();
+            document.getElementById('inv_vat').innerText = vat.toLocaleString();
+            document.getElementById('inv_grand_total').innerText = grandTotal.toLocaleString();
+        }
+
+        function downloadPDF() {
+            const element = document.getElementById('invoice-preview');
+            showToast("PDF 생성을 시작합니다...");
+
+            // Configuration for better PDF quality
+            const options = {
+                scale: 2,
+                useCORS: true,
+                logging: false,
+                onclone: function (clonedDoc) {
+                    // Cleanup styles in the cloned document for clean PDF capture
+                    const el = clonedDoc.getElementById('invoice-preview');
+                    if (el) {
+                        el.style.transform = 'none';
+                        el.style.boxShadow = 'none';
+                        el.style.margin = '0 auto';
+                    }
+                }
+            };
+
+            html2canvas(element, options).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                pdf.save("비디와이드_견적서.pdf");
+                showToast("PDF 다운로드가 완료되었습니다.");
+            }).catch(err => {
+                console.error('PDF Generation Error:', err);
+                showToast("PDF 생성 중 오류가 발생했습니다.");
+            });
+        }
+
+        function submitConsultation() {
+            showToast("상담 요청이 전송되었습니다.");
+            closeModal('consultModal');
+        }
+
+        // --- Admin Functions ---
+        function switchAdminTab(tabName) {
+            // Visual Active State
+            document.querySelectorAll('.admin-menu-item').forEach(el => {
+                el.classList.remove('bg-gray-700', 'text-white');
+                el.classList.add('text-gray-400');
+            });
+            event.currentTarget.classList.add('bg-gray-700', 'text-white');
+            event.currentTarget.classList.remove('text-gray-400');
+
+            // Content Switch
+            const tabs = document.querySelectorAll('.admin-tab-content');
+            tabs.forEach(t => t.classList.add('hidden'));
+            document.getElementById(`admin-tab-${tabName}`).classList.remove('hidden');
+        }
+
+        // --- Admin Data & Logic ---
+        const ADMIN_REQUESTS = [
+            { id: '1024', date: '2026.02.16 22:30', name: '시흥경찰서', phone: '010-4769-3707', status: '접수 대기', msg: '주차장에서 접촉사고가 났는데 상대방 차량 번호판 가림 요청합니다. 급합니다.' },
+            { id: '1023', date: '2026.02.16 14:15', name: '신갈초등학교', phone: '010-1234-5678', status: '상담 완료', msg: '학교 내 CCTV 모자이크 건입니다. 학생 얼굴만 가리면 됩니다.' }
+        ];
+
+        function loadAdminMockData() {
+            const list = document.getElementById('admin-request-list');
+            list.innerHTML = ADMIN_REQUESTS.map(req => {
+                const statusClass = req.status === '접수 대기' ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600';
+                return `
+                <tr class="border-b hover:bg-gray-50 transition">
+                    <td class="p-4">${req.id}</td>
+                    <td class="p-4 text-gray-500">${req.date}</td>
+                    <td class="p-4 font-bold">${req.name}</td>
+                    <td class="p-4">${req.phone}</td>
+                    <td class="p-4"><span class="${statusClass} px-2 py-1 rounded text-xs font-bold">${req.status}</span></td>
+                    <td class="p-4 text-center">
+                        <button onclick="openAdminDetail('${req.id}')" class="text-blue-600 hover:underline">상세보기</button>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        // --- Detail View Logic ---
+        function openAdminDetail(id) {
+            const req = ADMIN_REQUESTS.find(r => r.id === id);
+            if (!req) return;
+
+            document.getElementById('request-list-view').classList.add('hidden');
+            document.getElementById('request-detail-view').classList.remove('hidden');
+
+            document.getElementById('detail-id').innerText = 'NO. ' + req.id;
+            document.getElementById('detail-date').innerText = req.date;
+            document.getElementById('detail-name').innerText = req.name;
+            document.getElementById('detail-phone').innerText = req.phone;
+            document.getElementById('detail-status').innerText = req.status;
+            document.getElementById('detail-msg').innerText = req.msg;
+
+            // Status Color Styling
+            const statusBadge = document.getElementById('detail-status');
+            statusBadge.className = 'inline-block px-3 py-1 rounded font-bold text-sm ' +
+                (req.status === '접수 대기' ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600');
+        }
+
+        function closeAdminDetail() {
+            document.getElementById('request-list-view').classList.remove('hidden');
+            document.getElementById('request-detail-view').classList.add('hidden');
+        }
+
+        // Preview Updaters
+        function updateContractPreview() {
+            document.getElementById('prev_ct_truster').innerText = document.getElementById('ct_truster').value || "OO기관";
+            document.getElementById('prev_ct_truster_2').innerText = document.getElementById('ct_truster').value || "OO기관";
+            document.getElementById('prev_ct_rep').innerText = document.getElementById('ct_rep').value || "";
+            document.getElementById('prev_ct_addr').innerText = document.getElementById('ct_addr').value || "";
+            document.getElementById('prev_ct_period').innerText = document.getElementById('ct_period').value || "";
+        }
+
+        function updatePledgePreview() {
+            document.getElementById('prev_pl_name').innerText = document.getElementById('pl_name').value || "(기관명)";
+        }
+
+        function updateDestroyPreview() {
+            document.getElementById('prev_ds_file').innerText = document.getElementById('ds_file').value;
+            document.getElementById('prev_ds_reason').innerText = document.getElementById('ds_reason').value;
+        }
+    </script>
+</body>
+
+</html>
