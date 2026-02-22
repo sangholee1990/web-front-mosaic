@@ -2048,12 +2048,12 @@
                                                 </div>
                                                 <div class="flex justify-between border-b border-slate-200 pb-2">
                                                     <span class="font-bold">공급받는자</span>
-                                                    <span id="prev_rc_customer" class="font-bold"></span>
+                                                    <span id="prev_rc_customer" class="font-bold">신갈초등학교</span>
                                                 </div>
                                                 <div class="flex justify-between border-b border-slate-200 pb-2">
                                                     <span class="font-bold">합계금액</span>
                                                     <span class="text-xl font-black">₩ <span
-                                                            id="prev_rc_amount">0</span></span>
+                                                            id="prev_rc_amount">999,999</span></span>
                                                 </div>
                                             </div>
                                             <div class="mt-8 text-sm text-slate-500 text-center">위 금액을 정히
@@ -3432,8 +3432,21 @@
                 const customer = document.getElementById('rc_customer')?.value || "(공급받는자)";
                 setHtml('prev_rc_customer', customer);
 
-                const amount = document.getElementById('rc_amount')?.value || "0";
-                setHtml('prev_rc_amount', amount);
+                const amountInput = document.getElementById('rc_amount');
+                let amount = amountInput?.value || "0";
+                let numStr = amount.replace(/[^\d]/g, '');
+                if (numStr) {
+                    const formatted = parseInt(numStr, 10).toLocaleString();
+                    if (amountInput && amountInput.value !== formatted) {
+                        amountInput.value = formatted;
+                    }
+                    setHtml('prev_rc_amount', formatted);
+                } else {
+                    if (amountInput && amountInput.value !== "") {
+                        amountInput.value = "";
+                    }
+                    setHtml('prev_rc_amount', "0");
+                }
             }
         </script>
 </body>
