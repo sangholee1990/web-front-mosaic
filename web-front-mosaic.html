@@ -1331,7 +1331,7 @@
                                         </button>
                                         <span id="doc-preview-title" class="text-lg font-black text-slate-800"></span>
                                     </div>
-                                    <button id="doc-preview-send-btn" onclick="simulateSend(this, '발송이 완료되었습니다.')"
+                                    <button id="doc-preview-send-btn" onclick="sendActiveDocPreview(this)"
                                         class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-2.5 rounded-xl transition-all text-sm flex items-center gap-2 shadow-lg">
                                         <i class="fa-solid fa-paper-plane"></i> 발송하기
                                     </button>
@@ -1638,7 +1638,7 @@
                                             </div>
                                         </div>
 
-                                        <button onclick="simulateSend(this, '보안서약서가 발송되었습니다.')"
+                                        <button onclick="sendPledge(this)"
                                             class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-bold shadow-lg transition-all">발송하기</button>
                                     </div>
                                 </div>
@@ -1776,7 +1776,7 @@
                                             </div>
                                         </div>
 
-                                        <button onclick="simulateSend(this, '파기확인서가 발송되었습니다.')"
+                                        <button onclick="sendDestroy(this)"
                                             class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-bold shadow-lg transition-all">발송하기</button>
                                     </div>
                                 </div>
@@ -1943,20 +1943,23 @@
                                         class="w-full bg-blue-100 text-blue-600 py-3 rounded-xl font-bold hover:bg-blue-200 transition-all">미리보기</button>
 
                                     <div class="pt-4 border-t border-slate-100 space-y-4">
-                                        <div><label class="text-xs font-bold text-slate-500 mb-1 block">메일
-                                                주소</label>
+                                        <div><label class="text-xs font-bold text-slate-500 mb-1 block">메일 주소</label>
                                             <input type="email" id="rc_mail_to"
                                                 class="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50 outline-none"
                                                 placeholder="client@example.com">
                                         </div>
-                                        <div><label class="text-xs font-bold text-slate-500 mb-1 block">메일
-                                                제목</label>
+                                        <div><label class="text-xs font-bold text-slate-500 mb-1 block">메일 제목</label>
                                             <input type="text" id="rc_mail_subject"
                                                 class="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50 outline-none"
                                                 placeholder="현금영수증 발행 안내">
                                         </div>
+                                        <div><label class="text-xs font-bold text-slate-500 mb-1 block">메일 내용</label>
+                                            <textarea id="rc_mail_body"
+                                                class="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50 outline-none h-20 resize-none"
+                                                placeholder="내용을 입력하세요">요청하신 현금영수증을 보내드립니다.</textarea>
+                                        </div>
                                     </div>
-                                    <button onclick="simulateSend(this, '영수증이 발송되었습니다.')"
+                                    <button onclick="sendReceipt(this)"
                                         class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-bold shadow-lg transition-all">발송하기</button>
                                 </div>
 
@@ -2109,11 +2112,6 @@
                     showToast('이메일을 발송하는 중입니다...');
 
                     const formData = new FormData();
-                    // senderEmail and senderAppPwd should typically come from admin profile settings.
-                    // Assuming for now they might be injected statically or retrieved from localStorage.
-                    // Replace with definitive variables.
-                    formData.append('senderEmail', localStorage.getItem('_v_admin_email') || 'your_email@gmail.com');
-                    formData.append('senderAppPwd', localStorage.getItem('_v_admin_pwd') || 'xxxx xxxx xxxx xxxx');
                     formData.append('recvEmail', rEmail);
                     formData.append('subject', rSubject || '위탁 계약서 송부의 건');
                     formData.append('content', rContent || '위탁 계약서 파일을 첨부해 드립니다.');
@@ -2121,8 +2119,11 @@
                         formData.append('file', blob, fileName);
                     }
 
-                    const response = await fetch('/api/sendEmail', {
+                    const response = await fetch('http://49.247.41.71:9910/api/sendEmail', {
                         method: 'POST',
+                        headers: {
+                            'accept': 'application/json'
+                        },
                         body: formData
                     });
 
@@ -2134,6 +2135,168 @@
                         throw new Error(resData.message || '이메일 발송에 실패했습니다.');
                     }
 
+                } catch (err) {
+                    console.error('Email Send Error:', err);
+                    showToast(err.message || '처리 중 오류가 발생했습니다.');
+                }
+
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+                btn.className = originalClasses;
+            }
+
+            async function sendReceipt(btn) {
+                const originalText = btn.innerHTML;
+                const originalClasses = btn.className;
+
+                // UI Disable & Loading State
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> 발송 중...';
+                btn.classList.add('opacity-75', 'cursor-not-allowed');
+
+                // Get Email Info
+                const rEmail = document.getElementById('rc_mail_to')?.value;
+                const rSubject = document.getElementById('rc_mail_subject')?.value;
+                const rContent = document.getElementById('rc_mail_body')?.value;
+
+                if (!rEmail || !rEmail.includes('@')) {
+                    showToast('유효한 이메일 주소를 입력해주세요.');
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                    btn.className = originalClasses;
+                    return;
+                }
+
+                try {
+                    showToast('이메일을 발송하는 중입니다...');
+
+                    const formData = new FormData();
+                    formData.append('recvEmail', rEmail);
+                    formData.append('subject', rSubject || '현금영수증 발행 안내');
+                    formData.append('content', rContent || '요청하신 현금영수증을 보내드립니다.');
+
+                    const response = await fetch('http://49.247.41.71:9910/api/sendEmail', {
+                        method: 'POST',
+                        headers: {
+                            'accept': 'application/json'
+                        },
+                        body: formData
+                    });
+
+                    const resData = await response.json().catch(() => ({}));
+
+                    if (response.ok && resData.status === 'succ') {
+                        showToast('영수증이 성공적으로 발송되었습니다.');
+                    } else {
+                        throw new Error(resData.message || '이메일 발송에 실패했습니다.');
+                    }
+
+                } catch (err) {
+                    console.error('Email Send Error:', err);
+                    showToast(err.message || '처리 중 오류가 발생했습니다.');
+                }
+
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+                btn.className = originalClasses;
+            }
+
+            async function sendPledge(btn) {
+                const originalText = btn.innerHTML;
+                const originalClasses = btn.className;
+
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> 발송 중...';
+                btn.classList.add('opacity-75', 'cursor-not-allowed');
+
+                const rEmail = document.getElementById('pl_mail_to')?.value;
+                const rSubject = document.getElementById('pl_mail_subject')?.value;
+                const rContent = document.getElementById('pl_mail_body')?.value;
+
+                if (!rEmail || !rEmail.includes('@')) {
+                    showToast('유효한 이메일 주소를 입력해주세요.');
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                    btn.className = originalClasses;
+                    return;
+                }
+
+                try {
+                    showToast('이메일을 발송하는 중입니다...');
+
+                    const formData = new FormData();
+                    formData.append('recvEmail', rEmail);
+                    formData.append('subject', rSubject || '보안 서약서 송부의 건');
+                    formData.append('content', rContent || '보안 서약서를 보내드립니다.');
+
+                    const response = await fetch('http://49.247.41.71:9910/api/sendEmail', {
+                        method: 'POST',
+                        headers: {
+                            'accept': 'application/json'
+                        },
+                        body: formData
+                    });
+
+                    const resData = await response.json().catch(() => ({}));
+
+                    if (response.ok && resData.status === 'succ') {
+                        showToast('보안서약서가 성공적으로 발송되었습니다.');
+                    } else {
+                        throw new Error(resData.message || '이메일 발송에 실패했습니다.');
+                    }
+                } catch (err) {
+                    console.error('Email Send Error:', err);
+                    showToast(err.message || '처리 중 오류가 발생했습니다.');
+                }
+
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+                btn.className = originalClasses;
+            }
+
+            async function sendDestroy(btn) {
+                const originalText = btn.innerHTML;
+                const originalClasses = btn.className;
+
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> 발송 중...';
+                btn.classList.add('opacity-75', 'cursor-not-allowed');
+
+                const rEmail = document.getElementById('ds_mail_to')?.value;
+                const rSubject = document.getElementById('ds_mail_subject')?.value;
+                const rContent = document.getElementById('ds_mail_body')?.value;
+
+                if (!rEmail || !rEmail.includes('@')) {
+                    showToast('유효한 이메일 주소를 입력해주세요.');
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                    btn.className = originalClasses;
+                    return;
+                }
+
+                try {
+                    showToast('이메일을 발송하는 중입니다...');
+
+                    const formData = new FormData();
+                    formData.append('recvEmail', rEmail);
+                    formData.append('subject', rSubject || '파기 확인서 송부의 건');
+                    formData.append('content', rContent || '파기 확인서를 보내드립니다.');
+
+                    const response = await fetch('http://49.247.41.71:9910/api/sendEmail', {
+                        method: 'POST',
+                        headers: {
+                            'accept': 'application/json'
+                        },
+                        body: formData
+                    });
+
+                    const resData = await response.json().catch(() => ({}));
+
+                    if (response.ok && resData.status === 'succ') {
+                        showToast('파기확인서가 성공적으로 발송되었습니다.');
+                    } else {
+                        throw new Error(resData.message || '이메일 발송에 실패했습니다.');
+                    }
                 } catch (err) {
                     console.error('Email Send Error:', err);
                     showToast(err.message || '처리 중 오류가 발생했습니다.');
@@ -2591,9 +2754,10 @@
                 input.value = value;
             }
 
-            function submitConsultation() {
+            async function submitConsultation() {
                 const name = document.getElementById('c_name').value;
                 const phone = document.getElementById('c_phone').value;
+                const msg = document.getElementById('c_msg') ? document.getElementById('c_msg').value : '';
 
                 // Regex validation for KR phone numbers
                 const phoneRegex = /^(01[016789]{1})-?[0-9]{3,4}-?[0-9]{4}$/;
@@ -2604,12 +2768,32 @@
                     return;
                 }
 
-                showToast(`${name}님, 상담 요청이 전송되었습니다.`);
-                closeModal('consultModal');
-                // Reset form
-                document.getElementById('c_name').value = '';
-                document.getElementById('c_phone').value = '';
-                if (document.getElementById('c_msg')) document.getElementById('c_msg').value = '';
+                try {
+                    const telegramMsg = `[긴급 상담 요청]\n이름: ${name}\n연락처: ${phone}\n내용: ${msg}`;
+                    const response = await fetch('http://49.247.41.71:9910/api/sendTelegram', {
+                        method: 'POST',
+                        headers: {
+                            'accept': 'application/json',
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: 'msg=' + encodeURIComponent(telegramMsg)
+                    });
+
+                    const resData = await response.json();
+                    if (response.ok && resData.status === 'succ') {
+                        showToast(`${name}님, 상담 요청이 전송되었습니다.`);
+                        closeModal('consultModal');
+                        // Reset form
+                        document.getElementById('c_name').value = '';
+                        document.getElementById('c_phone').value = '';
+                        if (document.getElementById('c_msg')) document.getElementById('c_msg').value = '';
+                    } else {
+                        throw new Error(resData.message || '상담 요청 전송에 실패했습니다.');
+                    }
+                } catch (err) {
+                    console.error('Telegram Send Error:', err);
+                    showToast('처리 중 오류가 발생했습니다.');
+                }
             }
 
             // --- Admin Functions ---
@@ -2669,6 +2853,9 @@
 
 
             function showDocPreview(type) {
+                // Keep track of what we are currently previewing for the send button
+                document.getElementById('doc-preview-send-btn').setAttribute('data-doc-type', type);
+
                 const name = document.getElementById('detail-name').innerText.trim();
                 const msg = document.getElementById('detail-msg').innerText.trim();
                 const today = new Date();
@@ -2897,6 +3084,34 @@
                 closeAdminDetail();
             }
 
+            async function sendActiveDocPreview(btn) {
+                const type = btn.getAttribute('data-doc-type');
+                if (!type) {
+                    showToast('발송할 문서 타입이 지정되지 않았습니다.');
+                    return;
+                }
+
+                // Switch to the relevant tab and populate fields to reuse the same sending logic
+                autoFillAndSwitch(type);
+
+                // Need slight delay for DOM updates and tab switch
+                setTimeout(() => {
+                    if (type === 'contract') {
+                        const sendBtn = document.querySelector('#admin-tab-contract button[onclick^="downloadContractAndSend"]');
+                        if (sendBtn) downloadContractAndSend(sendBtn);
+                    } else if (type === 'pledge') {
+                        const sendBtn = document.querySelector('#admin-tab-pledge button[onclick^="sendPledge"]');
+                        if (sendBtn) sendPledge(sendBtn);
+                    } else if (type === 'destroy') {
+                        const sendBtn = document.querySelector('#admin-tab-destroy button[onclick^="sendDestroy"]');
+                        if (sendBtn) sendDestroy(sendBtn);
+                    } else if (type === 'receipt') {
+                        const sendBtn = document.querySelector('#admin-tab-receipt button[onclick^="sendReceipt"]');
+                        if (sendBtn) sendReceipt(sendBtn);
+                    }
+                    closeDocPreview();
+                }, 100);
+            }
 
             // --- Admin Data & Logic ---
             let ADMIN_REQUESTS = [
