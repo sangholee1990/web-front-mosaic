@@ -692,10 +692,10 @@
                     <!-- Policy Links -->
                     <div
                         class="flex items-center gap-4 text-[13px] bg-slate-50 px-4 py-2 border border-slate-100 rounded-sm w-fit mb-2">
-                        <a href="javascript:alert('준비해서 업로드 하겠습니다.');"
+                        <a href="javascript:showToast('준비해서 업로드 하겠습니다.');"
                             class="text-slate-600 hover:text-slate-900 transition">이용약관</a>
                         <span class="text-slate-300">|</span>
-                        <a href="javascript:alert('준비해서 업로드 하겠습니다.');"
+                        <a href="javascript:showToast('준비해서 업로드 하겠습니다.');"
                             class="font-bold text-slate-800 hover:text-slate-900 transition">개인정보처리방침</a>
                     </div>
 
@@ -1421,8 +1421,7 @@
                                             </div>
                                         </div>
                                         <button onclick="downloadContractAndSend(this)"
-                                            class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-bold shadow-lg transition-all">발송하기
-                                            (PDF 저장)</button>
+                                            class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-bold shadow-lg transition-all">발송하기</button>
                                         <div
                                             class="text-[10px] text-slate-400 space-y-1 pt-2 border-t border-slate-100">
                                             <p>■ 계약서는 3page로 구성됨</p>
@@ -2095,15 +2094,6 @@
                         const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
                         fileName = `위탁계약서_${trusterName}_${dateStr}.pdf`;
 
-                        // 1.1 Trigger Local Download
-                        const url = URL.createObjectURL(blob);
-                        const link = document.createElement('a');
-                        link.href = url;
-                        link.download = fileName;
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                        URL.revokeObjectURL(url);
                     } else {
                         throw new Error('PDF 생성 영역을 찾을 수 없습니다.');
                     }
@@ -2148,13 +2138,10 @@
             async function sendReceipt(btn) {
                 const originalText = btn.innerHTML;
                 const originalClasses = btn.className;
-
-                // UI Disable & Loading State
                 btn.disabled = true;
-                btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> 발송 중...';
+                btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> PDF 생성 및 발송 중...';
                 btn.classList.add('opacity-75', 'cursor-not-allowed');
 
-                // Get Email Info
                 const rEmail = document.getElementById('rc_mail_to')?.value;
                 const rSubject = document.getElementById('rc_mail_subject')?.value;
                 const rContent = document.getElementById('rc_mail_body')?.value;
@@ -2168,34 +2155,60 @@
                 }
 
                 try {
-                    showToast('이메일을 발송하는 중입니다...');
+                    const elements = document.querySelectorAll('#admin-tab-receipt .a4-paper');
+                    let blob = null;
+                    let fileName = '';
 
+                    if (elements.length > 0) {
+                        const { jsPDF } = window.jspdf;
+                        const pdf = new jsPDF('p', 'mm', 'a4');
+                        const pdfWidth = pdf.internal.pageSize.getWidth();
+                        const pageHeight = pdf.internal.pageSize.getHeight();
+
+                        showToast("현금영수증 PDF를 준비 중입니다...");
+
+                        for (let i = 0; i < elements.length; i++) {
+                            const el = elements[i];
+                            const canvas = await html2canvas(el, { scale: 3, useCORS: true, logging: false });
+                            const imgData = canvas.toDataURL('image/jpeg', 0.95);
+                            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+                            if (i > 0) pdf.addPage();
+                            const yOffset = (pageHeight > pdfHeight) ? (pageHeight - pdfHeight) / 2 : 0;
+                            pdf.addImage(imgData, 'JPEG', 0, yOffset, pdfWidth, pdfHeight);
+                        }
+
+                        blob = pdf.output('blob');
+                        const customer = document.getElementById('rc_customer')?.value || '공급받는자';
+                        const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+                        fileName = `현금영수증_${customer}_${dateStr}.pdf`;
+                    } else {
+                        throw new Error('PDF 생성 영역을 찾을 수 없습니다.');
+                    }
+
+                    showToast('이메일을 발송하는 중입니다...');
                     const formData = new FormData();
                     formData.append('recvEmail', rEmail);
                     formData.append('subject', rSubject || '현금영수증 발행 안내');
                     formData.append('content', rContent || '요청하신 현금영수증을 보내드립니다.');
+                    if (blob) formData.append('file', blob, fileName);
 
                     const response = await fetch('http://49.247.41.71:9910/api/sendEmail', {
                         method: 'POST',
-                        headers: {
-                            'accept': 'application/json'
-                        },
+                        headers: { 'accept': 'application/json' },
                         body: formData
                     });
-
                     const resData = await response.json().catch(() => ({}));
 
                     if (response.ok && resData.status === 'succ') {
-                        showToast('영수증이 성공적으로 발송되었습니다.');
+                        showToast('현금영수증이 성공적으로 발송되었습니다.');
                     } else {
                         throw new Error(resData.message || '이메일 발송에 실패했습니다.');
                     }
-
                 } catch (err) {
                     console.error('Email Send Error:', err);
                     showToast(err.message || '처리 중 오류가 발생했습니다.');
                 }
-
                 btn.disabled = false;
                 btn.innerHTML = originalText;
                 btn.className = originalClasses;
@@ -2204,9 +2217,8 @@
             async function sendPledge(btn) {
                 const originalText = btn.innerHTML;
                 const originalClasses = btn.className;
-
                 btn.disabled = true;
-                btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> 발송 중...';
+                btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> PDF 생성 및 발송 중...';
                 btn.classList.add('opacity-75', 'cursor-not-allowed');
 
                 const rEmail = document.getElementById('pl_mail_to')?.value;
@@ -2222,21 +2234,49 @@
                 }
 
                 try {
-                    showToast('이메일을 발송하는 중입니다...');
+                    const elements = document.querySelectorAll('#admin-tab-pledge .a4-paper');
+                    let blob = null;
+                    let fileName = '';
 
+                    if (elements.length > 0) {
+                        const { jsPDF } = window.jspdf;
+                        const pdf = new jsPDF('p', 'mm', 'a4');
+                        const pdfWidth = pdf.internal.pageSize.getWidth();
+                        const pageHeight = pdf.internal.pageSize.getHeight();
+
+                        showToast("보안서약서 PDF를 준비 중입니다...");
+
+                        for (let i = 0; i < elements.length; i++) {
+                            const el = elements[i];
+                            const canvas = await html2canvas(el, { scale: 3, useCORS: true, logging: false });
+                            const imgData = canvas.toDataURL('image/jpeg', 0.95);
+                            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+                            if (i > 0) pdf.addPage();
+                            const yOffset = (pageHeight > pdfHeight) ? (pageHeight - pdfHeight) / 2 : 0;
+                            pdf.addImage(imgData, 'JPEG', 0, yOffset, pdfWidth, pdfHeight);
+                        }
+
+                        blob = pdf.output('blob');
+                        const reqName = document.getElementById('pl_name')?.value || '수요자';
+                        const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+                        fileName = `보안서약서_${reqName}_${dateStr}.pdf`;
+                    } else {
+                        throw new Error('PDF 생성 영역을 찾을 수 없습니다.');
+                    }
+
+                    showToast('이메일을 발송하는 중입니다...');
                     const formData = new FormData();
                     formData.append('recvEmail', rEmail);
                     formData.append('subject', rSubject || '보안 서약서 송부의 건');
                     formData.append('content', rContent || '보안 서약서를 보내드립니다.');
+                    if (blob) formData.append('file', blob, fileName);
 
                     const response = await fetch('http://49.247.41.71:9910/api/sendEmail', {
                         method: 'POST',
-                        headers: {
-                            'accept': 'application/json'
-                        },
+                        headers: { 'accept': 'application/json' },
                         body: formData
                     });
-
                     const resData = await response.json().catch(() => ({}));
 
                     if (response.ok && resData.status === 'succ') {
@@ -2248,7 +2288,6 @@
                     console.error('Email Send Error:', err);
                     showToast(err.message || '처리 중 오류가 발생했습니다.');
                 }
-
                 btn.disabled = false;
                 btn.innerHTML = originalText;
                 btn.className = originalClasses;
@@ -2257,9 +2296,8 @@
             async function sendDestroy(btn) {
                 const originalText = btn.innerHTML;
                 const originalClasses = btn.className;
-
                 btn.disabled = true;
-                btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> 발송 중...';
+                btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> PDF 생성 및 발송 중...';
                 btn.classList.add('opacity-75', 'cursor-not-allowed');
 
                 const rEmail = document.getElementById('ds_mail_to')?.value;
@@ -2275,21 +2313,48 @@
                 }
 
                 try {
-                    showToast('이메일을 발송하는 중입니다...');
+                    const elements = document.querySelectorAll('#admin-tab-destroy .a4-paper');
+                    let blob = null;
+                    let fileName = '';
 
+                    if (elements.length > 0) {
+                        const { jsPDF } = window.jspdf;
+                        const pdf = new jsPDF('p', 'mm', 'a4');
+                        const pdfWidth = pdf.internal.pageSize.getWidth();
+                        const pageHeight = pdf.internal.pageSize.getHeight();
+
+                        showToast("파기확인서 PDF를 준비 중입니다...");
+
+                        for (let i = 0; i < elements.length; i++) {
+                            const el = elements[i];
+                            const canvas = await html2canvas(el, { scale: 3, useCORS: true, logging: false });
+                            const imgData = canvas.toDataURL('image/jpeg', 0.95);
+                            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+                            if (i > 0) pdf.addPage();
+                            const yOffset = (pageHeight > pdfHeight) ? (pageHeight - pdfHeight) / 2 : 0;
+                            pdf.addImage(imgData, 'JPEG', 0, yOffset, pdfWidth, pdfHeight);
+                        }
+
+                        blob = pdf.output('blob');
+                        const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+                        fileName = `파기확인서_${dateStr}.pdf`;
+                    } else {
+                        throw new Error('PDF 생성 영역을 찾을 수 없습니다.');
+                    }
+
+                    showToast('이메일을 발송하는 중입니다...');
                     const formData = new FormData();
                     formData.append('recvEmail', rEmail);
                     formData.append('subject', rSubject || '파기 확인서 송부의 건');
                     formData.append('content', rContent || '파기 확인서를 보내드립니다.');
+                    if (blob) formData.append('file', blob, fileName);
 
                     const response = await fetch('http://49.247.41.71:9910/api/sendEmail', {
                         method: 'POST',
-                        headers: {
-                            'accept': 'application/json'
-                        },
+                        headers: { 'accept': 'application/json' },
                         body: formData
                     });
-
                     const resData = await response.json().catch(() => ({}));
 
                     if (response.ok && resData.status === 'succ') {
@@ -2301,7 +2366,6 @@
                     console.error('Email Send Error:', err);
                     showToast(err.message || '처리 중 오류가 발생했습니다.');
                 }
-
                 btn.disabled = false;
                 btn.innerHTML = originalText;
                 btn.className = originalClasses;
@@ -2391,11 +2455,9 @@
                 const kPw = '_v_sys_tkn_pw';
 
                 if (!localStorage.getItem(kId)) {
-                    // Base64 for 'admin'
                     localStorage.setItem(kId, 'YWRtaW4=');
                 }
                 if (!localStorage.getItem(kPw)) {
-                    // Base64 for 'admin1234'
                     localStorage.setItem(kPw, 'YWRtaW4xMjM0');
                 }
             }
