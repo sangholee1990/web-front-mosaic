@@ -546,64 +546,136 @@
                 <p class="text-slate-500 mt-4 text-lg font-light">전국 관공서 · 학교 · 주요 시설의 신뢰를 받고 있습니다.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 gap-6 max-w-5xl mx-auto">
 
                 <!-- 경찰서 -->
-                <div
-                    class="bg-white rounded-3xl p-8 shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div
-                            class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 text-xl">
-                            <i class="fa-solid fa-shield-halved"></i>
+                <div class="relative group">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-[2rem] blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500">
+                    </div>
+                    <div
+                        class="relative bg-white/80 backdrop-blur-xl rounded-[2rem] p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] ring-1 ring-slate-100 hover:ring-blue-100 transition-all duration-300 flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-10">
+                        <div class="flex items-center gap-4 shrink-0 w-full md:w-48">
+                            <div
+                                class="w-14 h-14 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl flex items-center justify-center text-blue-600 shadow-inner ring-1 ring-blue-100/50 relative overflow-hidden shrink-0">
+                                <div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent"></div>
+                                <i class="fa-solid fa-shield-halved text-2xl relative z-10"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xl text-slate-800 tracking-tight">경찰서</h4>
+                                <p class="text-[10px] font-bold text-blue-500 uppercase tracking-widest mt-1">Police
+                                    Stations</p>
+                            </div>
                         </div>
-                        <div>
-                            <h4 class="font-bold text-lg text-slate-800">경찰서</h4>
-                            <p class="text-xs text-slate-400">Police Stations</p>
+
+                        <!-- Divider -->
+                        <div class="hidden md:block w-px h-12 bg-slate-200 shrink-0"></div>
+
+                        <div class="flex flex-wrap gap-2 text-[13px] font-medium text-slate-600 w-full">
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">송*경찰서</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">이*경찰서</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">김*경찰서</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">부*경찰서</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">완*경찰서</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">덕*경찰서</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">포항**경찰서</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">춘*경찰서</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">광*경찰서</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">북*경찰서</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">경*경찰서</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">종*경찰서</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">남*경찰서</span>
+                            <span
+                                class="px-3 py-1.5 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 font-bold rounded-lg ring-1 ring-blue-100/50">···
+                                외 다수</span>
                         </div>
                     </div>
-                    <p class="text-sm text-slate-600 leading-relaxed">
-                        송*경찰서, 이*경찰서, 김*경찰서, 부*경찰서, 완*경찰서, 덕*경찰서, 포항**경찰서, 춘*경찰서, 광*경찰서, 북*경찰서, 경*경찰서, 종*경찰서, 남*경찰서
-                        <span class="text-slate-400 font-medium">··· 외 다수</span>
-                    </p>
                 </div>
 
                 <!-- 학교 -->
-                <div
-                    class="bg-white rounded-3xl p-8 shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div
-                            class="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 text-xl">
-                            <i class="fa-solid fa-school"></i>
+                <div class="relative group">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-[2rem] blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500">
+                    </div>
+                    <div
+                        class="relative bg-white/80 backdrop-blur-xl rounded-[2rem] p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] ring-1 ring-slate-100 hover:ring-emerald-100 transition-all duration-300 flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-10">
+                        <div class="flex items-center gap-4 shrink-0 w-full md:w-48">
+                            <div
+                                class="w-14 h-14 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl flex items-center justify-center text-emerald-600 shadow-inner ring-1 ring-emerald-100/50 relative overflow-hidden shrink-0">
+                                <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent">
+                                </div>
+                                <i class="fa-solid fa-school text-2xl relative z-10"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xl text-slate-800 tracking-tight">학교</h4>
+                                <p class="text-[10px] font-bold text-emerald-500 uppercase tracking-widest mt-1">Schools
+                                </p>
+                            </div>
                         </div>
-                        <div>
-                            <h4 class="font-bold text-lg text-slate-800">학교</h4>
-                            <p class="text-xs text-slate-400">Schools</p>
+
+                        <!-- Divider -->
+                        <div class="hidden md:block w-px h-12 bg-slate-200 shrink-0"></div>
+
+                        <div class="flex flex-wrap gap-2 text-[13px] font-medium text-slate-600 w-full">
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">안*초등</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">원*초등</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">신*초등</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">잠*초등</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">오*초등</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">*원초등</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">구*초등</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">영*초등</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">성*초등</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">근*초등</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">창*초</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">우*중학</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">두*중학</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">산*고등</span>
+                            <span
+                                class="px-3 py-1.5 bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-700 font-bold rounded-lg ring-1 ring-emerald-100/50">···
+                                외 다수</span>
                         </div>
                     </div>
-                    <p class="text-sm text-slate-600 leading-relaxed">
-                        안*초등, 원*초등, 신*초등, 잠*초등, 오*초등, *원초등, 구*초등, 영*초등, 성*초등, 신*초등, *지초등, 근*초등, 창*초, 상*초등, 동*초등, 장*초등,
-                        우*중학, 두*중학, 문*중학, 언*중학, 산*고등
-                        <span class="text-slate-400 font-medium">··· 외 다수</span>
-                    </p>
                 </div>
 
                 <!-- 주요 시설 -->
-                <div
-                    class="bg-white rounded-3xl p-8 shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div
-                            class="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center text-amber-600 text-xl">
-                            <i class="fa-solid fa-building"></i>
+                <div class="relative group">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-r from-amber-400 to-orange-500 rounded-[2rem] blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500">
+                    </div>
+                    <div
+                        class="relative bg-white/80 backdrop-blur-xl rounded-[2rem] p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] ring-1 ring-slate-100 hover:ring-amber-100 transition-all duration-300 flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-10">
+                        <div class="flex items-center gap-4 shrink-0 w-full md:w-48">
+                            <div
+                                class="w-14 h-14 bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl flex items-center justify-center text-amber-600 shadow-inner ring-1 ring-amber-100/50 relative overflow-hidden shrink-0">
+                                <div class="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-transparent"></div>
+                                <i class="fa-solid fa-building text-2xl relative z-10"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xl text-slate-800 tracking-tight">주요 시설</h4>
+                                <p class="text-[10px] font-bold text-amber-500 uppercase tracking-widest mt-1">
+                                    Facilities</p>
+                            </div>
                         </div>
-                        <div>
-                            <h4 class="font-bold text-lg text-slate-800">주요 시설</h4>
-                            <p class="text-xs text-slate-400">Facilities</p>
+
+                        <!-- Divider -->
+                        <div class="hidden md:block w-px h-12 bg-slate-200 shrink-0"></div>
+
+                        <div class="flex flex-wrap gap-2 text-[13px] font-medium text-slate-600 w-full">
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">소방서</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">아파트</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">어린이집</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">호텔</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">학원</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">병원</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">요양원</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">음식점</span>
+                            <span class="px-3 py-1.5 bg-slate-50 rounded-lg ring-1 ring-slate-200/50">장례식장</span>
+                            <span
+                                class="px-3 py-1.5 bg-gradient-to-r from-amber-50 to-orange-50 text-amber-700 font-bold rounded-lg ring-1 ring-amber-100/50">···
+                                외 다수</span>
                         </div>
                     </div>
-                    <p class="text-sm text-slate-600 leading-relaxed">
-                        소방서, 아파트, 어린이집, 호텔, 학원, 병원, 요양원, 음식점, 장례식장
-                        <span class="text-slate-400 font-medium">··· 외 다수</span>
-                    </p>
                 </div>
 
             </div>
@@ -611,77 +683,73 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-slate-900 text-slate-400 py-16 border-t border-slate-800">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-12">
-                <!-- Brand Info -->
-                <div class="lg:col-span-4 space-y-6">
-                    <div class="flex items-center gap-3 text-white">
-                        <div class="w-10 h-10 flex items-center justify-center bg-blue-600 rounded-lg">
-                            <span class="text-xl font-black italic">K</span>
+    <footer class="bg-white border-t border-slate-200 py-12 md:py-6">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="flex flex-col md:flex-row justify-between items-start gap-10">
+
+                <!-- Left Section (Logos & Policies) -->
+                <div class="flex flex-col gap-6 w-full md:w-auto shrink-0 md:pr-10">
+                    <!-- Policy Links -->
+                    <div
+                        class="flex items-center gap-4 text-[13px] bg-slate-50 px-4 py-2 border border-slate-100 rounded-sm w-fit mb-2">
+                        <a href="javascript:alert('준비해서 업로드 하겠습니다.');"
+                            class="text-slate-600 hover:text-slate-900 transition">이용약관</a>
+                        <span class="text-slate-300">|</span>
+                        <a href="javascript:alert('준비해서 업로드 하겠습니다.');"
+                            class="font-bold text-slate-800 hover:text-slate-900 transition">개인정보처리방침</a>
+                    </div>
+
+                    <!-- Logos -->
+                    <div class="flex flex-row items-center gap-6 mt-2">
+                        <!-- Venture Logo -->
+                        <img src="images/logo_venture.png" alt="벤처확인기업" class="h-16 object-contain">
+                        <div class="w-px h-10 bg-slate-200"></div>
+                        <!-- BDWIDE Logo -->
+                        <img src="images/logo_horizontal2.png" alt="BDWIDE" class="h-12 object-contain"
+                            onerror="this.src='images/logo_horizontal2.png'">
+                    </div>
+                </div>
+
+                <!-- Right Section (Company Info) -->
+                <div class="flex flex-col gap-6 w-full">
+
+                    <!-- CS Center -->
+                    <div class="space-y-1">
+                        <p class="text-[15px] font-bold text-slate-800">
+                            고객센터 10:00 ~ 18:00 <span class="font-normal text-[13px] text-slate-500 ml-1">(점심시간
+                                12:30~13:30), 주말, 공휴일 휴무</span>
+                        </p>
+                        <p class="text-[14px] text-slate-600 font-medium tracking-tight">
+                            Tel. 070.7664.2221 <span class="mx-2 text-slate-300 font-light">|</span>
+                            M. 010.8879.8026 <span class="mx-2 text-slate-300 font-light">|</span>
+                            M. 010.4769.3707
+                        </p>
+                    </div>
+
+                    <!-- Company Details -->
+                    <div class="text-[13px] text-slate-500 leading-[1.8] font-medium tracking-tight mt-3">
+                        <div class="flex flex-wrap items-center gap-x-2">
+                            <span>(주) 비디와이드</span> <span class="text-slate-300 font-light">|</span>
+                            <span>경기도 구리시 갈매중앙로 190, 4층 429호</span> <span class="text-slate-300 font-light">|</span>
+                            <span>대표 : 이정혁</span> <span class="text-slate-300 font-light">|</span>
+                            <span>사업자등록번호 : 217.87.02687</span>
+                            <a href="https://www.ftc.go.kr/bizCommPop.do?wrkr_no=2718702687" target="_blank"
+                                class="inline-block border border-slate-600 text-slate-700 font-bold px-2 py-0.5 ml-1 text-[11px] hover:bg-slate-50 transition">사업자
+                                정보확인</a>
                         </div>
-                        <span class="text-2xl font-black tracking-tighter">BDWIDE</span>
+                        <div class="flex flex-wrap items-center gap-x-2 mt-0.5">
+                            <span>통신판매업신고 : xxxx-경기구리-xxxx</span> <span class="text-slate-300 font-light">|</span>
+                            <span>고객센터 : 070.7664.2221</span> <span class="text-slate-300 font-light">|</span>
+                            <span>bdwide77@gmail.com</span>
+                        </div>
+
+                        <!-- Copyright -->
+                        <div class="mt-5 text-slate-400 font-normal">
+                            Copyright @ Bdwide Inc. All rights reserved.
+                        </div>
                     </div>
-                    <p class="text-slate-500 leading-relaxed text-sm">
-                        비디와이드는 대한민국 최고의 CCTV 영상 비식별화 솔루션을 제공합니다. 관공서, 학교, 기업의 개인정보보호를 위해 최선을 다하겠습니다.
-                    </p>
-                    <div class="flex gap-4">
-                        <a href="#"
-                            class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all"><i
-                                class="fa-brands fa-facebook-f"></i></a>
-                        <a href="#"
-                            class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-pink-600 hover:text-white transition-all"><i
-                                class="fa-brands fa-instagram"></i></a>
-                        <a href="#"
-                            class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-green-500 hover:text-white transition-all"><i
-                                class="fa-solid fa-blog"></i></a>
-                    </div>
-                </div>
-
-                <!-- Contact Info -->
-                <div class="lg:col-span-4 lg:col-start-6 space-y-4">
-                    <h5 class="text-white font-bold mb-2">Contact Us</h5>
-                    <ul class="space-y-3 text-sm">
-                        <li class="flex items-start gap-3">
-                            <i class="fa-solid fa-phone mt-1 text-blue-500"></i>
-                            <div>
-                                <span class="block text-slate-300 font-bold">070.7664.2221</span>
-                                <span class="text-xs text-slate-600">평일 10:00 ~ 18:00 (주말/공휴일 휴무)</span>
-                            </div>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fa-solid fa-envelope text-blue-500"></i>
-                            <span class="text-slate-300">bdwide77@gmail.com</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i class="fa-solid fa-location-dot mt-1 text-blue-500"></i>
-                            <span class="text-slate-300">경기도 구리시 갈매중앙로 190, 4층 429호</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Admin & Legal -->
-                <div class="lg:col-span-3 space-y-4 text-center lg:text-right">
-                    <h5 class="text-white font-bold mb-2">Information</h5>
-                    <ul class="space-y-2 text-sm text-slate-500">
-                        <li><a href="#" class="hover:text-blue-400 transition">이용약관</a></li>
-                        <li><a href="#" class="hover:text-blue-400 transition font-bold text-slate-300">개인정보처리방침</a>
-                        </li>
-                        <li><a href="https://www.ftc.go.kr/bizCommPop.do?wrkr_no=2718702687" target="_blank"
-                                rel="noopener noreferrer" class="hover:text-blue-400 transition">사업자 정보확인</a></li>
-                    </ul>
-
                 </div>
             </div>
-
-            <!-- <div
-                class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-600">
-                <p>&copy; 2026 BDWIDE Inc. All rights reserved.</p>
-                <div class="flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-green-500"></span>
-                    <span>System Operational</span>
-                </div>
-            </div> -->
         </div>
     </footer>
 
@@ -1011,8 +1079,6 @@
             <!-- Top Bar -->
             <div class="bg-white border-b border-slate-200 px-8 py-4 flex justify-between items-center z-10">
                 <div class="flex items-center gap-4">
-                    <span
-                        class="bg-slate-900 text-white text-xs px-2.5 py-1 rounded-md font-bold tracking-wider">ADMIN</span>
                     <h3 class="font-black text-xl text-slate-800 tracking-tight">관리자 대시보드</h3>
                 </div>
                 <div class="flex items-center gap-6">
@@ -1088,20 +1154,25 @@
                 <div class="lg:hidden bg-slate-900 overflow-x-auto scrollbar-none shrink-0 border-b border-slate-800">
                     <ul class="flex whitespace-nowrap px-4 py-2 gap-2">
                         <li onclick="switchAdminTab('list', event)"
-                            class="admin-menu-item shrink-0 px-4 py-2 rounded-lg text-sm font-bold text-slate-400 transition-all active-tab">
-                            요청 목록</li>
+                            class="admin-menu-item shrink-0 px-4 py-2 rounded-lg text-sm font-bold text-slate-400 transition-all active-tab flex items-center gap-2">
+                            <i class="fa-solid fa-list-check"></i> 요청 목록
+                        </li>
                         <li onclick="switchAdminTab('contract', event)"
-                            class="admin-menu-item shrink-0 px-4 py-2 rounded-lg text-sm font-bold text-slate-400 transition-all">
-                            위탁 계약서</li>
+                            class="admin-menu-item shrink-0 px-4 py-2 rounded-lg text-sm font-bold text-slate-400 transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-file-signature"></i> 위탁 계약서
+                        </li>
                         <li onclick="switchAdminTab('pledge', event)"
-                            class="admin-menu-item shrink-0 px-4 py-2 rounded-lg text-sm font-bold text-slate-400 transition-all">
-                            보안 서약서</li>
+                            class="admin-menu-item shrink-0 px-4 py-2 rounded-lg text-sm font-bold text-slate-400 transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-shield-halved"></i> 보안 서약서
+                        </li>
                         <li onclick="switchAdminTab('destroy', event)"
-                            class="admin-menu-item shrink-0 px-4 py-2 rounded-lg text-sm font-bold text-slate-400 transition-all">
-                            파기 확인서</li>
+                            class="admin-menu-item shrink-0 px-4 py-2 rounded-lg text-sm font-bold text-slate-400 transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-file-shredder"></i> 파기 확인서
+                        </li>
                         <li onclick="switchAdminTab('receipt', event)"
-                            class="admin-menu-item shrink-0 px-4 py-2 rounded-lg text-sm font-bold text-slate-400 transition-all">
-                            현금 영수증</li>
+                            class="admin-menu-item shrink-0 px-4 py-2 rounded-lg text-sm font-bold text-slate-400 transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-receipt"></i> 현금 영수증
+                        </li>
                     </ul>
                 </div>
 
@@ -1276,7 +1347,8 @@
 
                         <!-- Tab: Contract -->
                         <div id="admin-tab-contract" class="admin-tab-content hidden h-full flex flex-col w-full">
-                            <h4 class="text-2xl font-black text-slate-800 mb-4">표준 개인정보처리위탁 계약서 발송</h4>
+                            <h4 class="text-2xl font-black text-slate-800 mb-4 flex items-center gap-3"><i
+                                    class="fa-solid fa-file-contract text-blue-500"></i> 표준 개인정보처리위탁 계약서 발송</h4>
                             <div class="flex gap-6 h-full overflow-hidden">
                                 <!-- Left: Input Panel -->
                                 <div
@@ -1348,8 +1420,9 @@
                                                     placeholder="내용을 입력하세요"></textarea>
                                             </div>
                                         </div>
-                                        <button onclick="simulateSend(this, '계약서가 발송되었습니다.')"
-                                            class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-bold shadow-lg transition-all">발송하기</button>
+                                        <button onclick="downloadContractAndSend(this)"
+                                            class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-bold shadow-lg transition-all">발송하기
+                                            (PDF 저장)</button>
                                         <div
                                             class="text-[10px] text-slate-400 space-y-1 pt-2 border-t border-slate-100">
                                             <p>■ 계약서는 3page로 구성됨</p>
@@ -1367,128 +1440,149 @@
 
                                         <!-- Page 1 -->
                                         <div
-                                            class="a4-paper doc-preview leading-relaxed shadow-xl text-slate-800 w-full max-w-[620px]">
-                                            <div class="text-xl font-bold text-center mb-1 text-black">표준 개인정보처리위탁
-                                                계약서(안)</div>
-                                            <div class="border-b-2 border-black mb-5"></div>
-                                            <p class="mb-4 text-sm text-justify leading-relaxed">
-                                                <span id="prev_ct_truster" class="font-bold underline">OO기관</span>(이하
-                                                "위탁자"이라 한다)와
-                                                <span class="font-bold">(주)비디와이드</span>(이하 "수탁자"라 한다)는 "위탁자"의 개인정보 처리업무를
-                                                "수탁자"에게 위탁함에 있어 다음과 같은 내용으로 본 업무위탁계약을 체결한다.
-                                            </p>
-                                            <h5 class="font-bold mt-3 mb-1 text-sm text-black">제1조(목적)</h5>
-                                            <p class="text-xs text-justify text-slate-700 mb-3 leading-relaxed">이 계약은
-                                                "위탁자"가 개인정보처리업무를 "수탁자"에게 위탁하고, "수탁자"는 이를 승낙하여 "수탁자"의 책임 아래 성실하게 업무를
-                                                완성하도록 하는데 필요한 사항을 정함을 목적으로 한다.</p>
-                                            <h5 class="font-bold mt-3 mb-1 text-sm text-black">제2조(용어의 정의)</h5>
-                                            <p class="text-xs text-justify text-slate-700 mb-3 leading-relaxed">본 계약에서
-                                                별도로 정의되지 아니한 용어는 「개인정보 보호법」, 동법 시행령 및 고시, 「개인정보의 안전성 확보조치 기준」(개인정보보호위원회
-                                                고시 제2021-2호) 및 「표준 개인정보 보호지침」(개인정보보호위원회 고시 제2020-1호)에서 정의된 바에 따른다.</p>
-                                            <h5 class="font-bold mt-3 mb-1 text-sm text-black">제3조(위탁업무의 목적 및 범위)</h5>
-                                            <p class="text-xs text-justify text-slate-700 mb-2 leading-relaxed">"수탁자"는
-                                                계약이 정하는 바에 따라 아래와 같은 목적으로 다음과 같이 개인정보 처리 업무를 수행한다.</p>
-                                            <p class="text-xs text-slate-700 mb-3 pl-4">1. <span id="prev_ct_task"
-                                                    class="font-bold">CCTV영상 모자이크</span></p>
-                                            <h5 class="font-bold mt-3 mb-1 text-sm text-black">제4조(위탁업무 기간)</h5>
-                                            <p class="text-xs text-justify text-slate-700 mb-2 leading-relaxed">이 계약서에
-                                                의한 개인정보 처리업무의 기간은 다음과 같다.</p>
+                                            class="a4-paper doc-preview text-[10pt] leading-relaxed shadow-xl text-slate-800 w-full max-w-[620px]">
+                                            <div class="text-left text-xs text-slate-500 mb-4">[참고] 표준 개인정보처리위탁 계약서
+                                            </div>
                                             <div
-                                                class="bg-slate-50 border border-slate-300 p-2 my-2 text-sm font-bold text-center">
-                                                계약기간 : <span id="prev_ct_period"></span></div>
-                                            <div class="mt-8 pt-5 border-t border-slate-300">
-                                                <p class="text-center mb-5 font-bold text-base" id="prev_ct_date">2024.
-                                                    6. 7.</p>
-                                                <div class="flex justify-between px-2 text-xs">
-                                                    <div class="w-[48%]">
-                                                        <p class="font-bold mb-1 border-b border-black pb-1">[위탁자]</p>
-                                                        <p class="mb-1">주소 : <span id="prev_ct_addr">용인시 기흥구
-                                                                신갈로76</span></p>
-                                                        <p class="mb-1">기관(회사)명 : <span
-                                                                id="prev_ct_truster_2">OO기관</span></p>
-                                                        <p>대표자 성명 : <span id="prev_ct_rep">김 복 자</span>　(인)</p>
-                                                    </div>
-                                                    <div class="w-[48%]">
-                                                        <p class="font-bold mb-1 border-b border-black pb-1">[수탁자]</p>
-                                                        <p class="mb-1">주소 : 경기도 구리시 갈매중앙로 190 429호</p>
-                                                        <p class="mb-1">기관(회사)명 : (주)비디와이드</p>
-                                                        <p class="flex items-center gap-2">대표자 성명 : 이 정 혁　<img
-                                                                src="images/seal_red.png"
-                                                                class="w-14 h-14 object-contain inline-block" alt="직인">
-                                                        </p>
-                                                    </div>
-                                                </div>
+                                                class="border border-slate-300 p-4 mb-8 text-[9pt] text-justify text-slate-700 leading-relaxed bg-white">
+                                                본 표준 개인정보처리위탁 계약서는 「개인정보 보호법 제26조제1항」에 따라 위탁계약에 있어 개인정보처리에 관하여 문서로 정하여야
+                                                하는 최소한의 사항을 표준적으로 제시한 것으로서, 위탁계약이나 위탁업무의 내용 등에 따라 세부적인 내용은 달라질 수
+                                                있습니다.<br>
+                                                개인정보처리업무를 위탁하거나 위탁업무에 개인정보 처리가 포함된 경우에는 본 표준 개인정보처리위탁 계약서의 내용을 위탁계약서에
+                                                첨부하거나 반영하여 사용하실 수 있습니다.
+                                            </div>
+                                            <div class="text-center mb-8">
+                                                <p
+                                                    class="text-[20pt] font-black text-black underline decoration-2 underline-offset-[12px]">
+                                                    표준 개인정보처리위탁 계약서(안)</p>
+                                            </div>
+                                            <p class="mb-8 text-[11pt] text-justify leading-[2] indent-4">
+                                                <span
+                                                    class="inline-block border-b border-black min-w-[150px] text-center px-4 font-bold"
+                                                    id="prev_ct_truster">OO기관</span> (이하 "위탁자"라 한다)과
+                                                <span
+                                                    class="inline-block border-b border-black min-w-[150px] text-center px-4 font-bold">(주)비디와이드</span>
+                                                (이하 "수탁자"라 한다)는 "위탁자"의 개인정보 처리업무를 "수탁자"에게 위탁함에 있어 다음과 같은 내용으로 본 업무위탁계약을
+                                                체결한다.
+                                            </p>
+
+                                            <p class="mb-6 text-[11pt] text-justify leading-relaxed break-keep"><span
+                                                    class="font-bold">제1조(목적)</span> 이 계약은 "위탁자"가 개인정보처리업무를 "수탁자"에게
+                                                위탁하고, "수탁자"는 이를 승낙하여 "수탁자"의 책임 아래 성실하게 업무를 완성하도록 하는데 필요한 사항을 정함을 목적으로
+                                                한다.</p>
+
+                                            <p class="mb-6 text-[11pt] text-justify leading-relaxed break-keep"><span
+                                                    class="font-bold">제2조(용어의 정의)</span> 본 계약에서 별도로 정의되지 아니한 용어는 「개인정보
+                                                보호법」, 동법 시행령 및 고시, 「개인정보의 안전성 확보조치 기준」(개인정보보호위원회 고시 제2021-2호) 및 「표준 개인정보
+                                                보호지침」(개인정보보호위원회 고시 제2020-1호)에서 정의된 바에 따른다.</p>
+
+                                            <p class="mb-2 text-[11pt] text-justify leading-relaxed break-keep"><span
+                                                    class="font-bold">제3조(위탁업무의 목적 및 범위)</span> "수탁자"는 계약이 정하는 바에 따라 아래와
+                                                같은 목적으로 다음과 같이 개인정보 처리 업무를 수행한다.</p>
+                                            <p class="mb-6 text-[11pt] font-bold pl-5"><span
+                                                    class="underline decoration-1 underline-offset-4">1. <span
+                                                        id="prev_ct_task">CCTV영상 모자이크</span></span></p>
+
+                                            <p class="mb-2 text-[11pt] text-justify leading-relaxed break-keep"><span
+                                                    class="font-bold">제4조(위탁업무 기간)</span> 이 계약서에 의한 개인정보 처리업무의 기간은 다음과
+                                                같다.</p>
+                                            <p class="mb-6 text-[11pt] font-bold pl-5"><span
+                                                    class="underline decoration-1 underline-offset-4">계약기간 : <span
+                                                        id="prev_ct_period"></span></span></p>
+                                            <div class="mt-8">
+                                                <!-- 서명란은 마지막 페이지로 이동됨 -->
                                             </div>
                                         </div>
 
                                         <!-- Page 2 -->
                                         <div
-                                            class="a4-paper doc-preview leading-relaxed shadow-xl text-slate-800 w-full max-w-[620px]">
-                                            <div class="text-center text-xs text-slate-400 mb-4">— 2 —</div>
-                                            <h5 class="font-bold mb-1 text-sm text-black">제5조(개인정보의 기술적·관리적 보호조치)</h5>
-                                            <p class="text-xs text-justify text-slate-700 mb-2 leading-relaxed">"수탁자"는
-                                                개인정보의 안전성 확보를 위해 다음과 같은 관리적·기술적·물리적 조치를 취하여야 한다.</p>
-                                            <ol class="text-xs text-slate-700 space-y-1 pl-4 mb-4 list-decimal">
-                                                <li>개인정보 내부 관리계획 수립·시행</li>
-                                                <li>개인정보에 대한 접근 통제 및 권한 관리</li>
-                                                <li>개인정보 암호화 조치</li>
-                                                <li>접속기록 보관 및 위·변조 방지 조치</li>
-                                                <li>보안프로그램 설치 및 갱신</li>
-                                                <li>개인정보의 안전한 보관을 위한 물리적 보호조치</li>
-                                            </ol>
-                                            <h5 class="font-bold mt-3 mb-1 text-sm text-black">제6조(재위탁 제한)</h5>
-                                            <p class="text-xs text-justify text-slate-700 mb-3 leading-relaxed">"수탁자"는
-                                                "위탁자"의 사전 승낙 없이 개인정보처리업무를 제3자에게 재위탁하여서는 아니 된다.</p>
-                                            <h5 class="font-bold mt-3 mb-1 text-sm text-black">제7조(개인정보의 처리 제한)</h5>
-                                            <p class="text-xs text-justify text-slate-700 mb-3 leading-relaxed">"수탁자"는
-                                                계약기간 중 또는 계약 종료 후에 위탁받은 개인정보를 계약의 목적 이외의 용도로 사용하거나 제3자에게 제공하여서는 아니 된다.
-                                            </p>
-                                            <h5 class="font-bold mt-3 mb-1 text-sm text-black">제8조(개인정보의 반환 및 파기)</h5>
-                                            <p class="text-xs text-justify text-slate-700 mb-3 leading-relaxed">① "수탁자"는
-                                                위탁업무 완료 또는 계약 해지 시 위탁받은 개인정보를 즉시 파기하여야 한다.<br>② 다만, "위탁자"가 다른 법령에 따라 보존
-                                                요청을 할 경우에는 해당 기간 동안 보관한 후 파기하여야 한다.</p>
-                                            <h5 class="font-bold mt-3 mb-1 text-sm text-black">제9조(개인정보 침해사고 시 처리)</h5>
-                                            <p class="text-xs text-justify text-slate-700 mb-3 leading-relaxed">"수탁자"는
-                                                개인정보 유출 등 침해사고 발생 시 지체 없이 "위탁자"에게 통보하고, 피해 최소화를 위하여 필요한 조치를 취하여야 한다.</p>
-                                            <h5 class="font-bold mt-3 mb-1 text-sm text-black">제10조(손해배상)</h5>
-                                            <p class="text-xs text-justify text-slate-700 mb-3 leading-relaxed">"수탁자"가 이
-                                                계약의 의무를 위반하거나 "수탁자"의 귀책사유로 인해 "위탁자" 또는 정보주체가 손해를 받은 경우, "수탁자"는 해당 손해를
-                                                배상하여야 한다.</p>
+                                            class="a4-paper doc-preview text-[10pt] leading-relaxed shadow-xl text-slate-800 w-full max-w-[620px]">
+                                            <p class="mb-6 text-[11pt] text-justify leading-relaxed break-keep"><span
+                                                    class="font-bold">제5조(재위탁 제한)</span> ① "수탁자"는 "위탁자"의 사전 승낙은 얻은 경우를
+                                                제외하고, "위탁자"의 계약상의 권리와 의무의 전부 또는 일부를 제3자에게 양도하거나 재위탁할 수 없다.<br>
+                                                ② "수탁자"가 다른 제3의 회사와 수탁계약을 할 경우에는 "수탁자"는 해당 사실을 계약 체결 7일 이전에 "위탁자"에게 통보하고
+                                                협의하여야 한다.</p>
+
+                                            <p class="mb-6 text-[11pt] text-justify leading-relaxed break-keep"><span
+                                                    class="font-bold">제6조(개인정보의 안전성 확보 조치)</span> "수탁자"는 「개인정보 보호법」 제23조
+                                                제2항 및 제24조 제3항 및 제29조, 동법 시행령 제21조 및 제30조, 「개인정보의 안전성 확보조치 기준」
+                                                (개인정보보호위원회 고시 제2021-2호)에 따라 개인정보의 안전성 확보에 필요한 관리적·기술적 조치를 취하여야 한다.</p>
+
+                                            <p class="mb-6 text-[11pt] text-justify leading-relaxed break-keep"><span
+                                                    class="font-bold">제7조(개인정보의 처리제한)</span> ① "수탁자"는 계약기간은 물론 계약 종료 후에도
+                                                위탁업무 수행 목적범위를 넘어 개인정보를 이용하거나 이를 제3자에게 제공 또는 누설하여서는 안 된다.<br>
+                                                ② "수탁자"는 계약이 해지되거나 또는 계약기간이 만료된 경우 위탁업무와 관련하여 보유하고 있는 개인정보를 「개인정보 보호법」
+                                                시행령 제16조 및 「개인정보의 안전성 확보조치 기준」 (개인정보보호위원회 고시 제2021-2호)에 따라 즉시 파기하거나
+                                                "위탁자"에게 반납하여야 한다.<br>
+                                                ③ 제2항에 따라 "수탁자"가 개인정보를 파기한 경우 지체 없이 "위탁자"에게 그 결과를 통보하여야 한다.</p>
+
+                                            <p class="mb-2 text-[11pt] text-justify leading-relaxed break-keep"><span
+                                                    class="font-bold">제8조(수탁자에 대한 관리·감독 등)</span> ① "위탁자"는 "수탁자"에 대하여 다음
+                                                각 호의 사항을 감독 할 수 있으며, "수탁자"는 특별한 사유가 없는 한 이에 응하여야 한다.</p>
+                                            <div class="mb-3 text-[11pt] pl-5 break-keep">
+                                                1. 개인정보의 처리 현황<br>
+                                                2. 개인정보의 접근 또는 접속현황<br>
+                                                3. 개인정보 접근 또는 접속 대상자<br>
+                                                4. 목적 외 이용·제공 및 재위탁 금지 준수여부<br>
+                                                5. 암호화 등 안전성 확보 조치 이행여부<br>
+                                                6. 그 밖에 개인정보의 보호를 위하여 필요한 사항
+                                            </div>
+                                            <p class="mb-6 text-[11pt] text-justify leading-relaxed break-keep">② "위탁자"는
+                                                "수탁자"에 대하여 제1항 각 호의 사항에 대한 실태를 점검하여 시정을 요구할 수 있으며, "수탁자"는 특별한 사유가 없는 한
+                                                이행하여야 한다.<br>
+                                                ③ "위탁자"는 처리위탁으로 인하여 정보주체의 개인정보가 분실·도난·유출·변조 또는 훼손되지 아니하도록 1년에 (1)회
+                                                "수탁자"를 교육할 수 있으며, "수탁자"는 이에 응하여야 한다.</p>
                                         </div>
 
-                                        <!-- Page 3 -->
                                         <div
-                                            class="a4-paper doc-preview leading-relaxed shadow-xl text-slate-800 w-full max-w-[620px]">
-                                            <div class="text-center text-xs text-slate-400 mb-4">— 3 —</div>
-                                            <h5 class="font-bold mb-1 text-sm text-black">제11조(분쟁의 해결)</h5>
-                                            <p class="text-xs text-justify text-slate-700 mb-3 leading-relaxed">이 계약에 관한
-                                                분쟁은 당사자 간에 협의하여 해결하며, 협의가 이루어지지 않을 경우 관할법원에 의한다.</p>
-                                            <h5 class="font-bold mt-3 mb-1 text-sm text-black">제12조(계약의 해석)</h5>
-                                            <p class="text-xs text-justify text-slate-700 mb-4 leading-relaxed">이 계약에서
-                                                정하지 아니한 사항 및 이 계약의 해석에 관한 분쟁은 개인정보 보호법 등 관계 법령 및 관계기관의 유권해석에 따른다.</p>
-                                            <div class="mt-4 bg-slate-50 border border-slate-200 rounded-lg p-4">
-                                                <p class="text-xs font-bold text-slate-700 mb-3">[별첨] 위탁업무 세부내용</p>
-                                                <table class="w-full text-xs border-collapse border border-slate-300">
-                                                    <tr class="bg-slate-100">
-                                                        <th class="border border-slate-300 p-2 text-center font-bold">
-                                                            위탁업무명</th>
-                                                        <th class="border border-slate-300 p-2 text-center font-bold">처리
-                                                            항목</th>
-                                                        <th class="border border-slate-300 p-2 text-center font-bold">수행
-                                                            목적</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="border border-slate-300 p-2 text-center"
-                                                            id="prev_ct_task_2">CCTV영상 모자이크</td>
-                                                        <td class="border border-slate-300 p-2 text-center">영상 내 개인 식별
-                                                            정보</td>
-                                                        <td class="border border-slate-300 p-2 text-center">개인정보 보호</td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                            <div class="mt-8 pt-5 border-t border-slate-300 text-center">
-                                                <p class="text-xs text-slate-500">본 계약서는 2부를 작성하여 위탁자와 수탁자가 각 1부씩 보관한다.
-                                                </p>
+                                            class="a4-paper doc-preview text-[10pt] leading-relaxed shadow-xl text-slate-800 w-full max-w-[620px]">
+                                            <p class="mb-6 text-[11pt] text-justify leading-relaxed break-keep">④ 제1항에
+                                                따른 교육의 시기와 방법 등에 대해서는 "위탁자"는 "수탁자"와 협의하여 시행한다.</p>
+
+                                            <p class="mb-6 text-[11pt] text-justify leading-relaxed break-keep"><span
+                                                    class="font-bold">제9조(정보주체 권리보장)</span> ① "수탁자"는 정보주체의 개인정보 열람,
+                                                정정·삭제, 처리 정지 요청 등에 대응하기 위한 연락처 등 민원 창구를 마련해야 한다.</p>
+
+                                            <p class="mb-6 text-[11pt] text-justify leading-relaxed break-keep"><span
+                                                    class="font-bold">제10조(개인정보의 파기)</span> ① "수탁자"는 제4조의 위탁업무기간이 종료되면
+                                                특별한 사유가 없는 한 지체 없이 개인정보를 파기하고 이를 "수탁자"에게 확인받아야 한다.</p>
+
+                                            <p class="mb-8 text-[11pt] text-justify leading-relaxed break-keep"><span
+                                                    class="font-bold">제11조(손해배상)</span> ① "수탁자" 또는 "수탁자"의 임직원 기타 "수탁자"의
+                                                수탁자가 이 계약에 의하여 위탁 또는 재위탁 받은 업무를 수행함에 있어 이 계약에 따른 의무를 위반하거나 "수탁자" 또는
+                                                "수탁자"의 임직원 기타 "수탁자"의 수탁자의 귀책사유로 인하여 이 계약이 해지되어 "위탁자" 또는 개인정보주체 기타 제3자에게
+                                                손해가 발생한 경우 "수탁자"는 그 손해를 배상하여야 한다.<br>
+                                                ② 제1항과 관련하여 개인정보주체 기타 제3자에게 발생한 손해에 대하여 "위탁자"가 전부 또는 일부를 배상할 때에는 "위탁자"는
+                                                이를 "수탁자"에게 구상할 수 있다.</p>
+
+                                            <p
+                                                class="mb-12 text-[11pt] text-justify leading-relaxed break-keep indent-4 text-center">
+                                                본 계약의 내용을 증명하기 위하여 계약서 2부를 작성하고, "위탁자" 와 "수탁자"가 서명 또는 날인한 후 각 1부씩 보관한다.
+                                            </p>
+
+                                            <div class="mt-12 pt-5 border-t border-slate-300">
+                                                <p class="text-center mb-8 font-bold text-base" id="prev_ct_date">2024.
+                                                    6. 7.</p>
+                                                <div class="flex justify-between px-2 text-[10pt]">
+                                                    <div class="w-[48%]">
+                                                        <p class="font-bold mb-2 border-b border-black pb-1">[위탁자]</p>
+                                                        <p class="mb-2">주소 : <span id="prev_ct_addr">용인시 기흥구
+                                                                신갈로76</span></p>
+                                                        <p class="mb-2">기관(회사)명 : <span
+                                                                id="prev_ct_truster_2">OO기관</span></p>
+                                                        <p>대표자 성명 : <span id="prev_ct_rep">김 복 자</span>　(인)</p>
+                                                    </div>
+                                                    <div class="w-[48%]">
+                                                        <p class="font-bold mb-2 border-b border-black pb-1">[수탁자]</p>
+                                                        <p class="mb-2">주소 : 경기도 구리시 갈매중앙로 190 429호</p>
+                                                        <p class="mb-2">기관(회사)명 : (주)비디와이드</p>
+                                                        <p class="flex items-center gap-2">대표자 성명 : 이 정 혁　<img
+                                                                src="images/seal_red.png"
+                                                                class="w-14 h-14 object-contain inline-block transform translate-y-1"
+                                                                alt="직인">
+                                                        </p>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -1499,7 +1593,8 @@
 
                         <!-- Tab: Pledge -->
                         <div id="admin-tab-pledge" class="admin-tab-content hidden h-full flex flex-col w-full">
-                            <h4 class="text-2xl font-black text-slate-800 mb-6">보안 서약서 발송</h4>
+                            <h4 class="text-2xl font-black text-slate-800 mb-6 flex items-center gap-3"><i
+                                    class="fa-solid fa-shield-halved text-emerald-500"></i> 보안 서약서 발송</h4>
                             <div class="flex gap-8 h-full overflow-hidden">
                                 <div
                                     class="w-80 bg-white p-6 rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-100 overflow-y-auto shrink-0 max-h-[calc(100%-2rem)] h-fit">
@@ -1550,39 +1645,66 @@
                                 <div
                                     class="flex-1 bg-slate-200/50 rounded-2xl overflow-y-auto overflow-x-hidden border border-slate-200/50 scrollbar-thin">
                                     <div class="doc-preview-wrapper min-h-full">
-                                        <div class="a4-paper doc-preview text-[10pt] leading-relaxed shadow-xl">
-                                            <div
-                                                class="text-2xl font-bold text-center mb-10 border-4 border-double border-slate-800 py-3 text-slate-900">
-                                                개인정보 처리 업무 위탁 보안 서약서</div>
-                                            <p class="mb-6 text-justify indent-4 text-slate-800">(주)비디와이드(이하 "공급자"라
-                                                한다)은
-                                                <span id="prev_pl_name"
-                                                    class="font-bold border-b border-black px-1 text-lg"></span>(이하
-                                                "수요자"라
-                                                한다)의
-                                                개인정보 처리 업무 위탁 업무 수행에 따른 개인정보 및 개인정보처리시스템의 안전한 보호를 위해 아래 각 호의 사항을
-                                                준수한다.
-                                            </p>
-                                            <div class="bg-slate-50 border border-slate-200 p-6 rounded-lg mb-8">
-                                                <ol
-                                                    class="list-decimal list-outside ml-4 space-y-3 text-sm text-slate-700">
-                                                    <li>수요자의 정보보안 기본지침 및 개인정보보호 관련 법령 준수</li>
-                                                    <li>개인정보 위탁 업무 처리 시 기술적·관리적 보호 조치</li>
-                                                    <li>위탁 업무 수행 목적 외 개인정보의 처리 금지</li>
-                                                    <li>수요자가 위탁한 개인정보 처리 업무의 재 위탁 제한</li>
-                                                    <li>개인정보에 대한 접근 제한 등 안전성 확보 조치 준수 (개인정보보호법 제29조)</li>
-                                                    <li>위탁 업무와 관련하여 보유하고 있는 개인정보의 관리 현황 점검 및 감독 철저</li>
-                                                    <li>위탁 업무의 종료 시 개인정보 파기 등 의무사항 이행</li>
-                                                </ol>
+                                        <div
+                                            class="a4-paper doc-preview text-[10.5pt] leading-relaxed shadow-xl w-full max-w-[620px] p-10 pb-16">
+                                            <div class="text-center mb-10 mt-6">
+                                                <p
+                                                    class="text-[20pt] font-black text-black underline decoration-[3px] underline-offset-[12px]">
+                                                    개인정보 처리 업무 위탁 보안 서약서</p>
                                             </div>
-                                            <div class="mt-20 text-center text-slate-800">
-                                                <p class="mb-10 text-lg">상기 사항을 숙지하고 이를 성실히 준수할 것을 서약합니다.</p>
-                                                <p class="mb-6 text-lg font-bold" id="prev_pl_date">2024년 06월 07일
-                                                </p>
-                                                <div class="flex justify-end pr-10 items-center gap-4">
-                                                    <span class="text-lg font-bold">위탁 업체 : (주)비디와이드</span>
-                                                    <img src="images/seal_red.png" class="w-14 h-14 object-contain"
-                                                        alt="직인">
+
+                                            <p class="mb-8 text-justify leading-[2.2] break-keep indent-1">
+                                                <span
+                                                    class="inline-block border-b border-black min-w-[280px] text-center px-4">(주)비디와이드
+                                                    (이하 "공급자" 이라한다)</span> 은
+                                                <span
+                                                    class="inline-block border-b border-black min-w-[380px] text-center px-4">
+                                                    <span id="prev_pl_name" class="font-bold">OO기관</span> (기관)(이하 "수요자"
+                                                    이라 한다)
+                                                </span> 의 개인정보 처리 업무 위탁 업무 수행에 따른 개인정보 및 개인정보처리시스템의 안전한 보호를 위해 아래 각 호의
+                                                사항을 준수한다.
+                                            </p>
+
+                                            <div class="space-y-2 text-justify leading-[1.7] break-keep">
+                                                <p>1. 공급자는 수요자가 위탁한 개인정보 처리 업무 수행 시 개인정보(정보 및 정보시스템)를 안전하게 사용.관리하며,
+                                                    개인정보의 보호를 위해 다음의 사항을 준수한다.</p>
+                                                <div class="pl-5 space-y-1">
+                                                    <p>1) 수요자의 정보보안 기본지침 및 개인정보보호 관련 법령 준수</p>
+                                                    <p>2) 개인정보 위탁 업무 처리 시 기술적.관리적 보호 조치</p>
+                                                    <p>3) 위탁 업무 수행 목적 외 개인정보의 처리 금지</p>
+                                                    <p class="pl-4">- 위탁 업무의 목적 :
+                                                        (&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)
+                                                        CCTV 모자이크 처리</p>
+                                                    <p class="pl-4">- 위탁 업무의 범위 :
+                                                        (&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)
+                                                        CCTV 모자이크</p>
+                                                    <p>4) 수요자가 위탁한 개인정보 처리 업무의 재 위탁 제한</p>
+                                                    <p>5) 개인정보에 대한 접근 제한 등 안전성 확보 조치 준수<br>&nbsp;&nbsp;&nbsp;(개인정보보호법
+                                                        제29조 및 동법 시행령 제30조)</p>
+                                                    <p>6) 위탁 업무와 관련하여 보유하고 있는 개인정보의 관리 현황 점검 및 감독 철저</p>
+                                                    <p>7) 위탁 업무의 종료 시 개인정보 파기 등 의무사항 이행</p>
+                                                </div>
+                                                <p>2. 공급자는 수요자의 업무 수행을 위해 담당하는 직원에 대하여 책임을 진다</p>
+                                                <p>3. 공급자는 수요자의 사전 승인을 받지 못한 프로그램 및 정보기기는 갑의 업무와 관련하여 사용하지 않는다.</p>
+                                                <p>4. 공급자는 수요자의 규정 및 관련 법령의 미 준수 또는 관리 소홀로 인해 발생하는 제반 사고에 대한 손해배상책임에 한
+                                                    책임을 부담한다.</p>
+                                            </div>
+
+                                            <div class="mt-16 text-center text-slate-800">
+                                                <p class="mb-12 text-left pl-2">상기 사항을 숙지하고 이를 성실히 준수할 것을 서약 함</p>
+                                                <div class="flex justify-end pr-8 mb-6">
+                                                    <p id="prev_pl_date">2024년&nbsp;&nbsp;&nbsp;06월&nbsp;&nbsp;&nbsp;07일
+                                                    </p>
+                                                </div>
+                                                <div class="flex justify-end pr-10 items-center gap-12">
+                                                    <span>위탁 업체 : (주)비디와이드</span>
+                                                    <div class="flex items-center gap-2">
+                                                        <span>(인)</span>
+                                                        <div class="w-14 h-14 transform -translate-y-2 translate-x-1">
+                                                            <img src="images/seal_red.png"
+                                                                class="w-14 h-14 object-contain inline-block" alt="직인">
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1660,429 +1782,577 @@
                                 </div>
                                 <div
                                     class="flex-1 bg-slate-200/50 rounded-2xl overflow-y-auto overflow-x-hidden border border-slate-200/50 scrollbar-thin">
-                                    <div class="doc-preview-wrapper min-h-full">
-                                        <div class="a4-paper doc-preview text-[10pt] leading-relaxed shadow-xl">
-                                            <div class="flex items-center justify-center gap-4 mb-12">
-                                                <i class="fa-solid fa-file-shield text-slate-300 text-4xl"></i>
-                                                <div
-                                                    class="text-3xl font-bold underline decoration-4 decoration-slate-300 underline-offset-8 text-slate-900">
-                                                    개인정보파일 파기서</div>
-                                            </div>
-                                            <table class="doc-table w-full border-collapse border border-slate-300">
+                                    <div
+                                        class="a4-paper doc-preview text-[10.5pt] leading-relaxed shadow-xl w-[700px] h-[990px] p-12">
+                                        <div class="text-center mb-8">
+                                            <p class="text-[20pt] font-black text-black">개인정보파일 파기서</p>
+                                        </div>
+                                        <table
+                                            class="doc-table w-full border-collapse border-2 border-slate-400 text-[10pt]">
+                                            <tbody>
                                                 <tr>
                                                     <th
-                                                        class="bg-slate-50 border border-slate-300 p-3 text-center font-bold text-slate-800 w-1/5">
+                                                        class="bg-slate-100 border-b border-r border-slate-300 p-2 text-center font-bold w-[15%]">
                                                         작성일</th>
-                                                    <td class="border border-slate-300 p-3 text-slate-700"
-                                                        id="prev_ds_date">2026.01.08</td>
+                                                    <td class="border-b border-r border-slate-300 p-2 text-center w-[35%]"
+                                                        id="prev_ds_date_top">2026.01.08</td>
                                                     <th
-                                                        class="bg-slate-50 border border-slate-300 p-3 text-center font-bold text-slate-800 w-1/5">
+                                                        class="bg-slate-100 border-b border-r border-slate-300 p-2 text-center font-bold w-[15%]">
                                                         작성자</th>
-                                                    <td class="border border-slate-300 p-3 text-slate-700">
+                                                    <td class="border-b border-slate-300 p-2 text-center w-[35%]">
                                                         (주)비디와이드</td>
                                                 </tr>
                                                 <tr>
                                                     <th
-                                                        class="bg-slate-50 border border-slate-300 p-3 text-center font-bold text-slate-800">
+                                                        class="bg-slate-100 border-b border-r border-slate-300 p-2 text-center font-bold">
                                                         파기 대상<br>개인정보파일</th>
-                                                    <td colspan="3" id="prev_ds_file"
-                                                        class="border border-slate-300 p-3 h-32 align-top whitespace-pre-wrap text-slate-700">
-                                                    </td>
+                                                    <td colspan="3"
+                                                        class="border-b border-slate-300 p-3 h-32 align-top text-left text-[9.5pt]"
+                                                        id="prev_ds_file"></td>
                                                 </tr>
                                                 <tr>
                                                     <th
-                                                        class="bg-slate-50 border border-slate-300 p-3 text-center font-bold text-slate-800">
+                                                        class="bg-slate-100 border-b border-r border-slate-300 p-2 text-center font-bold">
+                                                        생성일자</th>
+                                                    <td class="border-b border-r border-slate-300 p-2 text-center"></td>
+                                                    <th
+                                                        class="bg-slate-100 border-b border-r border-slate-300 p-2 text-center font-bold px-1">
+                                                        개인정보취급자</th>
+                                                    <td class="border-b border-slate-300 p-2 text-center">(주)비디와이드</td>
+                                                </tr>
+                                                <tr>
+                                                    <th
+                                                        class="bg-slate-100 border-b border-r border-slate-300 p-2 text-center font-bold">
                                                         파기 사유</th>
-                                                    <td colspan="3" id="prev_ds_reason"
-                                                        class="border border-slate-300 p-3 text-slate-700"></td>
+                                                    <td colspan="3"
+                                                        class="border-b border-slate-300 p-2 text-[9.5pt] pl-4"
+                                                        id="prev_ds_reason"></td>
                                                 </tr>
                                                 <tr>
                                                     <th
-                                                        class="bg-slate-50 border border-slate-300 p-3 text-center font-bold text-slate-800">
-                                                        특기 사항</th>
-                                                    <td colspan="3" id="prev_ds_notes"
-                                                        class="border border-slate-300 p-3 text-slate-700"></td>
-                                                </tr>
-                                                <tr>
-                                                    <th
-                                                        class="bg-slate-50 border border-slate-300 p-3 text-center font-bold text-slate-800">
-                                                        파기 방법</th>
-                                                    <td colspan="3" id="prev_ds_method"
-                                                        class="border border-slate-300 p-3 text-slate-700">
+                                                        class="bg-slate-100 border-b border-r border-slate-300 p-2 text-center font-bold">
+                                                        파기일</th>
+                                                    <td colspan="3" class="border-b border-slate-300 p-2 text-center">
                                                     </td>
                                                 </tr>
-                                            </table>
-                                            <div class="mt-20 text-center text-slate-800">
-                                                <p class="mb-8 text-xl font-bold">위와 같이 개인정보파일을 파기함을 확인 및 서약합니다.
-                                                </p>
-                                                <p class="mb-12 text-lg" id="prev_ds_sign_date">2026년 01월 08일
-                                                </p>
-                                                <div class="flex justify-center items-center gap-6">
-                                                    <span class="text-xl font-bold">확인자 (수탁업체) : (주)비디와이드</span>
-                                                    <img src="images/seal_red.png" class="w-14 h-14 object-contain"
-                                                        alt="직인">
+                                                <tr>
+                                                    <th
+                                                        class="bg-slate-100 border-b border-r border-slate-300 p-2 text-center font-bold">
+                                                        특기사항</th>
+                                                    <td colspan="3" class="border-b border-slate-300 p-0">
+                                                        <div class="flex h-full border-b border-slate-300">
+                                                            <div class="w-1/2 min-h-[3rem]"></div>
+                                                            <div class="w-1/2 flex border-l border-slate-300">
+                                                                <div
+                                                                    class="bg-slate-100 p-2 border-r border-slate-300 flex items-center justify-center font-bold w-2/5">
+                                                                    <span class="text-center text-[9pt]">승인자<br><span
+                                                                            class="text-[8pt] font-normal">(개인정보
+                                                                            보호책임자)</span></span>
+                                                                </div>
+                                                                <div
+                                                                    class="p-2 flex items-center justify-center w-3/5 font-bold">
+                                                                    양&nbsp;&nbsp;형&nbsp;&nbsp;규</div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-t-0">
+                                                    <th
+                                                        class="bg-slate-100 border-b border-r border-slate-300 p-2 text-center font-bold border-t-0">
+                                                        파기 승인일</th>
+                                                    <td colspan="3"
+                                                        class="border-b border-slate-300 p-2 text-center border-t-0">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th
+                                                        class="bg-slate-100 border-b border-r border-slate-300 p-2 text-center font-bold">
+                                                        파기 방법</th>
+                                                    <td colspan="3" class="border-b border-slate-300 p-2 text-left pl-4"
+                                                        id="prev_ds_method"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th
+                                                        class="bg-slate-100 border-r border-slate-300 p-2 text-center font-bold">
+                                                        백업 조치 유무</th>
+                                                    <td colspan="3" class="p-2 text-left pl-4 font-bold">해당 사항 없음</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <div class="mt-14 text-center text-slate-800">
+                                            <p class="mb-14 text-[12pt] text-left">파기 대상 개인정보파일 파기함을 확인 및 서약 함.</p>
+
+                                            <div class="flex justify-end pr-8 mb-8">
+                                                <p id="prev_ds_sign_date" class="text-[11pt]">
+                                                    2024년&nbsp;&nbsp;&nbsp;06월&nbsp;&nbsp;&nbsp;07일</p>
+                                            </div>
+                                            <div class="flex justify-end pr-10 items-center gap-12 text-[11pt]">
+                                                <span>위탁 업체 : (주)비디와이드</span>
+                                                <div class="flex items-center gap-2">
+                                                    <span>(인)</span>
+                                                    <div class="w-14 h-14 transform -translate-y-2 translate-x-1"><img
+                                                            src="images/seal_red.png"
+                                                            class="w-14 h-14 object-contain inline-block" alt="직인">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Tab: Receipt -->
-                            <div id="admin-tab-receipt" class="admin-tab-content hidden h-full flex flex-col w-full">
-                                <h4 class="text-2xl font-black text-slate-800 mb-6">현금 영수증 발송</h4>
-                                <div
-                                    class="bg-white p-6 md:p-10 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 flex flex-col md:flex-row gap-8 h-full max-h-[850px] overflow-hidden">
-                                    <div
-                                        class="w-full md:w-80 flex flex-col gap-6 shrink-0 overflow-y-auto max-h-[calc(100%-2rem)] h-fit">
-                                        <h5
-                                            class="font-bold border-b border-slate-100 pb-3 mb-2 text-slate-800 flex items-center gap-2">
-                                            <i class="fa-solid fa-pen-to-square text-blue-500"></i> 정보 입력
-                                        </h5>
-                                        <div
-                                            class="flex-1 border-2 border-dashed border-slate-300 rounded-2xl p-8 text-center cursor-pointer hover:bg-slate-50 hover:border-blue-400 transition-all group flex flex-col items-center justify-center">
-                                            <div
-                                                class="w-16 h-16 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                                                <i class="fa-solid fa-cloud-arrow-up text-2xl"></i>
-                                            </div>
-                                            <p class="text-slate-700 font-bold mb-1 text-sm">현금영수증 이미지</p>
-                                            <p class="text-[10px] text-slate-400">클릭하여 업로드</p>
-                                        </div>
-
-                                        <div class="space-y-4">
-                                            <div><label class="text-xs font-bold text-slate-500 mb-1 block">거래
-                                                    금액</label>
-                                                <input type="text" id="rc_amount"
-                                                    class="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50"
-                                                    placeholder="55,000" oninput="updateReceiptPreview()">
-                                            </div>
-                                            <div><label
-                                                    class="text-xs font-bold text-slate-500 mb-1 block">공급받는자</label>
-                                                <input type="text" id="rc_customer"
-                                                    class="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50"
-                                                    placeholder="홍길동" oninput="updateReceiptPreview()">
-                                            </div>
-                                        </div>
-
-                                        <button onclick="updateReceiptPreview()"
-                                            class="w-full bg-blue-100 text-blue-600 py-3 rounded-xl font-bold hover:bg-blue-200 transition-all">미리보기</button>
-
-                                        <div class="pt-4 border-t border-slate-100 space-y-4">
-                                            <div><label class="text-xs font-bold text-slate-500 mb-1 block">메일
-                                                    주소</label>
-                                                <input type="email" id="rc_mail_to"
-                                                    class="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50 outline-none"
-                                                    placeholder="client@example.com">
-                                            </div>
-                                            <div><label class="text-xs font-bold text-slate-500 mb-1 block">메일
-                                                    제목</label>
-                                                <input type="text" id="rc_mail_subject"
-                                                    class="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50 outline-none"
-                                                    placeholder="현금영수증 발행 안내">
-                                            </div>
-                                        </div>
-                                        <button onclick="simulateSend(this, '영수증이 발송되었습니다.')"
-                                            class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-bold shadow-lg transition-all">발송하기</button>
-                                    </div>
-
-                                    <div
-                                        class="flex-1 bg-slate-200/50 rounded-2xl overflow-y-auto overflow-x-hidden border border-slate-200/50 scrollbar-thin">
-                                        <div class="doc-preview-wrapper min-h-full p-8 flex justify-center">
-                                            <div
-                                                class="a4-paper doc-preview bg-white shadow-xl max-w-[500px] h-fit p-10 text-slate-800">
-                                                <div
-                                                    class="text-2xl font-bold text-center mb-8 border-b-2 border-black pb-4 text-slate-900">
-                                                    현금(지출증빙) 영수증</div>
-                                                <div class="border border-black p-6 space-y-4">
-                                                    <div class="flex justify-between border-b border-slate-200 pb-2">
-                                                        <span class="font-bold">발행일자</span>
-                                                        <span id="prev_rc_date">2026.02.20</span>
-                                                    </div>
-                                                    <div class="flex justify-between border-b border-slate-200 pb-2">
-                                                        <span class="font-bold">공급받는자</span>
-                                                        <span id="prev_rc_customer" class="font-bold"></span>
-                                                    </div>
-                                                    <div class="flex justify-between border-b border-slate-200 pb-2">
-                                                        <span class="font-bold">합계금액</span>
-                                                        <span class="text-xl font-black">₩ <span
-                                                                id="prev_rc_amount">0</span></span>
-                                                    </div>
-                                                </div>
-                                                <div class="mt-8 text-sm text-slate-500 text-center">위 금액을 정히
-                                                    영수함</div>
-                                                <div class="mt-12 flex justify-between items-end">
-                                                    <div class="text-xs space-y-1">
-                                                        <p>공급자: (주)비디와이드</p>
-                                                        <p>사업자번호: 123-45-67890</p>
-                                                    </div>
-                                                    <img src="images/seal_red.png" class="w-14 h-14 object-contain"
-                                                        alt="직인">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
+
+                        <!-- Tab: Receipt -->
+                        <div id="admin-tab-receipt" class="admin-tab-content hidden h-full flex flex-col w-full">
+                            <h4 class="text-2xl font-black text-slate-800 mb-6 flex items-center gap-3"><i
+                                    class="fa-solid fa-receipt text-amber-500"></i> 현금 영수증 발송</h4>
+                            <div
+                                class="bg-white p-6 md:p-10 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 flex flex-col md:flex-row gap-8 h-full max-h-[850px] overflow-hidden">
+                                <div
+                                    class="w-full md:w-80 flex flex-col gap-6 shrink-0 overflow-y-auto max-h-[calc(100%-2rem)] h-fit">
+                                    <h5
+                                        class="font-bold border-b border-slate-100 pb-3 mb-2 text-slate-800 flex items-center gap-2">
+                                        <i class="fa-solid fa-pen-to-square text-blue-500"></i> 정보 입력
+                                    </h5>
+                                    <div
+                                        class="flex-1 border-2 border-dashed border-slate-300 rounded-2xl p-8 text-center cursor-pointer hover:bg-slate-50 hover:border-blue-400 transition-all group flex flex-col items-center justify-center">
+                                        <div
+                                            class="w-16 h-16 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                            <i class="fa-solid fa-cloud-arrow-up text-2xl"></i>
+                                        </div>
+                                        <p class="text-slate-700 font-bold mb-1 text-sm">현금영수증 이미지</p>
+                                        <p class="text-[10px] text-slate-400">클릭하여 업로드</p>
+                                    </div>
+
+                                    <div class="space-y-4">
+                                        <div><label class="text-xs font-bold text-slate-500 mb-1 block">거래
+                                                금액</label>
+                                            <input type="text" id="rc_amount"
+                                                class="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50"
+                                                placeholder="55,000" oninput="updateReceiptPreview()">
+                                        </div>
+                                        <div><label class="text-xs font-bold text-slate-500 mb-1 block">공급받는자</label>
+                                            <input type="text" id="rc_customer"
+                                                class="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50"
+                                                placeholder="홍길동" oninput="updateReceiptPreview()">
+                                        </div>
+                                    </div>
+
+                                    <button onclick="updateReceiptPreview()"
+                                        class="w-full bg-blue-100 text-blue-600 py-3 rounded-xl font-bold hover:bg-blue-200 transition-all">미리보기</button>
+
+                                    <div class="pt-4 border-t border-slate-100 space-y-4">
+                                        <div><label class="text-xs font-bold text-slate-500 mb-1 block">메일
+                                                주소</label>
+                                            <input type="email" id="rc_mail_to"
+                                                class="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50 outline-none"
+                                                placeholder="client@example.com">
+                                        </div>
+                                        <div><label class="text-xs font-bold text-slate-500 mb-1 block">메일
+                                                제목</label>
+                                            <input type="text" id="rc_mail_subject"
+                                                class="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50 outline-none"
+                                                placeholder="현금영수증 발행 안내">
+                                        </div>
+                                    </div>
+                                    <button onclick="simulateSend(this, '영수증이 발송되었습니다.')"
+                                        class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-bold shadow-lg transition-all">발송하기</button>
+                                </div>
+
+                                <div
+                                    class="flex-1 bg-slate-200/50 rounded-2xl overflow-y-auto overflow-x-hidden border border-slate-200/50 scrollbar-thin">
+                                    <div class="doc-preview-wrapper min-h-full p-8 flex justify-center">
+                                        <div
+                                            class="a4-paper doc-preview bg-white shadow-xl max-w-[500px] h-fit p-10 text-slate-800">
+                                            <div
+                                                class="text-2xl font-bold text-center mb-8 border-b-2 border-black pb-4 text-slate-900">
+                                                현금(지출증빙) 영수증</div>
+                                            <div class="border border-black p-6 space-y-4">
+                                                <div class="flex justify-between border-b border-slate-200 pb-2">
+                                                    <span class="font-bold">발행일자</span>
+                                                    <span id="prev_rc_date">2026.02.20</span>
+                                                </div>
+                                                <div class="flex justify-between border-b border-slate-200 pb-2">
+                                                    <span class="font-bold">공급받는자</span>
+                                                    <span id="prev_rc_customer" class="font-bold"></span>
+                                                </div>
+                                                <div class="flex justify-between border-b border-slate-200 pb-2">
+                                                    <span class="font-bold">합계금액</span>
+                                                    <span class="text-xl font-black">₩ <span
+                                                            id="prev_rc_amount">0</span></span>
+                                                </div>
+                                            </div>
+                                            <div class="mt-8 text-sm text-slate-500 text-center">위 금액을 정히
+                                                영수함</div>
+                                            <div class="mt-12 flex justify-between items-end">
+                                                <div class="text-xs space-y-1">
+                                                    <p>공급자: (주)비디와이드</p>
+                                                    <p>사업자번호: 123-45-67890</p>
+                                                </div>
+                                                <img src="images/seal_red.png" class="w-14 h-14 object-contain"
+                                                    alt="직인">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- JavaScript Logic -->
-            <script>
-                // --- Admin Stealth Trigger ---
-                window.addEventListener('keydown', (e) => {
-                    // Secret Sequence: Ctrl + Shift + Alt + A
-                    if (e.ctrlKey && e.shiftKey && e.altKey && (e.key === 'A' || e.key === 'a')) {
-                        toggleAdminMode();
-                    }
-                });
+        <!-- JavaScript Logic -->
+        <script>
+            // --- Admin Stealth Trigger ---
+            window.addEventListener('keydown', (e) => {
+                // Secret Sequence: Ctrl + Shift + Alt + A
+                if (e.ctrlKey && e.shiftKey && e.altKey && (e.key === 'A' || e.key === 'a')) {
+                    toggleAdminMode();
+                }
+            });
 
-                // --- Toast Notification ---
-                function showToast(message) {
-                    const container = document.getElementById('toast-container');
-                    const toast = document.createElement('div');
-                    toast.className = 'toast';
-                    toast.innerHTML = `<i class="fa-solid fa-circle-check text-green-400"></i> <span>${message}</span>`;
-                    container.appendChild(toast);
-                    setTimeout(() => toast.remove(), 3000);
+            // --- Toast Notification ---
+            function showToast(message) {
+                const container = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                toast.className = 'toast';
+                toast.innerHTML = `<i class="fa-solid fa-circle-check text-green-400"></i> <span>${message}</span>`;
+                container.appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
+            }
+
+            function simulateSend(btn, msg) {
+                const originalText = btn.innerHTML;
+                const originalClasses = btn.className;
+
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> 전송 중...';
+                btn.classList.add('opacity-75', 'cursor-not-allowed');
+
+                setTimeout(() => {
+                    showToast(msg);
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                    btn.className = originalClasses;
+                }, 1000);
+            }
+
+            async function downloadContractAndSend(btn) {
+                const originalText = btn.innerHTML;
+                const originalClasses = btn.className;
+
+                // UI Disable & Loading State
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> PDF 생성 및 발송 중...';
+                btn.classList.add('opacity-75', 'cursor-not-allowed');
+
+                // Get Email Info
+                const rEmail = document.getElementById('ct_mail_to')?.value;
+                const rSubject = document.getElementById('ct_mail_subject')?.value;
+                const rContent = document.getElementById('ct_mail_body')?.value;
+
+                if (!rEmail || !rEmail.includes('@')) {
+                    showToast('유효한 이메일 주소를 입력해주세요.');
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                    btn.className = originalClasses;
+                    return;
                 }
 
-                function simulateSend(btn, msg) {
-                    const originalText = btn.innerHTML;
-                    const originalClasses = btn.className;
+                try {
+                    const elements = document.querySelectorAll('#admin-tab-contract .a4-paper');
+                    let blob = null;
+                    let fileName = '';
 
-                    btn.disabled = true;
-                    btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> 전송 중...';
-                    btn.classList.add('opacity-75', 'cursor-not-allowed');
+                    // 1. Generate PDF
+                    if (elements.length > 0) {
+                        const { jsPDF } = window.jspdf;
+                        const pdf = new jsPDF('p', 'mm', 'a4');
+                        const pdfWidth = pdf.internal.pageSize.getWidth();
+                        const pageHeight = pdf.internal.pageSize.getHeight();
 
-                    setTimeout(() => {
-                        showToast(msg);
-                        btn.disabled = false;
-                        btn.innerHTML = originalText;
-                        btn.className = originalClasses;
-                    }, 1000);
-                }
+                        showToast("계약서 PDF를 준비 중입니다...");
 
-                // --- Modal Control ---
-                function openModal(modalId) {
-                    try {
-                        const modal = document.getElementById(modalId);
-                        if (!modal) {
-                            console.error(`Modal element not found: ${modalId}`);
-                            return;
+                        for (let i = 0; i < elements.length; i++) {
+                            const el = elements[i];
+                            const canvas = await html2canvas(el, { scale: 3, useCORS: true, logging: false });
+                            const imgData = canvas.toDataURL('image/jpeg', 0.95);
+                            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+                            if (i > 0) pdf.addPage();
+                            const yOffset = (pageHeight > pdfHeight) ? (pageHeight - pdfHeight) / 2 : 0;
+                            pdf.addImage(imgData, 'JPEG', 0, yOffset, pdfWidth, pdfHeight);
                         }
-                        modal.classList.add('active');
-                        document.body.style.overflow = 'hidden';
-                        if (modalId === 'quoteModal') {
-                            if (typeof quoteItems !== 'undefined' && quoteItems.length === 0) addQuoteItem();
-                            if (typeof calculateQuote === 'function') calculateQuote();
 
-                            // Update dynamic dates in the invoice
-                            const today = new Date();
-                            const dateStr = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
-                            const dateStrKR = `${today.getFullYear()}년 ${String(today.getMonth() + 1).padStart(2, '0')}월 ${String(today.getDate()).padStart(2, '0')}일`;
+                        blob = pdf.output('blob');
+                        const trusterName = document.getElementById('ct_truster')?.value || 'OO기관';
+                        const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+                        fileName = `위탁계약서_${trusterName}_${dateStr}.pdf`;
 
-                            const invDate = document.getElementById('inv_date');
-                            if (invDate) invDate.innerText = dateStr;
-
-                            const invYearMD = document.getElementById('inv_year_m_d');
-                            if (invYearMD) invYearMD.innerText = `${String(today.getMonth() + 1).padStart(2, '0')}월 ${String(today.getDate()).padStart(2, '0')}일`;
-
-                            // Trigger scaling after modal is visible
-                            setTimeout(updatePreviewScale, 10);
-                        }
-                    } catch (err) {
-                        console.error('Error opening modal:', err);
-                    }
-                }
-
-                function closeModal(modalId) {
-                    try {
-                        const modal = document.getElementById(modalId);
-                        if (modal) {
-                            modal.classList.remove('active');
-                            // Restore scroll if no other modal is active
-                            const anyActive = document.querySelector('.modal.active');
-                            if (!anyActive) document.body.style.overflow = '';
-                        }
-                    } catch (err) {
-                        console.error('Error closing modal:', err);
-                    }
-                }
-
-                // --- Responsive Preview Scaling ---
-                function updatePreviewScale() {
-                    const wrapper = document.querySelector('#quoteModal .doc-preview-wrapper');
-                    const preview = document.getElementById('invoice-preview');
-                    if (!wrapper || !preview) return;
-
-                    const containerWidth = wrapper.clientWidth - 40; // 20px padding each side
-                    const paperWidth = 210 * 3.7795275591; // 210mm to px at 96dpi
-
-                    if (containerWidth < paperWidth) {
-                        const scale = containerWidth / paperWidth;
-                        preview.style.transform = `scale(${scale})`;
-                        preview.style.marginBottom = `-${paperWidth * (1 - scale)}px`; // Adjust spacing
+                        // 1.1 Trigger Local Download
+                        const url = URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.download = fileName;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        URL.revokeObjectURL(url);
                     } else {
-                        preview.style.transform = 'none';
-                        preview.style.marginBottom = '0';
+                        throw new Error('PDF 생성 영역을 찾을 수 없습니다.');
                     }
+
+                    // 2. Send via Email API
+                    showToast('이메일을 발송하는 중입니다...');
+
+                    const formData = new FormData();
+                    // senderEmail and senderAppPwd should typically come from admin profile settings.
+                    // Assuming for now they might be injected statically or retrieved from localStorage.
+                    // Replace with definitive variables.
+                    formData.append('senderEmail', localStorage.getItem('_v_admin_email') || 'your_email@gmail.com');
+                    formData.append('senderAppPwd', localStorage.getItem('_v_admin_pwd') || 'xxxx xxxx xxxx xxxx');
+                    formData.append('recvEmail', rEmail);
+                    formData.append('subject', rSubject || '위탁 계약서 송부의 건');
+                    formData.append('content', rContent || '위탁 계약서 파일을 첨부해 드립니다.');
+                    if (blob) {
+                        formData.append('file', blob, fileName);
+                    }
+
+                    const response = await fetch('/api/sendEmail', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const resData = await response.json().catch(() => ({}));
+
+                    if (response.ok && resData.status === 'succ') {
+                        showToast('계약서가 성공적으로 발송되었습니다.');
+                    } else {
+                        throw new Error(resData.message || '이메일 발송에 실패했습니다.');
+                    }
+
+                } catch (err) {
+                    console.error('Email Send Error:', err);
+                    showToast(err.message || '처리 중 오류가 발생했습니다.');
                 }
 
-                window.addEventListener('resize', updatePreviewScale);
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+                btn.className = originalClasses;
+            }
 
-                function toggleAdminMode() {
-                    try {
-                        // Check if already authenticated in this session (optional, but let's always ask for security)
-                        openModal('adminLoginModal');
-                        initAdminAuth(); // Ensure defaults exist
-                    } catch (err) {
-                        console.error('Error toggling admin mode:', err);
-                        showToast("관리자 모드 전환 중 오류가 발생했습니다.");
+            // --- Modal Control ---
+            function openModal(modalId) {
+                try {
+                    const modal = document.getElementById(modalId);
+                    if (!modal) {
+                        console.error(`Modal element not found: ${modalId}`);
+                        return;
                     }
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                    if (modalId === 'quoteModal') {
+                        if (typeof quoteItems !== 'undefined' && quoteItems.length === 0) addQuoteItem();
+                        if (typeof calculateQuote === 'function') calculateQuote();
+
+                        // Update dynamic dates in the invoice
+                        const today = new Date();
+                        const dateStr = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
+                        const dateStrKR = `${today.getFullYear()}년 ${String(today.getMonth() + 1).padStart(2, '0')}월 ${String(today.getDate()).padStart(2, '0')}일`;
+
+                        const invDate = document.getElementById('inv_date');
+                        if (invDate) invDate.innerText = dateStr;
+
+                        const invYearMD = document.getElementById('inv_year_m_d');
+                        if (invYearMD) invYearMD.innerText = `${String(today.getMonth() + 1).padStart(2, '0')}월 ${String(today.getDate()).padStart(2, '0')}일`;
+
+                        // Trigger scaling after modal is visible
+                        setTimeout(updatePreviewScale, 10);
+                    }
+                } catch (err) {
+                    console.error('Error opening modal:', err);
                 }
+            }
 
-                function initAdminAuth() {
-                    const kId = '_v_sys_tkn_id';
-                    const kPw = '_v_sys_tkn_pw';
-
-                    if (!localStorage.getItem(kId)) {
-                        // Base64 for 'admin'
-                        localStorage.setItem(kId, 'YWRtaW4=');
+            function closeModal(modalId) {
+                try {
+                    const modal = document.getElementById(modalId);
+                    if (modal) {
+                        modal.classList.remove('active');
+                        // Restore scroll if no other modal is active
+                        const anyActive = document.querySelector('.modal.active');
+                        if (!anyActive) document.body.style.overflow = '';
                     }
-                    if (!localStorage.getItem(kPw)) {
-                        // Base64 for 'admin1234'
-                        localStorage.setItem(kPw, 'YWRtaW4xMjM0');
-                    }
+                } catch (err) {
+                    console.error('Error closing modal:', err);
                 }
+            }
 
-                function processAdminLogin() {
+            // --- Responsive Preview Scaling ---
+            function updatePreviewScale() {
+                const wrapper = document.querySelector('#quoteModal .doc-preview-wrapper');
+                const preview = document.getElementById('invoice-preview');
+                if (!wrapper || !preview) return;
+
+                const containerWidth = wrapper.clientWidth - 40; // 20px padding each side
+                const paperWidth = 210 * 3.7795275591; // 210mm to px at 96dpi
+
+                if (containerWidth < paperWidth) {
+                    const scale = containerWidth / paperWidth;
+                    preview.style.transform = `scale(${scale})`;
+                    preview.style.marginBottom = `-${paperWidth * (1 - scale)}px`; // Adjust spacing
+                } else {
+                    preview.style.transform = 'none';
+                    preview.style.marginBottom = '0';
+                }
+            }
+
+            window.addEventListener('resize', updatePreviewScale);
+
+            function toggleAdminMode() {
+                try {
+                    // Check if already authenticated in this session (optional, but let's always ask for security)
+                    openModal('adminLoginModal');
+                    initAdminAuth(); // Ensure defaults exist
+                } catch (err) {
+                    console.error('Error toggling admin mode:', err);
+                    showToast("관리자 모드 전환 중 오류가 발생했습니다.");
+                }
+            }
+
+            function initAdminAuth() {
+                const kId = '_v_sys_tkn_id';
+                const kPw = '_v_sys_tkn_pw';
+
+                if (!localStorage.getItem(kId)) {
+                    // Base64 for 'admin'
+                    localStorage.setItem(kId, 'YWRtaW4=');
+                }
+                if (!localStorage.getItem(kPw)) {
+                    // Base64 for 'admin1234'
+                    localStorage.setItem(kPw, 'YWRtaW4xMjM0');
+                }
+            }
+
+            function processAdminLogin() {
+                try {
                     const uid = document.getElementById('admin_uid').value;
                     const upw = document.getElementById('admin_upw').value;
 
-                    const kId = '_v_sys_tkn_id';
-                    const kPw = '_v_sys_tkn_pw';
-
-                    const savedIdB64 = localStorage.getItem(kId);
-                    const savedPwB64 = localStorage.getItem(kPw);
-
-                    try {
-                        const savedId = atob(savedIdB64);
-                        const savedPw = atob(savedPwB64);
-
-                        if (uid === savedId && upw === savedPw) {
-                            closeModal('adminLoginModal');
-                            openModal('adminModal');
-                            if (typeof loadAdminMockData === 'function') loadAdminMockData();
-                            if (typeof updateContractPreview === 'function') updateContractPreview();
-                            if (typeof updatePledgePreview === 'function') updatePledgePreview();
-                            if (typeof updateDestroyPreview === 'function') updateDestroyPreview();
-                            showToast("관리자 인증에 성공했습니다.");
-                        } else {
-                            showToast("인증 정보가 올바르지 않습니다.");
-                            document.getElementById('admin_upw').value = '';
-                        }
-                    } catch (err) {
-                        console.error('Auth error:', err);
-                        showToast("인증 처리 중 오류가 발생했습니다.");
+                    if (uid === 'admin' && upw === 'admin1234') {
+                        closeModal('adminLoginModal');
+                        openModal('adminModal');
+                        if (typeof loadAdminMockData === 'function') loadAdminMockData();
+                        if (typeof updateContractPreview === 'function') updateContractPreview();
+                        if (typeof updatePledgePreview === 'function') updatePledgePreview();
+                        if (typeof updateDestroyPreview === 'function') updateDestroyPreview();
+                        showToast("관리자 인증에 성공했습니다.");
+                    } else {
+                        showToast("인증 정보가 올바르지 않습니다.");
+                        document.getElementById('admin_upw').value = '';
                     }
+                } catch (err) {
+                    console.error('Auth error:', err);
+                    showToast("인증 처리 중 오류가 발생했습니다.");
                 }
+            }
 
-                function scrollToSection(id) {
-                    document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-                }
+            function scrollToSection(id) {
+                document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+            }
 
-                // --- Helper: Number to Korean ---
-                function numberToKorean(number) {
-                    if (number === 0) return "영원정";
-                    const units = ["", "만", "억"];
-                    const hanA = ["", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구"];
-                    const hanB = ["", "십", "백", "천"];
+            // --- Helper: Number to Korean ---
+            function numberToKorean(number) {
+                if (number === 0) return "영원정";
+                const units = ["", "만", "억"];
+                const hanA = ["", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구"];
+                const hanB = ["", "십", "백", "천"];
 
-                    let result = "";
-                    let n = number;
-                    let unitIndex = 0;
+                let result = "";
+                let n = number;
+                let unitIndex = 0;
 
-                    while (n > 0) {
-                        let part = n % 10000;
-                        if (part > 0) {
-                            let partStr = "";
-                            let partS = part.toString();
-                            for (let j = 0; j < partS.length; j++) {
-                                let digit = parseInt(partS.charAt(partS.length - 1 - j));
-                                if (digit > 0) {
-                                    partStr = hanA[digit] + hanB[j] + partStr;
-                                }
+                while (n > 0) {
+                    let part = n % 10000;
+                    if (part > 0) {
+                        let partStr = "";
+                        let partS = part.toString();
+                        for (let j = 0; j < partS.length; j++) {
+                            let digit = parseInt(partS.charAt(partS.length - 1 - j));
+                            if (digit > 0) {
+                                partStr = hanA[digit] + hanB[j] + partStr;
                             }
-                            result = partStr + units[unitIndex] + result;
                         }
-                        n = Math.floor(n / 10000);
-                        unitIndex++;
+                        result = partStr + units[unitIndex] + result;
                     }
-                    return "일금 " + result + "원정";
+                    n = Math.floor(n / 10000);
+                    unitIndex++;
                 }
+                return "일금 " + result + "원정";
+            }
 
 
-                // --- Constants & Configuration ---
-                const PRICING = {
-                    PEOPLE: {
-                        BASE_COST: 20000,    // Basic cost for up to 3 people
-                        LIMIT_BASE: 3,
-                        EXTRA_SMALL_COST: 10000, // Additional cost for 4-5 people
-                        LIMIT_SMALL_EXTRA: 2,
-                        EXTRA_LARGE_COST: 20000, // Additional cost for every 5 people beyond the small extra
-                        UNIT_LARGE: 5
-                    },
-                    PLATES: {
-                        LIMIT_FREE: 3,
-                        UNIT_COST: 10000,
-                        UNIT_COUNT: 3
-                    },
-                    TIME: {
-                        LIMIT_FREE_SEC: 180, // 3 minutes included
-                        TIER_1_LIMIT_SEC: 300, // Up to 5 minutes
-                        TIER_1_COST: 10000,
-                        TIER_2_COST: 20000,
-                        TIER_2_UNIT_SEC: 300 // Per 5 minutes additional
-                    },
-                    MULTIPLIER_DEFAULT: 1.0,
-                    VAT_rate: 0.1
-                };
+            // --- Constants & Configuration ---
+            const PRICING = {
+                PEOPLE: {
+                    BASE_COST: 20000,    // Basic cost for up to 3 people
+                    LIMIT_BASE: 3,
+                    EXTRA_SMALL_COST: 10000, // Additional cost for 4-5 people
+                    LIMIT_SMALL_EXTRA: 2,
+                    EXTRA_LARGE_COST: 20000, // Additional cost for every 5 people beyond the small extra
+                    UNIT_LARGE: 5
+                },
+                PLATES: {
+                    LIMIT_FREE: 3,
+                    UNIT_COST: 10000,
+                    UNIT_COUNT: 3
+                },
+                TIME: {
+                    LIMIT_FREE_SEC: 180, // 3 minutes included
+                    TIER_1_LIMIT_SEC: 300, // Up to 5 minutes
+                    TIER_1_COST: 10000,
+                    TIER_2_COST: 20000,
+                    TIER_2_UNIT_SEC: 300 // Per 5 minutes additional
+                },
+                MULTIPLIER_DEFAULT: 1.0,
+                VAT_rate: 0.1
+            };
 
-                // --- Item Management ---
-                let quoteItems = [];
-                let itemCount = 0;
+            // --- Item Management ---
+            let quoteItems = [];
+            let itemCount = 0;
 
-                function addQuoteItem() {
-                    const id = ++itemCount;
-                    quoteItems.push({ id, people: 0, plate: 0, hr: 0, min: 0, sec: 0, move: 1.0 });
-                    renderQuoteItems();
+            function addQuoteItem() {
+                const id = ++itemCount;
+                quoteItems.push({ id, people: 0, plate: 0, hr: 0, min: 0, sec: 0, move: 1.0 });
+                renderQuoteItems();
+                calculateQuote();
+            }
+
+            function removeQuoteItem(id) {
+                if (quoteItems.length <= 1) {
+                    showToast("최소 한 개의 항목은 유지되어야 합니다.");
+                    return;
+                }
+                quoteItems = quoteItems.filter(item => item.id !== id);
+                renderQuoteItems();
+                calculateQuote();
+            }
+
+            function updateItemValue(id, field, value) {
+                const item = quoteItems.find(i => i.id === id);
+                if (item) {
+                    item[field] = (field === 'move') ? parseFloat(value) : (parseInt(value) || 0);
                     calculateQuote();
                 }
+            }
 
-                function removeQuoteItem(id) {
-                    if (quoteItems.length <= 1) {
-                        showToast("최소 한 개의 항목은 유지되어야 합니다.");
-                        return;
-                    }
-                    quoteItems = quoteItems.filter(item => item.id !== id);
-                    renderQuoteItems();
-                    calculateQuote();
-                }
-
-                function updateItemValue(id, field, value) {
-                    const item = quoteItems.find(i => i.id === id);
-                    if (item) {
-                        item[field] = (field === 'move') ? parseFloat(value) : (parseInt(value) || 0);
-                        calculateQuote();
-                    }
-                }
-
-                function renderQuoteItems() {
-                    const container = document.getElementById('quote-items-container');
-                    container.innerHTML = quoteItems.map((item, idx) => `
+            function renderQuoteItems() {
+                const container = document.getElementById('quote-items-container');
+                container.innerHTML = quoteItems.map((item, idx) => `
                 <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 relative group animate-fadeInUp">
                     <div class="flex justify-between items-center mb-4">
                         <span class="text-xs font-black text-blue-600 uppercase tracking-widest">항목 #${idx + 1}</span>
@@ -2136,90 +2406,90 @@
                     </div>
                 </div>
             `).join('');
-                }
+            }
 
-                // --- Quote Logic ---
-                function resetQuoteForm() {
-                    document.getElementById('quoteForm').reset();
-                    quoteItems = [];
-                    itemCount = 0;
-                    addQuoteItem();
-                    calculateQuote();
-                }
+            // --- Quote Logic ---
+            function resetQuoteForm() {
+                document.getElementById('quoteForm').reset();
+                quoteItems = [];
+                itemCount = 0;
+                addQuoteItem();
+                calculateQuote();
+            }
 
-                function calculateQuote() {
-                    const name = document.getElementById('q_name').value || "홍길동";
-                    const contact = document.getElementById('q_contact').value;
+            function calculateQuote() {
+                const name = document.getElementById('q_name').value || "홍길동";
+                const contact = document.getElementById('q_contact').value;
 
-                    let totalSubTotal = 0;
-                    const tbody = document.getElementById('inv_tbody');
-                    tbody.innerHTML = '';
+                let totalSubTotal = 0;
+                const tbody = document.getElementById('inv_tbody');
+                tbody.innerHTML = '';
 
-                    quoteItems.forEach((item, index) => {
-                        let people = item.people;
-                        let plates = item.plate;
-                        let hr = item.hr;
-                        let min = item.min;
-                        let sec = item.sec;
-                        const multiplier = item.move;
+                quoteItems.forEach((item, index) => {
+                    let people = item.people;
+                    let plates = item.plate;
+                    let hr = item.hr;
+                    let min = item.min;
+                    let sec = item.sec;
+                    const multiplier = item.move;
 
-                        // Normalize Time
-                        if (sec >= 60) {
-                            min += Math.floor(sec / 60);
-                            sec = sec % 60;
-                        }
-                        const totalSeconds = (hr * 3600) + (min * 60) + sec;
+                    // Normalize Time
+                    if (sec >= 60) {
+                        min += Math.floor(sec / 60);
+                        sec = sec % 60;
+                    }
+                    const totalSeconds = (hr * 3600) + (min * 60) + sec;
 
-                        // 1. People Cost
-                        let costPeople = 0;
-                        if (people > 0) {
-                            if (people <= PRICING.PEOPLE.LIMIT_BASE) costPeople = PRICING.PEOPLE.BASE_COST;
+                    // 1. People Cost
+                    let costPeople = 0;
+                    if (people > 0) {
+                        if (people <= PRICING.PEOPLE.LIMIT_BASE) costPeople = PRICING.PEOPLE.BASE_COST;
+                        else {
+                            costPeople = PRICING.PEOPLE.BASE_COST;
+                            let extra = people - PRICING.PEOPLE.LIMIT_BASE;
+                            if (extra <= PRICING.PEOPLE.LIMIT_SMALL_EXTRA) costPeople += PRICING.PEOPLE.EXTRA_SMALL_COST;
                             else {
-                                costPeople = PRICING.PEOPLE.BASE_COST;
-                                let extra = people - PRICING.PEOPLE.LIMIT_BASE;
-                                if (extra <= PRICING.PEOPLE.LIMIT_SMALL_EXTRA) costPeople += PRICING.PEOPLE.EXTRA_SMALL_COST;
-                                else {
-                                    costPeople += PRICING.PEOPLE.EXTRA_SMALL_COST;
-                                    costPeople += Math.ceil((extra - PRICING.PEOPLE.LIMIT_SMALL_EXTRA) / PRICING.PEOPLE.UNIT_LARGE) * PRICING.PEOPLE.EXTRA_LARGE_COST;
-                                }
+                                costPeople += PRICING.PEOPLE.EXTRA_SMALL_COST;
+                                costPeople += Math.ceil((extra - PRICING.PEOPLE.LIMIT_SMALL_EXTRA) / PRICING.PEOPLE.UNIT_LARGE) * PRICING.PEOPLE.EXTRA_LARGE_COST;
                             }
                         }
+                    }
 
-                        // 2. Plates Cost
-                        let costPlates = 0;
-                        if (plates > PRICING.PLATES.LIMIT_FREE) {
-                            costPlates = Math.ceil((plates - PRICING.PLATES.LIMIT_FREE) / PRICING.PLATES.UNIT_COUNT) * PRICING.PLATES.UNIT_COST;
+                    // 2. Plates Cost
+                    let costPlates = 0;
+                    if (plates > PRICING.PLATES.LIMIT_FREE) {
+                        costPlates = Math.ceil((plates - PRICING.PLATES.LIMIT_FREE) / PRICING.PLATES.UNIT_COUNT) * PRICING.PLATES.UNIT_COST;
+                    }
+
+                    // 3. Time Cost
+                    let costTime = 0;
+                    if (totalSeconds > PRICING.TIME.LIMIT_FREE_SEC && (people > 0 || plates > 0)) {
+                        if (totalSeconds <= PRICING.TIME.TIER_1_LIMIT_SEC) costTime = PRICING.TIME.TIER_1_COST;
+                        else {
+                            costTime = PRICING.TIME.TIER_1_COST;
+                            const extraSeconds = totalSeconds - PRICING.TIME.TIER_1_LIMIT_SEC;
+                            costTime += Math.ceil(extraSeconds / PRICING.TIME.TIER_2_UNIT_SEC) * PRICING.TIME.TIER_2_COST;
                         }
+                    }
 
-                        // 3. Time Cost
-                        let costTime = 0;
-                        if (totalSeconds > PRICING.TIME.LIMIT_FREE_SEC && (people > 0 || plates > 0)) {
-                            if (totalSeconds <= PRICING.TIME.TIER_1_LIMIT_SEC) costTime = PRICING.TIME.TIER_1_COST;
-                            else {
-                                costTime = PRICING.TIME.TIER_1_COST;
-                                const extraSeconds = totalSeconds - PRICING.TIME.TIER_1_LIMIT_SEC;
-                                costTime += Math.ceil(extraSeconds / PRICING.TIME.TIER_2_UNIT_SEC) * PRICING.TIME.TIER_2_COST;
-                            }
-                        }
+                    const itemBaseTotal = costPeople + costPlates + costTime;
+                    const itemSubTotal = Math.floor(itemBaseTotal * multiplier);
+                    totalSubTotal += itemSubTotal;
 
-                        const itemBaseTotal = costPeople + costPlates + costTime;
-                        const itemSubTotal = Math.floor(itemBaseTotal * multiplier);
-                        totalSubTotal += itemSubTotal;
+                    // Add Row
+                    let timeStr = '-';
+                    if (totalSeconds > 0) {
+                        const dH = Math.floor(totalSeconds / 3600);
+                        const dM = Math.floor((totalSeconds % 3600) / 60);
+                        const dS = totalSeconds % 60;
+                        timeStr = dH > 0 ? `${dH}시 ${dM}분 ${dS}초` : `${dM}분 ${dS}초`;
+                    }
+                    let remarks = [];
+                    if (people > 0) remarks.push(`사람 ${people}명`);
+                    if (plates > 0) remarks.push(`번호판 ${plates}개`);
+                    if (multiplier > 1.0) remarks.push(`x${multiplier}`);
 
-                        // Add Row
-                        let timeStr = '-';
-                        if (totalSeconds > 0) {
-                            const dH = Math.floor(totalSeconds / 3600);
-                            const dM = Math.floor((totalSeconds % 3600) / 60);
-                            const dS = totalSeconds % 60;
-                            timeStr = dH > 0 ? `${dH}시 ${dM}분 ${dS}초` : `${dM}분 ${dS}초`;
-                        }
-                        let remarks = [];
-                        if (people > 0) remarks.push(`사람 ${people}명`);
-                        if (plates > 0) remarks.push(`번호판 ${plates}개`);
-                        if (multiplier > 1.0) remarks.push(`x${multiplier}`);
-
-                        tbody.innerHTML += `
+                    tbody.innerHTML += `
                     <tr>
                         <td class="text-center" style="vertical-align:middle; height:36px;">${timeStr}</td>
                         <td style="vertical-align:middle; height:36px;">비식별화 작업 항목 #${index + 1}</td>
@@ -2229,191 +2499,210 @@
                         <td class="text-xs text-center" style="vertical-align:middle; height:36px;">${remarks.join(', ')}</td>
                     </tr>
                 `;
+                });
+
+                const vat = Math.floor(totalSubTotal * PRICING.VAT_rate);
+                const grandTotal = totalSubTotal + vat;
+
+                // View Updates
+                document.getElementById('inv_client_name').innerText = name;
+                document.getElementById('inv_client_contact').innerText = contact || "";
+                document.getElementById('inv_cost_text').innerText = numberToKorean(grandTotal);
+
+                // Fill Empty Rows
+                const emptyRows = Math.max(0, 8 - quoteItems.length);
+                for (let i = 0; i < emptyRows; i++) {
+                    tbody.innerHTML += `<tr><td class="h-8"></td><td></td><td></td><td></td><td></td><td></td></tr>`;
+                }
+
+                document.getElementById('inv_supply').innerText = totalSubTotal.toLocaleString();
+                document.getElementById('inv_vat').innerText = vat.toLocaleString();
+                document.getElementById('inv_grand_total').innerText = grandTotal.toLocaleString();
+            }
+
+            function downloadPDF() {
+                const element = document.getElementById('invoice-preview');
+                showToast("PDF 생성을 시작합니다...");
+
+                // High quality configuration (Optimized size for PDF)
+                const options = {
+                    scale: 4,
+                    useCORS: true,
+                    logging: false,
+                    allowTaint: true,
+                    imageTimeout: 0,
+                    windowWidth: element.scrollWidth,
+                    windowHeight: element.scrollHeight,
+                    onclone: function (clonedDoc) {
+                        const el = clonedDoc.getElementById('invoice-preview');
+                        if (el) {
+                            el.style.transform = 'none';
+                            el.style.boxShadow = 'none';
+                            el.style.margin = '0 auto';
+                        }
+                    }
+                };
+
+                html2canvas(element, options).then(canvas => {
+                    const imgData = canvas.toDataURL('image/jpeg', 0.95);
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF('p', 'mm', 'a4');
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pageHeight = pdf.internal.pageSize.getHeight();
+                    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+                    // Center vertically if content is shorter than page
+                    const yOffset = (pageHeight > pdfHeight) ? (pageHeight - pdfHeight) / 2 : 0;
+
+                    pdf.addImage(imgData, 'JPEG', 0, yOffset, pdfWidth, pdfHeight);
+
+                    const clientName = document.getElementById('inv_client_name').innerText.trim() || '고객';
+                    const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+                    const fileName = `비디와이드_견적서_${clientName}_${dateStr}.pdf`;
+
+                    // Generate a Blob object directly and trigger an anchor download.
+                    const blob = pdf.output('blob');
+                    const url = URL.createObjectURL(blob);
+
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = fileName;
+                    document.body.appendChild(link);
+                    link.click();
+
+                    // Cleanup
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+
+                    showToast("PDF 다운로드가 완료되었습니다.");
+                }).catch(err => {
+                    console.error('PDF Generation Error:', err);
+                    showToast("PDF 생성 중 오류가 발생했습니다.");
+                });
+            }
+
+            function formatPhoneNumber(input) {
+                let value = input.value.replace(/[^0-9]/g, '');
+                if (value.length > 3 && value.length <= 7) {
+                    value = value.slice(0, 3) + '-' + value.slice(3);
+                } else if (value.length > 7) {
+                    value = value.slice(0, 3) + '-' + value.slice(3, 7) + '-' + value.slice(7, 11);
+                }
+                input.value = value;
+            }
+
+            function submitConsultation() {
+                const name = document.getElementById('c_name').value;
+                const phone = document.getElementById('c_phone').value;
+
+                // Regex validation for KR phone numbers
+                const phoneRegex = /^(01[016789]{1})-?[0-9]{3,4}-?[0-9]{4}$/;
+
+                if (!phoneRegex.test(phone)) {
+                    showToast("올바른 연락처 형식이 아닙니다. (예: 010-0000-0000)");
+                    document.getElementById('c_phone').focus();
+                    return;
+                }
+
+                showToast(`${name}님, 상담 요청이 전송되었습니다.`);
+                closeModal('consultModal');
+                // Reset form
+                document.getElementById('c_name').value = '';
+                document.getElementById('c_phone').value = '';
+                if (document.getElementById('c_msg')) document.getElementById('c_msg').value = '';
+            }
+
+            // --- Admin Functions ---
+            function switchAdminTab(tabName, event) {
+                // Visual Active State
+                let targetEl = event ? event.currentTarget : null;
+
+                if (!targetEl) {
+                    // Programmatic switch - find corresponding menu item
+                    document.querySelectorAll('.admin-menu-item').forEach(el => {
+                        const onclickAttr = el.getAttribute('onclick');
+                        if (onclickAttr && onclickAttr.includes(`'${tabName}'`)) {
+                            targetEl = el;
+                        }
+                    });
+                }
+
+                if (targetEl) {
+                    document.querySelectorAll('.admin-menu-item').forEach(el => {
+                        el.classList.remove('bg-gray-700', 'text-white');
+                        el.classList.add('text-gray-400');
+                    });
+                    targetEl.classList.add('bg-gray-700', 'text-white');
+                    targetEl.classList.remove('text-gray-400');
+                }
+
+                // Content Switch
+                const DOC_TABS = ['contract', 'pledge', 'destroy', 'receipt'];
+                const listTab = document.getElementById('admin-tab-list');
+                const listView = document.getElementById('request-list-view');
+                const detailView = document.getElementById('request-detail-view');
+
+                if (tabName === 'list') {
+                    // Show the list tab with its content
+                    listTab.classList.remove('hidden');
+                    listView.classList.remove('hidden');
+                    // Hide all document tabs
+                    DOC_TABS.forEach(t => {
+                        const el = document.getElementById(`admin-tab-${t}`);
+                        if (el) el.classList.add('hidden');
+                    });
+                } else if (DOC_TABS.includes(tabName)) {
+                    // Keep parent (admin-tab-list) visible but hide its sub-views
+                    listTab.classList.remove('hidden');
+                    if (listView) listView.classList.add('hidden');
+                    if (detailView) detailView.classList.add('hidden');
+                    // Hide all doc tabs first
+                    DOC_TABS.forEach(t => {
+                        const el = document.getElementById(`admin-tab-${t}`);
+                        if (el) el.classList.add('hidden');
                     });
 
-                    const vat = Math.floor(totalSubTotal * PRICING.VAT_rate);
-                    const grandTotal = totalSubTotal + vat;
-
-                    // View Updates
-                    document.getElementById('inv_client_name').innerText = name;
-                    document.getElementById('inv_client_contact').innerText = contact || "";
-                    document.getElementById('inv_cost_text').innerText = numberToKorean(grandTotal);
-
-                    // Fill Empty Rows
-                    const emptyRows = Math.max(0, 8 - quoteItems.length);
-                    for (let i = 0; i < emptyRows; i++) {
-                        tbody.innerHTML += `<tr><td class="h-8"></td><td></td><td></td><td></td><td></td><td></td></tr>`;
-                    }
-
-                    document.getElementById('inv_supply').innerText = totalSubTotal.toLocaleString();
-                    document.getElementById('inv_vat').innerText = vat.toLocaleString();
-                    document.getElementById('inv_grand_total').innerText = grandTotal.toLocaleString();
+                    const target = document.getElementById(`admin-tab-${tabName}`);
+                    if (target) target.classList.remove('hidden');
                 }
-
-                function downloadPDF() {
-                    const element = document.getElementById('invoice-preview');
-                    showToast("PDF 생성을 시작합니다...");
-
-                    // Ultra-high quality configuration (Maximum Resolution)
-                    const options = {
-                        scale: 4,
-                        useCORS: true,
-                        logging: false,
-                        allowTaint: true,
-                        imageTimeout: 0,
-                        windowWidth: element.scrollWidth,
-                        windowHeight: element.scrollHeight,
-                        onclone: function (clonedDoc) {
-                            const el = clonedDoc.getElementById('invoice-preview');
-                            if (el) {
-                                el.style.transform = 'none';
-                                el.style.boxShadow = 'none';
-                                el.style.margin = '0 auto';
-                            }
-                        }
-                    };
-
-                    html2canvas(element, options).then(canvas => {
-                        const imgData = canvas.toDataURL('image/png');
-                        const { jsPDF } = window.jspdf;
-                        const pdf = new jsPDF('p', 'mm', 'a4');
-                        const pdfWidth = pdf.internal.pageSize.getWidth();
-                        const pageHeight = pdf.internal.pageSize.getHeight();
-                        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
-                        // Center vertically if content is shorter than page
-                        const yOffset = (pageHeight > pdfHeight) ? (pageHeight - pdfHeight) / 2 : 0;
-
-                        pdf.addImage(imgData, 'PNG', 0, yOffset, pdfWidth, pdfHeight);
-                        pdf.save("비디와이드_견적서.pdf");
-                        showToast("PDF 다운로드가 완료되었습니다.");
-                    }).catch(err => {
-                        console.error('PDF Generation Error:', err);
-                        showToast("PDF 생성 중 오류가 발생했습니다.");
-                    });
-                }
-
-                function formatPhoneNumber(input) {
-                    let value = input.value.replace(/[^0-9]/g, '');
-                    if (value.length > 3 && value.length <= 7) {
-                        value = value.slice(0, 3) + '-' + value.slice(3);
-                    } else if (value.length > 7) {
-                        value = value.slice(0, 3) + '-' + value.slice(3, 7) + '-' + value.slice(7, 11);
-                    }
-                    input.value = value;
-                }
-
-                function submitConsultation() {
-                    const name = document.getElementById('c_name').value;
-                    const phone = document.getElementById('c_phone').value;
-
-                    // Regex validation for KR phone numbers
-                    const phoneRegex = /^(01[016789]{1})-?[0-9]{3,4}-?[0-9]{4}$/;
-
-                    if (!phoneRegex.test(phone)) {
-                        showToast("올바른 연락처 형식이 아닙니다. (예: 010-0000-0000)");
-                        document.getElementById('c_phone').focus();
-                        return;
-                    }
-
-                    showToast(`${name}님, 상담 요청이 전송되었습니다.`);
-                    closeModal('consultModal');
-                    // Reset form
-                    document.getElementById('c_name').value = '';
-                    document.getElementById('c_phone').value = '';
-                    if (document.getElementById('c_msg')) document.getElementById('c_msg').value = '';
-                }
-
-                // --- Admin Functions ---
-                function switchAdminTab(tabName, event) {
-                    // Visual Active State
-                    let targetEl = event ? event.currentTarget : null;
-
-                    if (!targetEl) {
-                        // Programmatic switch - find corresponding menu item
-                        document.querySelectorAll('.admin-menu-item').forEach(el => {
-                            const onclickAttr = el.getAttribute('onclick');
-                            if (onclickAttr && onclickAttr.includes(`'${tabName}'`)) {
-                                targetEl = el;
-                            }
-                        });
-                    }
-
-                    if (targetEl) {
-                        document.querySelectorAll('.admin-menu-item').forEach(el => {
-                            el.classList.remove('bg-gray-700', 'text-white');
-                            el.classList.add('text-gray-400');
-                        });
-                        targetEl.classList.add('bg-gray-700', 'text-white');
-                        targetEl.classList.remove('text-gray-400');
-                    }
-
-                    // Content Switch
-                    const DOC_TABS = ['contract', 'pledge', 'destroy', 'receipt'];
-                    const listTab = document.getElementById('admin-tab-list');
-                    const listView = document.getElementById('request-list-view');
-                    const detailView = document.getElementById('request-detail-view');
-
-                    if (tabName === 'list') {
-                        // Show the list tab with its content
-                        listTab.classList.remove('hidden');
-                        listView.classList.remove('hidden');
-                        // Hide all document tabs
-                        DOC_TABS.forEach(t => {
-                            const el = document.getElementById(`admin-tab-${t}`);
-                            if (el) el.classList.add('hidden');
-                        });
-                    } else if (DOC_TABS.includes(tabName)) {
-                        // Keep parent (admin-tab-list) visible but hide its sub-views
-                        listTab.classList.remove('hidden');
-                        if (listView) listView.classList.add('hidden');
-                        if (detailView) detailView.classList.add('hidden');
-                        // Hide all doc tabs first
-                        DOC_TABS.forEach(t => {
-                            const el = document.getElementById(`admin-tab-${t}`);
-                            if (el) el.classList.add('hidden');
-                        });
-                        // Receipt is nested inside destroy - must un-hide destroy as parent container
-                        if (tabName === 'receipt') {
-                            const destroyTab = document.getElementById('admin-tab-destroy');
-                            if (destroyTab) destroyTab.classList.remove('hidden');
-                        }
-                        const target = document.getElementById(`admin-tab-${tabName}`);
-                        if (target) target.classList.remove('hidden');
-                    }
-                }
+            }
 
 
-                function showDocPreview(type) {
-                    const name = document.getElementById('detail-name').innerText.trim();
-                    const msg = document.getElementById('detail-msg').innerText.trim();
-                    const today = new Date();
-                    const dateDot = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
-                    const dateKR = `${today.getFullYear()}년 ${String(today.getMonth() + 1).padStart(2, '0')}월 ${String(today.getDate()).padStart(2, '0')}일`;
-                    const sealImg = `<img src="images/seal_red.png" class="w-14 h-14 object-contain inline-block" alt="직인">`;
+            function showDocPreview(type) {
+                const name = document.getElementById('detail-name').innerText.trim();
+                const msg = document.getElementById('detail-msg').innerText.trim();
+                const today = new Date();
+                const dateDot = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
+                const dateKR = `${today.getFullYear()}년 ${String(today.getMonth() + 1).padStart(2, '0')}월 ${String(today.getDate()).padStart(2, '0')}일`;
+                const sealImg = `<img src="images/seal_red.png" class="w-14 h-14 object-contain inline-block" alt="직인">`;
 
-                    const titles = { contract: '위탁계약서', pledge: '보안서약서', destroy: '파기확인서', receipt: '현금영수증' };
-                    document.getElementById('doc-preview-title').textContent = titles[type] || '';
+                const titles = { contract: '위탁계약서', pledge: '보안서약서', destroy: '파기확인서', receipt: '현금영수증' };
+                document.getElementById('doc-preview-title').textContent = titles[type] || '';
 
-                    let html = '';
-                    if (type === 'contract') {
-                        html = `
+                let html = '';
+                if (type === 'contract') {
+                    html = `
                         <div class="a4-paper doc-preview text-[10pt] leading-relaxed shadow-xl w-full max-w-[620px]">
-                            <div class="text-center text-[9pt] text-slate-400 mb-4">— 1 —</div>
-                            <div class="text-center mb-6">
-                                <p class="text-[20pt] font-bold underline decoration-4 underline-offset-8">표준 위탁계약서</p>
-                                <p class="text-xs text-slate-500 mt-2">(개인정보 처리업무 위탁)</p>
+                            <div class="text-left text-xs text-slate-500 mb-4">[참고] 표준 개인정보처리위탁 계약서</div>
+                            <div class="border border-slate-300 p-4 mb-8 text-[9pt] text-justify text-slate-700 leading-relaxed bg-white">
+                                본 표준 개인정보처리위탁 계약서는 「개인정보 보호법 제26조제1항」에 따라 위탁계약에 있어 개인정보처리에 관하여 문서로 정하여야 하는 최소한의 사항을 표준적으로 제시한 것으로서, 위탁계약이나 위탁업무의 내용 등에 따라 세부적인 내용은 달라질 수 있습니다.<br>
+                                개인정보처리업무를 위탁하거나 위탁업무에 개인정보 처리가 포함된 경우에는 본 표준 개인정보처리위탁 계약서의 내용을 위탁계약서에 첨부하거나 반영하여 사용하실 수 있습니다.
                             </div>
-                            <p class="mb-4 text-sm text-justify leading-relaxed"><span class="font-bold underline">${name || 'OO기관'}</span>(이하 "위탁자"이라 한다)와 <span class="font-bold">(주)비디와이드</span>(이하 "수탁자"라 한다)는 "위탁자"의 개인정보 처리업무를 "수탁자"에게 위탁함에 있어 다음과 같은 내용으로 본 업무위탁계약을 체결한다.</p>
-                            <h5 class="font-bold mt-3 mb-1 text-sm text-black">제1조(목적)</h5>
-                            <p class="text-xs text-justify text-slate-700 mb-3 leading-relaxed">이 계약은 "위탁자"가 개인정보처리업무를 "수탁자"에게 위탁하고, "수탁자"는 이를 승낙하여 성실하게 업무를 완성하도록 하는데 필요한 사항을 정함을 목적으로 한다.</p>
-                            <h5 class="font-bold mt-3 mb-1 text-sm text-black">제2조(용어의 정의)</h5>
-                            <p class="text-xs text-justify text-slate-700 mb-3 leading-relaxed">본 계약에서 별도로 정의되지 아니한 용어는 「개인정보 보호법」 및 동법 시행령·고시에서 정의된 바에 따른다.</p>
-                            <h5 class="font-bold mt-3 mb-1 text-sm text-black">제3조(위탁업무의 목적 및 범위)</h5>
-                            <p class="text-xs text-justify text-slate-700 mb-2 leading-relaxed">"수탁자"는 계약이 정하는 바에 따라 다음과 같이 개인정보 처리 업무를 수행한다.</p>
-                            <p class="text-xs text-slate-700 mb-3 pl-4">1. <span class="font-bold">CCTV영상 모자이크</span></p>
-                            <h5 class="font-bold mt-3 mb-1 text-sm text-black">제4조(위탁업무 기간)</h5>
-                            <div class="bg-slate-50 border border-slate-300 p-2 my-2 text-sm font-bold text-center">계약기간 : ${dateKR} ~ ${dateKR}</div>
+                            <div class="text-center mb-8">
+                                <p class="text-[20pt] font-black underline decoration-2 underline-offset-[12px]">표준 개인정보처리위탁 계약서(안)</p>
+                            </div>
+                            <p class="mb-8 text-[11pt] text-justify leading-relaxed indent-4"><span class="font-bold underline decoration-1 underline-offset-4">&nbsp;&nbsp;&nbsp;&nbsp;${name || 'OO기관'}&nbsp;&nbsp;&nbsp;&nbsp;</span>(이하 "위탁자"이라 한다)와 <span class="font-bold underline decoration-1 underline-offset-4">(주)비디와이드</span>(이하 "수탁자"라 한다)는 "위탁자"의 개인정보 처리업무를 "수탁자"에게 위탁함에 있어 다음과 같은 내용으로 본 업무위탁계약을 체결한다.</p>
+
+                            <p class="mb-6 text-[11pt] text-justify leading-relaxed break-keep"><span class="font-bold">제1조(목적)</span> 이 계약은 "위탁자"가 개인정보처리업무를 "수탁자"에게 위탁하고, "수탁자"는 이를 승낙하여 "수탁자"의 책임 아래 성실하게 업무를 완성하도록 하는데 필요한 사항을 정함을 목적으로 한다.</p>
+
+                            <p class="mb-6 text-[11pt] text-justify leading-relaxed break-keep"><span class="font-bold">제2조(용어의 정의)</span> 본 계약에서 별도로 정의되지 아니한 용어는 「개인정보 보호법」, 동법 시행령 및 고시, 「개인정보의 안전성 확보조치 기준」(개인정보보호위원회 고시 제2021-2호) 및 「표준 개인정보 보호지침」(개인정보보호위원회 고시 제2020-1호)에서 정의된 바에 따른다.</p>
+
+                            <p class="mb-2 text-[11pt] text-justify leading-relaxed break-keep"><span class="font-bold">제3조(위탁업무의 목적 및 범위)</span> "수탁자"는 계약이 정하는 바에 따라 아래와 같은 목적으로 다음과 같이 개인정보 처리 업무를 수행한다.</p>
+                            <p class="mb-6 text-[11pt] font-bold pl-5"><span class="underline decoration-1 underline-offset-4">1. CCTV영상 모자이크</span></p>
+
+                            <p class="mb-2 text-[11pt] text-justify leading-relaxed break-keep"><span class="font-bold">제4조(위탁업무 기간)</span> 이 계약서에 의한 개인정보 처리업무의 기간은 다음과 같다.</p>
+                            <p class="mb-6 text-[11pt] font-bold pl-5"><span class="underline decoration-1 underline-offset-4">계약기간 : ${dateKR} ~ ${dateKR}</span></p>
+
                             <div class="mt-8 pt-5 border-t border-slate-300">
                                 <p class="text-center mb-5 font-bold text-base">${dateDot}</p>
                                 <div class="flex justify-between px-2 text-xs">
@@ -2430,57 +2719,125 @@
                                 </div>
                             </div>
                         </div>`;
-                    } else if (type === 'pledge') {
-                        html = `
-                        <div class="a4-paper doc-preview text-[10pt] leading-relaxed shadow-xl w-full max-w-[620px]">
-                            <div class="text-center text-[9pt] text-slate-400 mb-4">— 1 —</div>
+                } else if (type === 'pledge') {
+                    html = `
+                        <div class="a4-paper doc-preview text-[10.5pt] leading-relaxed shadow-xl w-full max-w-[620px] p-10 pb-16">
+                            <div class="text-center mb-10 mt-6">
+                                <p class="text-[20pt] font-black underline decoration-[3px] underline-offset-[12px]">개인정보 처리 업무 위탁 보안 서약서</p>
+                            </div>
+                            
+                            <p class="mb-8 text-justify leading-[1.8] break-keep indent-1"><span class="underline decoration-1 underline-offset-[6px]">&nbsp;&nbsp;(주)비디와이드 (이하 "공급자" 이라한다)&nbsp;&nbsp;</span>은 <span class="underline decoration-1 underline-offset-[6px]">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${name || 'OO기관'} (기관)(이하 "수요자" 이라 한다)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>의 개인정보 처리 업무 위탁 업무 수행에 따른 개인정보 및 개인정보처리시스템의 안전한 보호를 위해 아래 각 호의 사항을 준수한다.</p>
+                            
+                            <div class="space-y-2 text-justify leading-[1.7] break-keep">
+                                <p>1. 공급자는 수요자가 위탁한 개인정보 처리 업무 수행 시 개인정보(정보 및 정보시스템)를 안전하게 사용.관리하며, 개인정보의 보호를 위해 다음의 사항을 준수한다.</p>
+                                <div class="pl-5 space-y-1">
+                                    <p>1) 수요자의 정보보안 기본지침 및 개인정보보호 관련 법령 준수</p>
+                                    <p>2) 개인정보 위탁 업무 처리 시 기술적.관리적 보호 조치</p>
+                                    <p>3) 위탁 업무 수행 목적 외 개인정보의 처리 금지</p>
+                                    <p class="pl-4">- 위탁 업무의 목적 : (&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) CCTV 모자이크 처리</p>
+                                    <p class="pl-4">- 위탁 업무의 범위 : (&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) CCTV 모자이크</p>
+                                    <p>4) 수요자가 위탁한 개인정보 처리 업무의 재 위탁 제한</p>
+                                    <p>5) 개인정보에 대한 접근 제한 등 안전성 확보 조치 준수<br>&nbsp;&nbsp;&nbsp;(개인정보보호법 제29조 및 동법 시행령 제30조)</p>
+                                    <p>6) 위탁 업무와 관련하여 보유하고 있는 개인정보의 관리 현황 점검 및 감독 철저</p>
+                                    <p>7) 위탁 업무의 종료 시 개인정보 파기 등 의무사항 이행</p>
+                                </div>
+                                <p>2. 공급자는 수요자의 업무 수행을 위해 담당하는 직원에 대하여 책임을 진다</p>
+                                <p>3. 공급자는 수요자의 사전 승인을 받지 못한 프로그램 및 정보기기는 갑의 업무와 관련하여 사용하지 않는다.</p>
+                                <p>4. 공급자는 수요자의 규정 및 관련 법령의 미 준수 또는 관리 소홀로 인해 발생하는 제반 사고에 대한 손해배상책임에 한 책임을 부담한다.</p>
+                            </div>
+
+                            <div class="mt-16 text-center text-slate-800">
+                                <p class="mb-12 text-left pl-2">상기 사항을 숙지하고 이를 성실히 준수할 것을 서약 함</p>
+                                <div class="flex justify-end pr-8 mb-6">
+                                    <p>${dateKR.replace(/ /g, '&nbsp;&nbsp;&nbsp;')}</p>
+                                </div>
+                                <div class="flex justify-end pr-10 items-center gap-12">
+                                    <span>위탁 업체 : (주)비디와이드</span>
+                                    <div class="flex items-center gap-2">
+                                        <span>(인)</span>
+                                        <div class="w-14 h-14 transform -translate-y-2 translate-x-1">${sealImg}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+                } else if (type === 'destroy') {
+                    html = `
+                        <div class="a4-paper doc-preview text-[10.5pt] leading-relaxed shadow-xl w-[700px] h-[990px] p-12">
                             <div class="text-center mb-8">
-                                <p class="text-[20pt] font-bold underline decoration-4 underline-offset-8">보안 서약서</p>
-                                <p class="text-xs text-slate-500 mt-2">(개인정보 처리 위탁 관련)</p>
+                                <p class="text-[20pt] font-black text-black">개인정보파일 파기서</p>
                             </div>
-                            <p class="mb-4 text-sm text-justify leading-relaxed">본인은 <span class="font-bold underline">${name || 'OO기관'}</span>의 개인정보 처리업무를 수탁하여 수행함에 있어 다음 사항을 성실히 준수할 것을 서약합니다.</p>
-                            <ol class="text-xs text-slate-700 space-y-2 pl-4 mb-6 list-decimal leading-relaxed">
-                                <li>개인정보 위탁 업무 처리 시 기술적·관리적 보호 조치</li>
-                                <li>위탁 업무 수행 목적 외 개인정보의 처리 금지</li>
-                                <li>수요자가 위탁한 개인정보 처리 업무의 재 위탁 제한</li>
-                                <li>개인정보에 대한 접근 제한 등 안전성 확보 조치 준수 (개인정보보호법 제29조)</li>
-                                <li>위탁 업무와 관련하여 보유하고 있는 개인정보의 관리 현황 점검 및 감독 철저</li>
-                                <li>위탁 업무의 종료 시 개인정보 파기 등 의무사항 이행</li>
-                            </ol>
-                            <div class="mt-20 text-center text-slate-800">
-                                <p class="mb-10 text-lg">상기 사항을 숙지하고 이를 성실히 준수할 것을 서약합니다.</p>
-                                <p class="mb-6 text-lg font-bold">${dateKR}</p>
-                                <div class="flex justify-end pr-10 items-center gap-4">
-                                    <span class="text-lg font-bold">위탁 업체 : (주)비디와이드</span>
-                                    ${sealImg}
-                                </div>
-                            </div>
-                        </div>`;
-                    } else if (type === 'destroy') {
-                        html = `
-                        <div class="a4-paper doc-preview text-[10pt] leading-relaxed shadow-xl w-full max-w-[620px]">
-                            <div class="flex items-center justify-center gap-4 mb-12">
-                                <i class="fa-solid fa-file-shield text-slate-300 text-4xl"></i>
-                                <div class="text-3xl font-bold underline decoration-4 decoration-slate-300 underline-offset-8 text-slate-900">개인정보파일 파기서</div>
-                            </div>
-                            <table class="doc-table w-full border-collapse border border-slate-300 text-sm">
-                                <tr><th class="bg-slate-50 border border-slate-300 p-3 text-center font-bold w-1/4">작성일</th><td colspan="3" class="border border-slate-300 p-3">${dateDot}</td></tr>
-                                <tr><th class="bg-slate-50 border border-slate-300 p-3 text-center font-bold">파기대상</th><td colspan="3" class="border border-slate-300 p-3">${msg || '원본 동영상 파일'}</td></tr>
-                                <tr><th class="bg-slate-50 border border-slate-300 p-3 text-center font-bold">파기사유</th><td colspan="3" class="border border-slate-300 p-3">작업 완료 후 파기 요청</td></tr>
-                                <tr><th class="bg-slate-50 border border-slate-300 p-3 text-center font-bold">특기사항</th><td colspan="3" class="border border-slate-300 p-3">해당 사항 없음</td></tr>
-                                <tr><th class="bg-slate-50 border border-slate-300 p-3 text-center font-bold">파기방법</th><td colspan="3" class="border border-slate-300 p-3">영구 삭제 (Wiping)</td></tr>
+                            <table class="doc-table w-full border-collapse border-2 border-slate-400 text-[10pt]">
+                                <tbody>
+                                    <tr>
+                                        <th class="bg-slate-100 border-b border-r border-slate-300 p-2 text-center font-bold w-[15%]">작성일</th>
+                                        <td class="border-b border-r border-slate-300 p-2 text-center w-[35%]">${dateDot}</td>
+                                        <th class="bg-slate-100 border-b border-r border-slate-300 p-2 text-center font-bold w-[15%]">작성자</th>
+                                        <td class="border-b border-slate-300 p-2 text-center w-[35%]">(주)비디와이드</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-slate-100 border-b border-r border-slate-300 p-2 text-center font-bold">파기 대상<br>개인정보파일</th>
+                                        <td colspan="3" class="border-b border-slate-300 p-3 h-32 align-top text-left text-[9.5pt]">${msg || '원본 동영상 1개'}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-slate-100 border-b border-r border-slate-300 p-2 text-center font-bold">생성일자</th>
+                                        <td class="border-b border-r border-slate-300 p-2 text-center"></td>
+                                        <th class="bg-slate-100 border-b border-r border-slate-300 p-2 text-center font-bold px-1">개인정보취급자</th>
+                                        <td class="border-b border-slate-300 p-2 text-center">(주)비디와이드</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-slate-100 border-b border-r border-slate-300 p-2 text-center font-bold">파기 사유</th>
+                                        <td colspan="3" class="border-b border-slate-300 p-2 text-[9.5pt] pl-4">작업 완료 후 파기 요청</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-slate-100 border-b border-r border-slate-300 p-2 text-center font-bold">파기일</th>
+                                        <td colspan="3" class="border-b border-slate-300 p-2 text-center"></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-slate-100 border-b border-r border-slate-300 p-2 text-center font-bold">특기사항</th>
+                                        <td colspan="3" class="border-b border-slate-300 p-0">
+                                            <div class="flex h-full border-b border-slate-300">
+                                                <div class="w-1/2 min-h-[3rem]"></div>
+                                                <div class="w-1/2 flex border-l border-slate-300">
+                                                    <div class="bg-slate-100 p-2 border-r border-slate-300 flex items-center justify-center font-bold w-2/5">
+                                                        <span class="text-center text-[9pt]">승인자<br><span class="text-[8pt] font-normal">(개인정보 보호책임자)</span></span>
+                                                    </div>
+                                                    <div class="p-2 flex items-center justify-center w-3/5 font-bold">양&nbsp;&nbsp;형&nbsp;&nbsp;규</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-t-0">
+                                        <th class="bg-slate-100 border-b border-r border-slate-300 p-2 text-center font-bold border-t-0">파기 승인일</th>
+                                        <td colspan="3" class="border-b border-slate-300 p-2 text-center border-t-0"></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-slate-100 border-b border-r border-slate-300 p-2 text-center font-bold">파기 방법</th>
+                                        <td colspan="3" class="border-b border-slate-300 p-2 text-left pl-4">영구 삭제 (Wiping)</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-slate-100 border-r border-slate-300 p-2 text-center font-bold">백업 조치 유무</th>
+                                        <td colspan="3" class="p-2 text-left pl-4 font-bold">해당 사항 없음</td>
+                                    </tr>
+                                </tbody>
                             </table>
-                            <div class="mt-20 text-center text-slate-800">
-                                <p class="mb-8 text-xl font-bold">위와 같이 개인정보파일을 파기함을 확인 및 서약합니다.</p>
-                                <p class="mb-12 text-lg">${dateKR}</p>
-                                <div class="flex justify-center items-center gap-6">
-                                    <span class="text-xl font-bold">확인자 (수탁업체) : (주)비디와이드</span>
-                                    ${sealImg}
+                            
+                            <div class="mt-14 text-center text-slate-800">
+                                <p class="mb-14 text-[12pt] text-left">파기 대상 개인정보파일 파기함을 확인 및 서약 함.</p>
+                                
+                                <div class="flex justify-end pr-8 mb-8">
+                                    <p class="text-[11pt]">${dateKR.replace(/ /g, '&nbsp;&nbsp;&nbsp;')}</p>
+                                </div>
+                                <div class="flex justify-end pr-10 items-center gap-12 text-[11pt]">
+                                    <span>위탁 업체 : (주)비디와이드</span>
+                                    <div class="flex items-center gap-2">
+                                        <span>(인)</span>
+                                        <div class="w-14 h-14 transform -translate-y-2 translate-x-1">${sealImg}</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>`;
-                    } else if (type === 'receipt') {
-                        html = `
+                } else if (type === 'receipt') {
+                    html = `
                         <div class="a4-paper doc-preview bg-white shadow-xl max-w-[500px] h-fit p-10 text-slate-800">
                             <div class="text-2xl font-bold text-center mb-8 border-b-2 border-black pb-4 text-slate-900">현금(지출증빙) 영수증</div>
                             <div class="border border-black p-6 space-y-4">
@@ -2494,112 +2851,112 @@
                                 ${sealImg}
                             </div>
                         </div>`;
-                    }
-
-                    document.getElementById('doc-inline-preview-content').innerHTML = html;
-                    document.getElementById('doc-inline-preview').classList.remove('hidden');
                 }
 
-                function closeDocPreview() {
-                    document.getElementById('doc-inline-preview').classList.add('hidden');
+                document.getElementById('doc-inline-preview-content').innerHTML = html;
+                document.getElementById('doc-inline-preview').classList.remove('hidden');
+            }
+
+            function closeDocPreview() {
+                document.getElementById('doc-inline-preview').classList.add('hidden');
+            }
+
+            function autoFillAndSwitch(type) {
+                const name = document.getElementById('detail-name').innerText;
+                const msg = document.getElementById('detail-msg').innerText;
+                const email = document.getElementById('detail-email').innerText;
+                const today = new Date();
+                const dateDot = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
+                const dateKR = `${today.getFullYear()}년 ${String(today.getMonth() + 1).padStart(2, '0')}월 ${String(today.getDate()).padStart(2, '0')}일`;
+
+                if (type === 'contract') {
+                    document.getElementById('ct_truster').value = name;
+                    document.getElementById('ct_date').value = dateDot;
+                    document.getElementById('ct_period').value = `${dateKR} ~ ${dateKR}`;
+                    document.getElementById('ct_mail_to').value = email;
+                    updateContractPreview();
+                    switchAdminTab('contract');
+                } else if (type === 'pledge') {
+                    document.getElementById('pl_name').value = name;
+                    document.getElementById('pl_date').value = dateKR;
+                    document.getElementById('pl_mail_to').value = email;
+                    updatePledgePreview();
+                    switchAdminTab('pledge');
+                } else if (type === 'destroy') {
+                    document.getElementById('ds_date').value = dateDot;
+                    document.getElementById('ds_file').value = msg;
+                    document.getElementById('ds_mail_to').value = email;
+                    updateDestroyPreview();
+                    switchAdminTab('destroy');
+                } else if (type === 'receipt') {
+                    document.getElementById('rc_customer').value = name;
+                    document.getElementById('rc_mail_to').value = email;
+                    updateReceiptPreview();
+                    switchAdminTab('receipt');
                 }
+                closeAdminDetail();
+            }
 
-                function autoFillAndSwitch(type) {
-                    const name = document.getElementById('detail-name').innerText;
-                    const msg = document.getElementById('detail-msg').innerText;
-                    const email = document.getElementById('detail-email').innerText;
-                    const today = new Date();
-                    const dateDot = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
-                    const dateKR = `${today.getFullYear()}년 ${String(today.getMonth() + 1).padStart(2, '0')}월 ${String(today.getDate()).padStart(2, '0')}일`;
 
-                    if (type === 'contract') {
-                        document.getElementById('ct_truster').value = name;
-                        document.getElementById('ct_date').value = dateDot;
-                        document.getElementById('ct_period').value = `${dateKR} ~ ${dateKR}`;
-                        document.getElementById('ct_mail_to').value = email;
-                        updateContractPreview();
-                        switchAdminTab('contract');
-                    } else if (type === 'pledge') {
-                        document.getElementById('pl_name').value = name;
-                        document.getElementById('pl_date').value = dateKR;
-                        document.getElementById('pl_mail_to').value = email;
-                        updatePledgePreview();
-                        switchAdminTab('pledge');
-                    } else if (type === 'destroy') {
-                        document.getElementById('ds_date').value = dateDot;
-                        document.getElementById('ds_file').value = msg;
-                        document.getElementById('ds_mail_to').value = email;
-                        updateDestroyPreview();
-                        switchAdminTab('destroy');
-                    } else if (type === 'receipt') {
-                        document.getElementById('rc_customer').value = name;
-                        document.getElementById('rc_mail_to').value = email;
-                        updateReceiptPreview();
-                        switchAdminTab('receipt');
-                    }
-                    closeAdminDetail();
+            // --- Admin Data & Logic ---
+            let ADMIN_REQUESTS = [
+                {
+                    id: '12356',
+                    date: '26.01.10 22:30',
+                    name: '시흥경찰서',
+                    phone: '010-4769-3707',
+                    email: 'bdwide88@gmail.com',
+                    status: '대기',
+                    msg: '주차장에서 사고로, 차량 번호판도 가려야합니다. 시흥경찰서에서 영상을 받아야합니다. 의뢰자 성함은 홍길동이며, 시흥경찰서 담당자님 성함과 연락처는 문자로 보내준다고함',
+                    consult_notes: '',
+                    consult_date: ''
+                },
+                {
+                    id: '12355',
+                    date: '26.01.10 14:15',
+                    name: '신갈초등학교',
+                    phone: '010-1234-5678',
+                    email: 'school@example.com',
+                    status: '완료',
+                    msg: '학교 내 CCTV 모자이크 건입니다. 학생 얼굴만 가리면 됩니다.',
+                    consult_notes: '상담 완료. 17일 작업 착수 예정.',
+                    consult_date: '26.01.11 09:30'
+                },
+                {
+                    id: '12354',
+                    date: '26.01.10 10:00',
+                    name: '안양시청',
+                    phone: '010-9999-8888',
+                    email: 'anyang@example.com',
+                    status: '대기',
+                    msg: '도로 소음 측정 관련 모자이크 요청입니다.',
+                    consult_notes: '',
+                    consult_date: ''
                 }
+            ];
 
+            function loadAdminMockData() {
+                const list = document.getElementById('admin-request-list');
+                if (!list) return;
 
-                // --- Admin Data & Logic ---
-                let ADMIN_REQUESTS = [
-                    {
-                        id: '12356',
-                        date: '26.01.10 22:30',
-                        name: '시흥경찰서',
-                        phone: '010-4769-3707',
-                        email: 'bdwide88@gmail.com',
-                        status: '대기',
-                        msg: '주차장에서 사고로, 차량 번호판도 가려야합니다. 시흥경찰서에서 영상을 받아야합니다. 의뢰자 성함은 홍길동이며, 시흥경찰서 담당자님 성함과 연락처는 문자로 보내준다고함',
-                        consult_notes: '',
-                        consult_date: ''
-                    },
-                    {
-                        id: '12355',
-                        date: '26.01.10 14:15',
-                        name: '신갈초등학교',
-                        phone: '010-1234-5678',
-                        email: 'school@example.com',
-                        status: '완료',
-                        msg: '학교 내 CCTV 모자이크 건입니다. 학생 얼굴만 가리면 됩니다.',
-                        consult_notes: '상담 완료. 17일 작업 착수 예정.',
-                        consult_date: '26.01.11 09:30'
-                    },
-                    {
-                        id: '12354',
-                        date: '26.01.10 10:00',
-                        name: '안양시청',
-                        phone: '010-9999-8888',
-                        email: 'anyang@example.com',
-                        status: '대기',
-                        msg: '도로 소음 측정 관련 모자이크 요청입니다.',
-                        consult_notes: '',
-                        consult_date: ''
-                    }
-                ];
+                // Sorting: 대기 (1) -> 완료 (2)
+                const statusOrder = { '대기': 1, '완료': 2 };
+                const sortedRequests = [...ADMIN_REQUESTS].sort((a, b) => statusOrder[a.status] - statusOrder[b.status]);
 
-                function loadAdminMockData() {
-                    const list = document.getElementById('admin-request-list');
-                    if (!list) return;
-
-                    // Sorting: 대기 (1) -> 완료 (2)
-                    const statusOrder = { '대기': 1, '완료': 2 };
-                    const sortedRequests = [...ADMIN_REQUESTS].sort((a, b) => statusOrder[a.status] - statusOrder[b.status]);
-
-                    list.innerHTML = sortedRequests.map(req => {
-                        let statusHtml = '';
-                        if (req.status === '완료') {
-                            statusHtml = `
+                list.innerHTML = sortedRequests.map(req => {
+                    let statusHtml = '';
+                    if (req.status === '완료') {
+                        statusHtml = `
                                         <div class="flex flex-col items-center">
                                             <span class="bg-blue-100 text-blue-600 px-2 py-1 rounded text-xs font-bold mb-1">완료</span>
                                             <span class="text-[10px] text-slate-400">${req.consult_date}</span>
                                         </div>
                                     `;
-                        } else {
-                            statusHtml = `<span class="bg-red-100 text-red-600 px-2 py-1 rounded text-xs font-bold">대기</span>`;
-                        }
+                    } else {
+                        statusHtml = `<span class="bg-red-100 text-red-600 px-2 py-1 rounded text-xs font-bold">대기</span>`;
+                    }
 
-                        return `
+                    return `
                 <tr class="border-b hover:bg-slate-50 transition cursor-pointer" onclick="openAdminDetail('${req.id}')">
                     <td class="p-4 pl-8 font-medium text-slate-600">${req.id}</td>
                     <td class="p-4 text-slate-500">${req.date}</td>
@@ -2609,118 +2966,126 @@
                     <td class="p-4 text-slate-500 truncate max-w-[200px]">${req.msg}</td>
                     <td class="p-4 text-center">${statusHtml}</td>
                 </tr>`;
-                    }).join('');
+                }).join('');
+            }
+
+            // --- Detail View Logic ---
+            let currentRequestDetailId = null;
+
+            function openAdminDetail(id) {
+                const req = ADMIN_REQUESTS.find(r => r.id === id);
+                if (!req) return;
+
+                currentRequestDetailId = id;
+                document.getElementById('request-list-view').classList.add('hidden');
+                document.getElementById('request-detail-view').classList.remove('hidden');
+
+                document.getElementById('detail-id').innerText = req.id;
+                document.getElementById('detail-date').innerText = req.date;
+                document.getElementById('detail-name').innerText = req.name;
+                document.getElementById('detail-phone').innerText = req.phone;
+                document.getElementById('detail-email').innerText = req.email;
+                document.getElementById('detail-msg').innerText = req.msg;
+                document.getElementById('detail-consult-notes').value = req.consult_notes || '';
+
+                // Status Badge
+                const statusBadge = document.getElementById('detail-status');
+                if (req.status === '완료') {
+                    statusBadge.className = 'px-3 py-1 rounded-full font-bold text-[10px] md:text-xs bg-blue-100 text-blue-600';
+                    statusBadge.innerText = '완료 (' + req.consult_date + ')';
+                } else {
+                    statusBadge.className = 'px-3 py-1 rounded-full font-bold text-[10px] md:text-xs bg-red-100 text-red-600';
+                    statusBadge.innerText = '대기';
                 }
+            }
 
-                // --- Detail View Logic ---
-                let currentRequestDetailId = null;
+            function saveConsultation() {
+                const notes = document.getElementById('detail-consult-notes').value;
+                const req = ADMIN_REQUESTS.find(r => r.id === currentRequestDetailId);
 
-                function openAdminDetail(id) {
-                    const req = ADMIN_REQUESTS.find(r => r.id === id);
-                    if (!req) return;
+                if (req) {
+                    req.consult_notes = notes;
+                    req.status = '완료';
 
-                    currentRequestDetailId = id;
-                    document.getElementById('request-list-view').classList.add('hidden');
-                    document.getElementById('request-detail-view').classList.remove('hidden');
+                    const now = new Date();
+                    req.consult_date = `${String(now.getFullYear()).slice(2)}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 
-                    document.getElementById('detail-id').innerText = req.id;
-                    document.getElementById('detail-date').innerText = req.date;
-                    document.getElementById('detail-name').innerText = req.name;
-                    document.getElementById('detail-phone').innerText = req.phone;
-                    document.getElementById('detail-email').innerText = req.email;
-                    document.getElementById('detail-msg').innerText = req.msg;
-                    document.getElementById('detail-consult-notes').value = req.consult_notes || '';
+                    showToast("상담 내용이 저장되었습니다.");
+                    loadAdminMockData();
+                    closeAdminDetail();
+                }
+            }
 
-                    // Status Badge
-                    const statusBadge = document.getElementById('detail-status');
-                    if (req.status === '완료') {
-                        statusBadge.className = 'px-3 py-1 rounded-full font-bold text-[10px] md:text-xs bg-blue-100 text-blue-600';
-                        statusBadge.innerText = '완료 (' + req.consult_date + ')';
-                    } else {
-                        statusBadge.className = 'px-3 py-1 rounded-full font-bold text-[10px] md:text-xs bg-red-100 text-red-600';
-                        statusBadge.innerText = '대기';
+            function closeAdminDetail() {
+                document.getElementById('request-list-view').classList.remove('hidden');
+                document.getElementById('request-detail-view').classList.add('hidden');
+                currentRequestDetailId = null;
+            }
+
+            // Preview Updaters
+            function updateContractPreview() {
+                const truster = document.getElementById('ct_truster')?.value || '\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0';
+                const task = document.getElementById('ct_task')?.value || '\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0';
+
+                const setHtml = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
+
+                setHtml('prev_ct_truster', truster);
+                setHtml('prev_ct_truster_2', truster);
+                setHtml('prev_ct_period', document.getElementById('ct_period')?.value || '\u00A0\u00A0\u00A0\u00A0년\u00A0\u00A0월\u00A0\u00A0일 ~ \u00A0\u00A0\u00A0\u00A0년\u00A0\u00A0월\u00A0\u00A0일');
+                setHtml('prev_ct_date', document.getElementById('ct_date')?.value || '\u00A0\u00A0\u00A0\u00A0년\u00A0\u00A0월\u00A0\u00A0일');
+                setHtml('prev_ct_addr', document.getElementById('ct_addr')?.value || '\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0');
+                setHtml('prev_ct_rep', document.getElementById('ct_rep')?.value || '\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0');
+                setHtml('prev_ct_task', task);
+                setHtml('prev_ct_task_2', task);
+            }
+
+            function updatePledgePreview() {
+                const setHtml = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
+                setHtml('prev_pl_name', document.getElementById('pl_name')?.value || '\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0');
+                setHtml('prev_pl_date', document.getElementById('pl_date')?.value || '\u00A0\u00A0\u00A0\u00A0년\u00A0\u00A0월\u00A0\u00A0일');
+            }
+
+            function updateDestroyPreview() {
+                const setHtml = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
+                const dateValInput = document.getElementById('ds_date')?.value;
+                const dateVal = dateValInput || '\u00A0\u00A0\u00A0\u00A0.\u00A0\u00A0.\u00A0\u00A0';
+
+                setHtml('prev_ds_date', dateVal);
+                // Also update the top matching field
+                setHtml('prev_ds_date_top', dateValInput || '202\u00A0.\u00A0\u00A0.\u00A0\u00A0');
+
+                // Convert to Korean date format for the signature area
+                let signDate = dateVal;
+                if (!dateValInput) {
+                    signDate = '202\u00A0년\u00A0\u00A0월\u00A0\u00A0일';
+                } else if (dateVal.includes('.')) {
+                    const parts = dateVal.split('.');
+                    if (parts.length === 3) {
+                        signDate = `${parts[0]}년 ${parts[1]}월 ${parts[2]}일`;
                     }
                 }
+                setHtml('prev_ds_sign_date', signDate);
 
-                function saveConsultation() {
-                    const notes = document.getElementById('detail-consult-notes').value;
-                    const req = ADMIN_REQUESTS.find(r => r.id === currentRequestDetailId);
+                setHtml('prev_ds_file', document.getElementById('ds_file')?.value || '\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0');
+                setHtml('prev_ds_reason', document.getElementById('ds_reason')?.value || '\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0');
+                setHtml('prev_ds_notes', document.getElementById('ds_notes')?.value || '\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0');
+                setHtml('prev_ds_method', document.getElementById('ds_method')?.value || '\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0');
+            }
 
-                    if (req) {
-                        req.consult_notes = notes;
-                        req.status = '완료';
+            function updateReceiptPreview() {
+                const setHtml = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
+                const today = new Date();
+                const dateStr = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
 
-                        const now = new Date();
-                        req.consult_date = `${String(now.getFullYear()).slice(2)}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+                setHtml('prev_rc_date', dateStr);
 
-                        showToast("상담 내용이 저장되었습니다.");
-                        loadAdminMockData();
-                        closeAdminDetail();
-                    }
-                }
+                const customer = document.getElementById('rc_customer')?.value || "(공급받는자)";
+                setHtml('prev_rc_customer', customer);
 
-                function closeAdminDetail() {
-                    document.getElementById('request-list-view').classList.remove('hidden');
-                    document.getElementById('request-detail-view').classList.add('hidden');
-                    currentRequestDetailId = null;
-                }
-
-                // Preview Updaters
-                function updateContractPreview() {
-                    const truster = document.getElementById('ct_truster').value || '(기관명)';
-                    const task = document.getElementById('ct_task') ? document.getElementById('ct_task').value || 'CCTV영상 모자이크' : 'CCTV영상 모자이크';
-                    document.getElementById('prev_ct_truster').innerText = truster;
-                    document.getElementById('prev_ct_truster_2').innerText = truster;
-                    document.getElementById('prev_ct_period').innerText = document.getElementById('ct_period').value || '';
-                    document.getElementById('prev_ct_date').innerText = document.getElementById('ct_date').value || '';
-                    document.getElementById('prev_ct_addr').innerText = document.getElementById('ct_addr').value || '';
-                    document.getElementById('prev_ct_rep').innerText = document.getElementById('ct_rep').value || '';
-                    const taskEl = document.getElementById('prev_ct_task');
-                    const taskEl2 = document.getElementById('prev_ct_task_2');
-                    if (taskEl) taskEl.innerText = task;
-                    if (taskEl2) taskEl2.innerText = task;
-                }
-
-
-                function updatePledgePreview() {
-                    document.getElementById('prev_pl_name').innerText = document.getElementById('pl_name').value || "(기관명)";
-                    document.getElementById('prev_pl_date').innerText = document.getElementById('pl_date').value || "";
-                }
-
-                function updateDestroyPreview() {
-                    const dateVal = document.getElementById('ds_date').value || "";
-                    document.getElementById('prev_ds_date').innerText = dateVal;
-
-                    // Convert to Korean date format for the signature area
-                    let signDate = dateVal;
-                    if (dateVal.includes('.')) {
-                        const parts = dateVal.split('.');
-                        if (parts.length === 3) {
-                            signDate = `${parts[0]}년 ${parts[1]}월 ${parts[2]}일`;
-                        }
-                    }
-                    document.getElementById('prev_ds_sign_date').innerText = signDate;
-
-                    document.getElementById('prev_ds_file').innerText = document.getElementById('ds_file').value;
-                    document.getElementById('prev_ds_reason').innerText = document.getElementById('ds_reason').value;
-                    document.getElementById('prev_ds_notes').innerText = document.getElementById('ds_notes').value;
-                    document.getElementById('prev_ds_method').innerText = document.getElementById('ds_method').value;
-                }
-
-                function updateReceiptPreview() {
-                    const today = new Date();
-                    const dateStr = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
-
-                    const dateEl = document.getElementById('prev_rc_date');
-                    if (dateEl) dateEl.innerText = dateStr;
-
-                    const customer = document.getElementById('rc_customer').value || "(공급받는자)";
-                    document.getElementById('prev_rc_customer').innerText = customer;
-
-                    const amount = document.getElementById('rc_amount').value || "0";
-                    document.getElementById('prev_rc_amount').innerText = amount;
-                }
-            </script>
+                const amount = document.getElementById('rc_amount')?.value || "0";
+                setHtml('prev_rc_amount', amount);
+            }
+        </script>
 </body>
 
 </html>
