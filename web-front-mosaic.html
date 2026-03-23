@@ -1297,9 +1297,10 @@
                             </div>
 
                             <div
-                                class="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden flex-1">
+                                class="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden flex-1 flex flex-col min-h-0">
+                                <div class="overflow-y-auto flex-1 scrollbar-thin">
                                 <table class="w-full text-sm text-left">
-                                    <thead class="bg-slate-50 text-slate-500 border-b border-slate-100">
+                                    <thead class="bg-slate-50 text-slate-500 border-b border-slate-100 sticky top-0 z-10">
                                         <tr>
                                             <th class="p-5 font-bold pl-8">번호</th>
                                             <th class="p-5 font-bold">등록일</th>
@@ -1314,6 +1315,7 @@
                                         <!-- JS populated -->
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
                             <!-- Pagination -->
                             <div id="admin-pagination" class="flex items-center justify-center gap-1 mt-4 shrink-0"></div>
@@ -2400,7 +2402,8 @@
                     // 파일 업로드 우선 확인
                     if (rFileInput && rFileInput.files && rFileInput.files[0]) {
                         blob = rFileInput.files[0];
-                        fileName = blob.name;
+                        const dateStr = moment().format('YYYYMMDDHHmm');
+                        fileName = `비디와이드_현금영수증_${dateStr}.pdf`;
                     } else {
                         // 파일이 없으면 기존 PDF 생성 방식 사용
                         const elements = document.querySelectorAll('#admin-tab-receipt .a4-paper');
@@ -2768,7 +2771,16 @@
                     if (uid === 'admin' && upw === 'admin1234') {
                         closeModal('adminLoginModal');
                         openModal('adminModal');
-                        if (typeof loadAdminData === 'function') loadAdminData();
+                        
+                        // 관리자 대기 목록으로 초기화
+                        if (typeof loadAdminData === 'function') {
+                            loadAdminData().then(() => {
+                                const waitBtn = document.getElementById('admin-filter-wait');
+                                if (waitBtn) setAdminListFilter('대기', waitBtn);
+                                switchAdminTab('list');
+                            });
+                        }
+                        
                         startAdminAutoRefresh();
                         if (typeof updateContractPreview === 'function') updateContractPreview();
                         if (typeof updatePledgePreview === 'function') updatePledgePreview();
@@ -3249,7 +3261,19 @@
                     });
 
                     const target = document.getElementById(`admin-tab-${tabName}`);
-                    if (target) target.classList.remove('hidden');
+                    if (target) {
+                        target.classList.remove('hidden');
+                        
+                        // 특정 메뉴 이동 시 최초 1회만 자동 바인딩
+                        if (DOC_TABS.includes(tabName) && !tabInitialized[tabName]) {
+                            const select = target.querySelector('.consult-id-select');
+                            if (select && select.options.length > 0) {
+                                select.selectedIndex = 0;
+                                handleAdminIdSelect(select, tabName);
+                                tabInitialized[tabName] = true;
+                            }
+                        }
+                    }
                 }
             }
 
@@ -3659,6 +3683,14 @@
                 destroy: '대기',
                 receipt: '대기'
             };
+            
+            let lastProcessedStatus = {
+                contract: '', pledge: '', destroy: '', receipt: ''
+            };
+            
+            let tabInitialized = {
+                contract: false, pledge: false, destroy: false, receipt: false
+            };
 
             function setAdminSelectTab(btn, status, type) {
                 adminSelectTabState[type] = status;
@@ -3691,8 +3723,28 @@
                         return `<option value="${req.id}" data-search="${searchData}">${req.id}. ${req.name} / ${req.phone}</option>`;
                     };
 
+                    // 현재 선택값 보존
+                    const savedValue = select.value;
+
                     select.innerHTML = filtered.map(createOption).join('');
                     select.disabled = filtered.length === 0;
+
+                    // 선택값 복구 (만약 기존 값이 존재하면 다시 선택)
+                    if (savedValue && Array.from(select.options).some(opt => opt.value === savedValue)) {
+                        select.value = savedValue;
+                    }
+
+                    const currentStatus = adminSelectTabState[type];
+                    // 상태가 명시적으로 변경된 경우에만 (최초 빈값 제외) 자동 바인딩
+                    if (filtered.length > 0 && lastProcessedStatus[type] !== '' && lastProcessedStatus[type] !== currentStatus) {
+                        select.value = filtered[0].id;
+                        handleAdminIdSelect(select, type);
+                        lastProcessedStatus[type] = currentStatus;
+                        tabInitialized[type] = true; // 상태 변경 시 초기화된 것으로 간주
+                    } else if (lastProcessedStatus[type] === '') {
+                        // 최초 로드시에는 처리 상태만 초기화하고 바인딩은 안함
+                        lastProcessedStatus[type] = currentStatus;
+                    }
                 });
             }
 
@@ -3957,7 +4009,7 @@
                 // 이력 표시 초기화 (전체 탭)
                 setHistoryTab('all');
 
-                // 현금영수증 정보 초기화
+                //   정보 초기화
                 const rcMailTo = document.getElementById('rc_mail_to');
                 if (rcMailTo) rcMailTo.value = req.email || '';
                 const rcCustomer = document.getElementById('rc_customer');
