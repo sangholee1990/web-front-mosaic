@@ -2337,7 +2337,7 @@
                         formData.append('file', blob, fileName);
                     }
 
-                    const response = await fetch('http://49.247.41.71:9910/api/sendEmail', {
+                    const response = await fetch('https://bdwide.kr:9911/api/sendEmail', {
                         method: 'POST',
                         headers: {
                             'accept': 'application/json'
@@ -2439,7 +2439,7 @@
                     formData.append('content', rContent || '요청하신 현금영수증을 보내드립니다.');
                     if (blob) formData.append('file', blob, fileName);
 
-                    const response = await fetch('http://49.247.41.71:9910/api/sendEmail', {
+                    const response = await fetch('https://bdwide.kr:9911/api/sendEmail', {
                         method: 'POST',
                         headers: { 'accept': 'application/json' },
                         body: formData
@@ -2551,7 +2551,7 @@
                     formData.append('content', rContent || '보안 서약서를 보내드립니다.');
                     if (blob) formData.append('file', blob, fileName);
 
-                    const response = await fetch('http://49.247.41.71:9910/api/sendEmail', {
+                    const response = await fetch('https://bdwide.kr:9911/api/sendEmail', {
                         method: 'POST',
                         headers: { 'accept': 'application/json' },
                         body: formData
@@ -2640,7 +2640,7 @@
                     formData.append('content', rContent || '파기 확인서를 보내드립니다.');
                     if (blob) formData.append('file', blob, fileName);
 
-                    const response = await fetch('http://49.247.41.71:9910/api/sendEmail', {
+                    const response = await fetch('https://bdwide.kr:9911/api/sendEmail', {
                         method: 'POST',
                         headers: { 'accept': 'application/json' },
                         body: formData
@@ -3151,7 +3151,7 @@
                     const telegramMsg = `[긴급 상담 요청]\n이름: ${name}\n연락처: ${phone}\n이메일: ${email}\n내용: ${msg}`;
 
                     // 1) 텔레그램 발송
-                    const tgResponse = await fetch('http://49.247.41.71:9910/api/sendTelegram', {
+                    const tgResponse = await fetch('https://bdwide.kr:9911/api/sendTelegram', {
                         method: 'POST',
                         headers: {
                             'accept': 'application/json',
@@ -3168,7 +3168,7 @@
                     consultForm.append('msg', msg);
                     consultForm.append('status', '대기');
 
-                    const dbResponse = await fetch('http://49.247.41.71:9910/api/insConsult', {
+                    const dbResponse = await fetch('https://bdwide.kr:9911/api/insConsult', {
                         method: 'POST',
                         headers: {
                             'accept': 'application/json',
@@ -3593,7 +3593,7 @@
             }
 
             // --- Admin Data & Logic (API 연동) ---
-            const API_BASE = 'http://49.247.41.71:9910';
+            const API_BASE = 'https://bdwide.kr:9911';
             let ADMIN_REQUESTS = [];
 
 
@@ -3688,12 +3688,10 @@
                         .sort((a, b) => parseInt(b.id) - parseInt(a.id));
 
                     const createOption = req => {
-                        const phoneSuffix = req.phone.split('-').pop();
-                        const searchData = `${req.id} ${req.name} ${phoneSuffix}`.toLowerCase();
-                        return `<option value="${req.id}" data-search="${searchData}">No.${req.id} - ${req.name} (${phoneSuffix})</option>`;
+                        const searchData = `${req.id} ${req.name} ${req.phone}`.toLowerCase();
+                        return `<option value="${req.id}" data-search="${searchData}">${req.id}. ${req.name} / ${req.phone}</option>`;
                     };
 
-                    <!--                    const defaultOption = `<option value="">${status} 목록에서 선택 (필수)</option>`;-->
                     select.innerHTML = filtered.map(createOption).join('');
                     select.disabled = filtered.length === 0;
                 });
