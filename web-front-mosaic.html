@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 
 <head>
@@ -9,9 +9,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- html2canvas & jspdf -->
+    <!-- html2canvas & jspdf & moment -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <!-- Pretendard Font -->
     <link rel="stylesheet" as="style" crossorigin
         href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
@@ -800,16 +801,34 @@
                         <div class="pt-4 border-t border-slate-100">
                             <label class="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wider">신청자
                                 정보</label>
-                            <input type="text" id="q_name"
+                            <input type="text" id="q_name" oninput="calculateQuote()"
                                 class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all placeholder:text-slate-400 font-medium text-slate-700"
                                 placeholder="성함 또는 기관명 (예: 홍길동)">
                         </div>
                         <div>
                             <label
                                 class="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wider">연락처</label>
-                            <input type="text" id="q_contact"
-                                class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all placeholder:text-slate-400 font-medium text-slate-700"
-                                placeholder="010-0000-0000">
+                            <div class="flex items-center gap-2">
+                                <select id="q_phone1" onchange="calculateQuote()"
+                                    class="w-1/3 bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-sm md:text-base focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium text-slate-700 text-center cursor-pointer">
+                                    <option value="010">010</option>
+                                    <option value="011">011</option>
+                                    <option value="016">016</option>
+                                    <option value="017">017</option>
+                                    <option value="018">018</option>
+                                    <option value="019">019</option>
+                                </select>
+                                <span class="text-slate-400 font-bold">-</span>
+                                <input type="tel" id="q_phone2" required maxlength="4"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length === 4) document.getElementById('q_phone3').focus(); calculateQuote();"
+                                    class="w-1/3 bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-center text-sm md:text-base focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all placeholder:text-slate-400 font-medium text-slate-700"
+                                    placeholder="0000">
+                                <span class="text-slate-400 font-bold">-</span>
+                                <input type="tel" id="q_phone3" required maxlength="4"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, ''); calculateQuote();"
+                                    class="w-1/3 bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-center text-sm md:text-base focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all placeholder:text-slate-400 font-medium text-slate-700"
+                                    placeholder="0000">
+                            </div>
                         </div>
                     </form>
 
@@ -825,10 +844,10 @@
 
                 <!-- Estimate Preview -->
                 <div class="w-full lg:w-2/3 bg-slate-100/50 overflow-y-auto overflow-x-hidden scrollbar-thin">
-                    <div class="doc-preview-wrapper min-h-full">
-                        <div class="flex flex-col gap-6 items-center w-full">
+                    <div class="doc-preview-wrapper min-h-full flex flex-col items-center py-8">
+                        <div id="invoice-scale-wrapper" class="relative shrink-0">
                             <div id="invoice-preview"
-                                class="a4-paper transition-transform shadow-lg rounded-sm border border-slate-200/60">
+                                class="a4-paper shadow-lg rounded-sm border border-slate-200/60 m-0 absolute top-0 left-0 bg-white">
                                 <!-- Invoice Content -->
                                 <h1
                                     class="text-3xl font-black text-center mb-10 tracking-[0.5em] text-slate-800 border-double border-slate-300 pb-2 inline-block mx-auto">
@@ -959,12 +978,13 @@
                                     </h2>
                                 </div>
                             </div>
+                        </div>
 
+                        <div class="mt-8 shrink-0">
                             <button onclick="downloadPDF()"
                                 class="group relative inline-flex items-center gap-3 bg-slate-900 hover:bg-blue-900 text-white px-8 py-4 rounded-full shadow-2xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden">
                                 <span class="relative z-10 font-bold text-lg"><i class="fa-solid fa-file-pdf mr-2"></i>
-                                    견적서
-                                    다운로드 (PDF)</span>
+                                    견적서 다운로드 (PDF)</span>
                                 <div
                                     class="absolute inset-0 bg-white/20 group-hover:translate-x-full transition-transform duration-500 ease-in-out -skew-x-12 origin-left">
                                 </div>
@@ -989,28 +1009,31 @@
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
 
-            <div class="p-8 pt-10">
-                <div class="text-center mb-8">
+            <div class="p-5 md:p-8 pt-6 md:pt-10">
+                <div class="flex items-center gap-4 mb-4 md:mb-6">
                     <div
-                        class="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl shadow-sm animate-bounce-short">
+                        class="w-12 h-12 md:w-16 md:h-16 bg-red-50 text-red-500 rounded-xl md:rounded-2xl flex items-center justify-center shrink-0 text-xl md:text-2xl shadow-sm animate-bounce-short">
                         <i class="fa-solid fa-headset"></i>
                     </div>
-                    <h3 class="text-2xl font-black text-slate-900 mb-2">긴급 상담 요청</h3>
-                    <p class="text-sm text-slate-500 font-medium">전문 담당자에게 즉시 알림이 전송됩니다.<br>최대한 빠르게 연락드리겠습니다.</p>
+                    <div>
+                        <h3 class="text-lg md:text-2xl font-black text-slate-900 mb-0.5 md:mb-2">긴급 상담 요청</h3>
+                        <p class="text-[11px] md:text-sm text-slate-500 font-medium leading-tight">전문 담당자에게 즉시 알림이
+                            전송됩니다.<br class="hidden md:block">최대한 빠르게 연락드리겠습니다.</p>
+                    </div>
                 </div>
 
-                <form onsubmit="event.preventDefault(); submitConsultation();" class="space-y-5">
+                <form onsubmit="event.preventDefault(); submitConsultation();" class="space-y-3 md:space-y-5">
                     <div>
-                        <label class="block text-xs font-bold text-slate-500 mb-2">기관/성함</label>
+                        <label class="block text-[11px] md:text-xs font-bold text-slate-500 mb-1 md:mb-2">기관/성함</label>
                         <input type="text" id="c_name" required
-                            class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 outline-none transition-all placeholder:text-slate-400 font-medium text-slate-800"
+                            class="w-full bg-slate-50 border border-slate-200 rounded-lg md:rounded-xl p-2.5 md:p-3.5 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 outline-none transition-all placeholder:text-slate-400 font-medium text-slate-800 text-sm md:text-base"
                             placeholder="입력해주세요">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-500 mb-2">연락처</label>
-                        <div class="flex items-center gap-2">
+                        <label class="block text-[11px] md:text-xs font-bold text-slate-500 mb-1 md:mb-2">연락처</label>
+                        <div class="flex items-center gap-1.5 md:gap-2">
                             <select id="c_phone1"
-                                class="w-1/3 bg-slate-50 border border-slate-200 rounded-xl p-3.5 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 outline-none transition-all font-medium text-slate-800 text-center text-sm md:text-base cursor-pointer">
+                                class="w-1/3 bg-slate-50 border border-slate-200 rounded-lg md:rounded-xl p-2.5 md:p-3.5 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 outline-none transition-all font-medium text-slate-800 text-center text-sm md:text-base cursor-pointer">
                                 <option value="010">010</option>
                                 <option value="011">011</option>
                                 <option value="016">016</option>
@@ -1021,30 +1044,30 @@
                             <span class="text-slate-400 font-bold">-</span>
                             <input type="tel" id="c_phone2" required maxlength="4"
                                 oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length === 4) document.getElementById('c_phone3').focus();"
-                                class="w-1/3 bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-center focus:ring-2 focus:ring-red-500/20 focus:border-red-500 outline-none transition-all placeholder:text-slate-400 font-medium text-slate-800"
+                                class="w-1/3 bg-slate-50 border border-slate-200 rounded-lg md:rounded-xl p-2.5 md:p-3.5 text-center focus:ring-2 focus:ring-red-500/20 focus:border-red-500 outline-none transition-all placeholder:text-slate-400 font-medium text-slate-800 text-sm md:text-base"
                                 placeholder="0000">
                             <span class="text-slate-400 font-bold">-</span>
                             <input type="tel" id="c_phone3" required maxlength="4"
                                 oninput="this.value = this.value.replace(/[^0-9]/g, '');"
-                                class="w-1/3 bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-center focus:ring-2 focus:ring-red-500/20 focus:border-red-500 outline-none transition-all placeholder:text-slate-400 font-medium text-slate-800"
+                                class="w-1/3 bg-slate-50 border border-slate-200 rounded-lg md:rounded-xl p-2.5 md:p-3.5 text-center focus:ring-2 focus:ring-red-500/20 focus:border-red-500 outline-none transition-all placeholder:text-slate-400 font-medium text-slate-800 text-sm md:text-base"
                                 placeholder="0000">
                         </div>
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-500 mb-2">이메일</label>
-                        <div class="flex flex-col gap-2">
-                            <div class="flex items-center gap-2">
+                        <label class="block text-[11px] md:text-xs font-bold text-slate-500 mb-1 md:mb-2">이메일</label>
+                        <div class="flex flex-col gap-1.5 md:gap-2">
+                            <div class="flex items-center gap-1.5 md:gap-2">
                                 <input type="text" id="c_email_id" required
-                                    class="w-1/2 bg-slate-50 border border-slate-200 rounded-xl p-3.5 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 outline-none transition-all placeholder:text-slate-400 font-medium text-slate-800 text-sm md:text-base"
+                                    class="w-1/2 bg-slate-50 border border-slate-200 rounded-lg md:rounded-xl p-2.5 md:p-3.5 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 outline-none transition-all placeholder:text-slate-400 font-medium text-slate-800 text-sm md:text-base"
                                     placeholder="이메일">
-                                <span class="text-slate-400 font-bold">@</span>
+                                <span class="text-slate-400 font-bold text-sm">@</span>
                                 <input type="text" id="c_email_domain" required
-                                    class="w-1/2 bg-slate-50 border border-slate-200 rounded-xl p-3.5 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 outline-none transition-all placeholder:text-slate-400 font-medium text-slate-800 text-sm md:text-base"
+                                    class="w-1/2 bg-slate-50 border border-slate-200 rounded-lg md:rounded-xl p-2.5 md:p-3.5 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 outline-none transition-all placeholder:text-slate-400 font-medium text-slate-800 text-sm md:text-base"
                                     placeholder="직접입력">
                             </div>
                             <select id="c_email_select"
                                 onchange="document.getElementById('c_email_domain').value = this.value; if(this.value === '') document.getElementById('c_email_domain').focus();"
-                                class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 px-4 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 outline-none transition-all font-medium text-slate-800 text-sm md:text-base cursor-pointer">
+                                class="w-full bg-slate-50 border border-slate-200 rounded-lg md:rounded-xl p-2 md:p-3.5 px-3 md:px-4 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 outline-none transition-all font-medium text-slate-800 text-xs md:text-base cursor-pointer">
                                 <option value="">직접입력</option>
                                 <option value="kakao.com">kakao.com</option>
                                 <option value="naver.com">naver.com</option>
@@ -1056,14 +1079,15 @@
                         </div>
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-500 mb-2">요청 내용</label>
-                        <textarea id="c_msg" rows="3"
-                            class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 outline-none transition-all placeholder:text-slate-400 font-medium text-slate-800 resize-none"
-                            placeholder="궁금하신 점이나 요청사항을 간략히 적어주세요."></textarea>
+                        <label class="block text-[11px] md:text-xs font-bold text-slate-500 mb-1 md:mb-2">요청 내용</label>
+                        <textarea id="c_msg" rows="2"
+                            class="w-full bg-slate-50 border border-slate-200 rounded-lg md:rounded-xl p-2.5 md:p-3.5 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 outline-none transition-all placeholder:text-slate-400 font-medium text-slate-800 resize-none text-sm md:text-base"
+                            placeholder="궁금하신 점이나 요청사항을 1~2줄로 적어주세요."></textarea>
                     </div>
                     <button type="submit"
-                        class="w-full bg-gradient-to-r from-red-500 to-orange-600 hover:from-red-600 hover:to-orange-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-red-500/30 transition-all transform active:scale-95 flex items-center justify-center gap-2">
-                        <span>상담 요청하기</span> <i class="fa-solid fa-paper-plane"></i>
+                        class="w-full bg-gradient-to-r from-red-500 to-orange-600 hover:from-red-600 hover:to-orange-700 text-white font-bold py-3 md:py-4 rounded-lg md:rounded-xl shadow-lg shadow-red-500/30 transition-all transform active:scale-95 flex items-center justify-center gap-2 mt-2 md:mt-4">
+                        <span class="text-sm md:text-base">상담 요청하기</span> <i
+                            class="fa-solid fa-paper-plane text-sm"></i>
                     </button>
                 </form>
             </div>
@@ -1124,10 +1148,18 @@
                     <h3 class="font-black text-xl text-slate-800 tracking-tight">관리자 대시보드</h3>
                 </div>
                 <div class="flex items-center gap-6">
-                    <div
-                        class="flex items-center gap-2 text-xs font-medium text-slate-500 bg-slate-100 px-3 py-1.5 rounded-full">
-                        <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                        마지막 접속: 금일 10:23
+                    <div class="flex items-center gap-3">
+                        <div class="flex items-center gap-2 text-xs font-medium text-slate-500 bg-slate-100 px-4 py-2 rounded-full border border-slate-200 shadow-sm">
+                            <div class="relative flex h-2 w-2">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                            </div>
+                            자동 새로고침: <span id="admin-last-refresh-time-top" class="font-bold text-slate-700 ml-1">0초 전</span>
+                        </div>
+                        <button id="admin-manual-refresh-btn" onclick="loadAdminData()" title="즉시 새로고침"
+                            class="w-10 h-10 flex items-center justify-center bg-white text-slate-600 rounded-full hover:bg-blue-600 hover:text-white transition-all shadow-md border border-slate-200 group">
+                            <i class="fa-solid fa-arrows-rotate group-active:rotate-180 transition-transform"></i>
+                        </button>
                     </div>
                     <button onclick="closeModal('adminModal')"
                         class="w-8 h-8 flex items-center justify-center rounded-full text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-all">
@@ -1175,7 +1207,7 @@
                                 <span
                                     class="w-8 h-8 rounded-lg bg-slate-800 text-slate-400 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors"><i
                                         class="fa-solid fa-receipt"></i></span>
-                                <span class="font-medium">현금 영수증</span>
+                                <span class="font-medium">현금영수증</span>
                             </li>
                         </ul>
                     </div>
@@ -1197,23 +1229,23 @@
                     <ul class="flex whitespace-nowrap px-4 py-2 gap-2">
                         <li onclick="switchAdminTab('list', event)"
                             class="admin-menu-item shrink-0 px-4 py-2 rounded-lg text-sm font-bold text-slate-400 transition-all active-tab flex items-center gap-2">
-                            <i class="fa-solid fa-list-check"></i> 요청 목록
+                            <i class="fa-solid fa-list-check"></i> 요청사항
                         </li>
                         <li onclick="switchAdminTab('contract', event)"
                             class="admin-menu-item shrink-0 px-4 py-2 rounded-lg text-sm font-bold text-slate-400 transition-all flex items-center gap-2">
-                            <i class="fa-solid fa-file-signature"></i> 위탁 계약서
+                            <i class="fa-solid fa-file-signature"></i> 위탁계약서
                         </li>
                         <li onclick="switchAdminTab('pledge', event)"
                             class="admin-menu-item shrink-0 px-4 py-2 rounded-lg text-sm font-bold text-slate-400 transition-all flex items-center gap-2">
-                            <i class="fa-solid fa-shield-halved"></i> 보안 서약서
+                            <i class="fa-solid fa-shield-halved"></i> 보안서약서
                         </li>
                         <li onclick="switchAdminTab('destroy', event)"
                             class="admin-menu-item shrink-0 px-4 py-2 rounded-lg text-sm font-bold text-slate-400 transition-all flex items-center gap-2">
-                            <i class="fa-solid fa-trash-can"></i> 파기 확인서
+                            <i class="fa-solid fa-trash-can"></i> 파기확인서
                         </li>
                         <li onclick="switchAdminTab('receipt', event)"
                             class="admin-menu-item shrink-0 px-4 py-2 rounded-lg text-sm font-bold text-slate-400 transition-all flex items-center gap-2">
-                            <i class="fa-solid fa-receipt"></i> 현금 영수증
+                            <i class="fa-solid fa-receipt"></i> 현금영수증
                         </li>
                     </ul>
                 </div>
@@ -1228,16 +1260,20 @@
                                 class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
                                 <div>
                                     <h4 class="text-xl md:text-2xl font-black text-slate-800 mb-1">상담 요청 관리</h4>
-                                    <p class="text-xs md:text-sm text-slate-500">접수된 상담 요청을 실시간으로 확인하고 관리합니다.</p>
+                                    <p class="text-xs md:text-sm text-slate-500">
+                                        접수된 상담 요청을 실시간으로 확인하고 관리합니다.
+                                    </p>
                                 </div>
-                                <div class="flex gap-3">
+                                <div class="flex gap-4 items-center">
                                     <div
-                                        class="bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-200 text-sm font-medium text-slate-600">
-                                        전체 <span class="text-blue-600 font-bold ml-1">2</span>
+                                        class="bg-white px-5 py-2.5 rounded-2xl shadow-sm border border-slate-200 text-sm font-semibold text-slate-600 flex items-center gap-2">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                                        전체 <span id="admin-count-total" class="text-blue-600 font-black">0</span>
                                     </div>
                                     <div
-                                        class="bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-200 text-sm font-medium text-slate-600">
-                                        대기 <span class="text-red-500 font-bold ml-1">1</span>
+                                        class="bg-white px-5 py-2.5 rounded-2xl shadow-sm border border-slate-200 text-sm font-semibold text-slate-600 flex items-center gap-2">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+                                        대기 <span id="admin-count-pending" class="text-red-500 font-black">0</span>
                                     </div>
                                 </div>
                             </div>
@@ -1324,6 +1360,15 @@
                                         <textarea id="detail-consult-notes"
                                             class="w-full bg-blue-50/30 p-4 md:p-6 rounded-2xl border border-blue-100 h-48 overflow-y-auto text-sm md:text-base text-slate-700 leading-relaxed font-medium outline-none focus:ring-2 focus:ring-blue-500/20 transition-all resize-none"
                                             placeholder="상담 내용을 입력하세요..."></textarea>
+                                    </div>
+                                    <div class="md:col-span-2">
+                                        <label
+                                            class="block text-[10px] md:text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">📋
+                                            문서 발송 이력</label>
+                                        <div id="detail-hist-area"
+                                            class="bg-slate-50/50 p-4 rounded-2xl border border-slate-100 min-h-[60px] max-h-48 overflow-y-auto">
+                                            <div class="text-xs text-slate-400">발송 이력이 없습니다.</div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -1443,9 +1488,11 @@
                                                 placeholder="CCTV 영상 모자이크" value="CCTV 영상 모자이크"
                                                 oninput="updateContractPreview()">
                                         </div>
-                                        <button onclick="updateContractPreview()"
-                                            class="w-full bg-blue-100 text-blue-600 py-3 rounded-xl font-bold hover:bg-blue-200 transition-all">미리보기</button>
-                                        <div class="pt-3 border-t border-slate-100 space-y-3">
+<!--                                        <button onclick="updateContractPreview()" class="w-full bg-blue-100 text-blue-600 py-3 rounded-xl font-bold hover:bg-blue-200 transition-all">미리보기</button>-->
+                                        <div class="pt-6 border-t border-slate-100 space-y-4">
+                                            <h5 class="font-bold text-slate-800 flex items-center gap-2 mb-2">
+                                                <i class="fa-solid fa-paper-plane text-blue-500"></i> 메일 발송
+                                            </h5>
                                             <div>
                                                 <label class="text-xs font-bold text-slate-500 mb-1 block">메일 주소</label>
                                                 <input type="email" id="ct_mail_to"
@@ -1467,6 +1514,8 @@
 안녕하세요? 비디와이드 담당자 입니다.
 
 위탁계약서를 송부하오니 확인 부탁드립니다.
+
+위탁자님, 계약서에 날인 후 회신 요청드립니다.
 
 즐거운 하루 보내세요.
  
@@ -1680,10 +1729,12 @@
                                                 oninput="updatePledgePreview()">
                                         </div>
 
-                                        <button onclick="updatePledgePreview()"
-                                            class="w-full bg-blue-100 text-blue-600 py-3 rounded-xl font-bold hover:bg-blue-200 transition-all">미리보기</button>
+<!--                                        <button onclick="updatePledgePreview()" class="w-full bg-blue-100 text-blue-600 py-3 rounded-xl font-bold hover:bg-blue-200 transition-all">미리보기</button>-->
 
-                                        <div class="pt-4 border-t border-slate-100 space-y-3">
+                                        <div class="pt-6 border-t border-slate-100 space-y-4">
+                                            <h5 class="font-bold text-slate-800 flex items-center gap-2 mb-2">
+                                                <i class="fa-solid fa-paper-plane text-emerald-500"></i> 메일 발송
+                                            </h5>
                                             <div><label class="text-xs font-bold text-slate-500 mb-1 block">메일
                                                     주소</label>
                                                 <input type="email" id="pl_mail_to"
@@ -1851,10 +1902,12 @@
                                                 oninput="updateDestroyPreview()">
                                         </div>
 
-                                        <button onclick="updateDestroyPreview()"
-                                            class="w-full bg-blue-100 text-blue-600 py-3 rounded-xl font-bold hover:bg-blue-200 transition-all">미리보기</button>
+<!--                                        <button onclick="updateDestroyPreview()" class="w-full bg-blue-100 text-blue-600 py-3 rounded-xl font-bold hover:bg-blue-200 transition-all">미리보기</button>-->
 
-                                        <div class="pt-4 border-t border-slate-100 space-y-3">
+                                        <div class="pt-6 border-t border-slate-100 space-y-4">
+                                            <h5 class="font-bold text-slate-800 flex items-center gap-2 mb-2">
+                                                <i class="fa-solid fa-paper-plane text-red-500"></i> 메일 발송
+                                            </h5>
                                             <div><label class="text-xs font-bold text-slate-500 mb-1 block">메일
                                                     주소</label>
                                                 <input type="email" id="ds_mail_to"
@@ -2017,10 +2070,12 @@
                                     class="w-full md:w-80 flex flex-col gap-6 shrink-0 overflow-y-auto max-h-[calc(100%-2rem)] h-fit pr-6">
                                     <h5
                                         class="font-bold border-b border-slate-100 pb-3 mb-2 text-slate-800 flex items-center gap-2">
-                                        <i class="fa-solid fa-pen-to-square text-blue-500"></i> 정보 입력
+                                        <i class="fa-solid fa-cloud-arrow-up text-blue-500"></i> 이미지 업로드
                                     </h5>
-                                    <div
-                                        class="flex-1 border-2 border-dashed border-slate-300 rounded-2xl p-8 text-center cursor-pointer hover:bg-slate-50 hover:border-blue-400 transition-all group flex flex-col items-center justify-center">
+                                    <input type="file" id="rc_file_input" accept="image/*" class="hidden"
+                                        onchange="handleReceiptFileUpload(event)">
+                                    <div onclick="document.getElementById('rc_file_input').click()"
+                                        class="w-full border-2 border-dashed border-slate-300 rounded-2xl p-8 text-center cursor-pointer hover:bg-slate-50 hover:border-blue-400 transition-all group flex flex-col items-center justify-center">
                                         <div
                                             class="w-16 h-16 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                                             <i class="fa-solid fa-cloud-arrow-up text-2xl"></i>
@@ -2029,24 +2084,14 @@
                                         <p class="text-[10px] text-slate-400">클릭하여 업로드</p>
                                     </div>
 
-                                    <div class="space-y-4">
-                                        <div><label class="text-xs font-bold text-slate-500 mb-1 block">거래
-                                                금액</label>
-                                            <input type="text" id="rc_amount"
-                                                class="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50"
-                                                placeholder="55,000" value="999,999" oninput="updateReceiptPreview()">
-                                        </div>
-                                        <div><label class="text-xs font-bold text-slate-500 mb-1 block">공급받는자</label>
-                                            <input type="text" id="rc_customer"
-                                                class="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50"
-                                                placeholder="홍길동" value="신갈초등학교" oninput="updateReceiptPreview()">
-                                        </div>
-                                    </div>
+                                    <!-- Hidden for backward compatibility in JS -->
+                                    <input type="hidden" id="rc_amount" value="0">
+                                    <input type="hidden" id="rc_customer" value="">
 
-                                    <button onclick="updateReceiptPreview()"
-                                        class="w-full bg-blue-100 text-blue-600 py-3 rounded-xl font-bold hover:bg-blue-200 transition-all">미리보기</button>
-
-                                    <div class="pt-4 border-t border-slate-100 space-y-4">
+                                    <div class="pt-6 border-t border-slate-100 space-y-4">
+                                        <h5 class="font-bold text-slate-800 flex items-center gap-2 mb-2">
+                                            <i class="fa-solid fa-paper-plane text-amber-500"></i> 메일 발송
+                                        </h5>
                                         <div><label class="text-xs font-bold text-slate-500 mb-1 block">메일 주소</label>
                                             <input type="email" id="rc_mail_to"
                                                 class="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50 outline-none"
@@ -2071,44 +2116,49 @@
 비디와이드 올림.</textarea>
                                         </div>
                                     </div>
-                                    <button onclick="sendReceipt(this)"
-                                        class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-bold shadow-lg transition-all">발송하기</button>
+                                    <div id="rc_send_actions" class="w-full">
+                                        <button onclick="sendReceipt(this)"
+                                            class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-bold shadow-lg transition-all flex items-center justify-center gap-2">
+                                            <i class="fa-solid fa-paper-plane"></i>
+                                            발송하기
+                                        </button>
+                                    </div>
+                                    <div id="rc_post_actions" class="w-full hidden space-y-3">
+                                        <button onclick="saveConsultation()"
+                                            class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-bold transition-all shadow-md">
+                                            저장하기 (상담완료)
+                                        </button>
+                                        <div class="grid grid-cols-2 gap-3">
+                                            <button onclick="closeAdminDetail()"
+                                                class="bg-slate-100 hover:bg-slate-200 text-slate-700 py-3 rounded-xl font-bold transition-all">
+                                                목록으로
+                                            </button>
+                                            <button onclick="closeModal('adminModal')"
+                                                class="bg-red-50 hover:bg-red-100 text-red-600 py-3 rounded-xl font-bold transition-all border border-red-100">
+                                                닫기
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div
                                     class="flex-1 bg-slate-200/50 rounded-2xl overflow-y-auto overflow-x-hidden border border-slate-200/50 scrollbar-thin">
                                     <div class="doc-preview-wrapper min-h-full p-8 flex justify-center">
-                                        <div
-                                            class="a4-paper doc-preview bg-white shadow-xl max-w-[500px] h-fit p-10 text-slate-800">
-                                            <div
-                                                class="text-2xl font-bold text-center mb-8 border-b-2 border-black pb-4 text-slate-900">
-                                                현금(지출증빙) 영수증</div>
-                                            <div class="border border-black p-6 space-y-4">
-                                                <div class="flex justify-between border-b border-slate-200 pb-2">
-                                                    <span class="font-bold">발행일자</span>
-                                                    <span id="prev_rc_date">2026.02.20</span>
-                                                </div>
-                                                <div class="flex justify-between border-b border-slate-200 pb-2">
-                                                    <span class="font-bold">공급받는자</span>
-                                                    <span id="prev_rc_customer" class="font-bold">신갈초등학교</span>
-                                                </div>
-                                                <div class="flex justify-between border-b border-slate-200 pb-2">
-                                                    <span class="font-bold">합계금액</span>
-                                                    <span class="text-xl font-black">₩ <span
-                                                            id="prev_rc_amount">999,999</span></span>
+                                            <div id="rc_image_preview_container" class="hidden w-full h-full">
+                                                <img id="rc_image_preview" src=""
+                                                    class="w-full h-auto rounded-lg shadow-sm border border-slate-100"
+                                                    alt="업로드 이미지">
+                                            </div>
+                                            <!-- '이미지 없음' 기본 표시 -->
+                                            <div id="rc_default_preview" class="w-full h-full min-h-[500px] flex items-center justify-center p-20">
+                                                <div class="text-center space-y-4 opacity-40">
+                                                    <div class="w-32 h-32 bg-white/50 rounded-3xl flex items-center justify-center mx-auto border-4 border-dashed border-slate-200">
+                                                        <i class="fa-solid fa-image text-5xl text-slate-200"></i>
+                                                    </div>
+                                                    <p class="text-slate-400 font-black tracking-[0.2em] text-lg">이미지 없음</p>
+                                                    <p class="text-slate-300 text-xs text-center leading-relaxed">왼쪽의 업로드 버튼을 눌러<br>현금영수증 원본 이미지를 선택해주세요.</p>
                                                 </div>
                                             </div>
-                                            <div class="mt-8 text-sm text-slate-500 text-center">위 금액을 정히
-                                                영수함</div>
-                                            <div class="mt-12 flex justify-between items-end">
-                                                <div class="text-xs space-y-1">
-                                                    <p>공급자: (주)비디와이드</p>
-                                                    <p>사업자번호: 217-87-02687</p>
-                                                </div>
-                                                <img src="images/seal_red.png" class="w-14 h-14 object-contain"
-                                                    alt="직인">
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -2203,9 +2253,8 @@
                         }
 
                         blob = pdf.output('blob');
-                        const trusterName = document.getElementById('ct_truster')?.value || 'OO기관';
-                        const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-                        fileName = `위탁계약서_${trusterName}_${dateStr}.pdf`;
+                        const dateStr = moment().format('YYYYMMDDHHmm');
+                        fileName = `위탁계약서_${dateStr}.pdf`;
 
                     } else {
                         throw new Error('PDF 생성 영역을 찾을 수 없습니다.');
@@ -2234,6 +2283,7 @@
 
                     if (response.ok && resData.status === 'succ') {
                         showToast('계약서가 성공적으로 발송되었습니다.');
+                        await recordDocHistory('위탁계약서', '이메일 발송 완료');
                     } else {
                         throw new Error(resData.message || '이메일 발송에 실패했습니다.');
                     }
@@ -2252,12 +2302,13 @@
                 const originalText = btn.innerHTML;
                 const originalClasses = btn.className;
                 btn.disabled = true;
-                btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> PDF 생성 및 발송 중...';
+                btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> 발송 중...';
                 btn.classList.add('opacity-75', 'cursor-not-allowed');
 
                 const rEmail = document.getElementById('rc_mail_to')?.value;
                 const rSubject = document.getElementById('rc_mail_subject')?.value;
                 const rContent = document.getElementById('rc_mail_body')?.value;
+                const rFileInput = document.getElementById('rc_file_input');
 
                 if (!rEmail || !rEmail.includes('@')) {
                     showToast('유효한 이메일 주소를 입력해주세요.');
@@ -2268,35 +2319,41 @@
                 }
 
                 try {
-                    const elements = document.querySelectorAll('#admin-tab-receipt .a4-paper');
                     let blob = null;
                     let fileName = '';
 
-                    if (elements.length > 0) {
-                        const { jsPDF } = window.jspdf;
-                        const pdf = new jsPDF('p', 'mm', 'a4');
-                        const pdfWidth = pdf.internal.pageSize.getWidth();
-                        const pageHeight = pdf.internal.pageSize.getHeight();
-
-                        showToast("현금영수증 PDF를 준비 중입니다...");
-
-                        for (let i = 0; i < elements.length; i++) {
-                            const el = elements[i];
-                            const canvas = await html2canvas(el, { scale: 3, useCORS: true, logging: false });
-                            const imgData = canvas.toDataURL('image/jpeg', 0.95);
-                            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
-                            if (i > 0) pdf.addPage();
-                            const yOffset = (pageHeight > pdfHeight) ? (pageHeight - pdfHeight) / 2 : 0;
-                            pdf.addImage(imgData, 'JPEG', 0, yOffset, pdfWidth, pdfHeight);
-                        }
-
-                        blob = pdf.output('blob');
-                        const customer = document.getElementById('rc_customer')?.value || '공급받는자';
-                        const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-                        fileName = `현금영수증_${customer}_${dateStr}.pdf`;
+                    // 파일 업로드 우선 확인
+                    if (rFileInput && rFileInput.files && rFileInput.files[0]) {
+                        blob = rFileInput.files[0];
+                        fileName = blob.name;
                     } else {
-                        throw new Error('PDF 생성 영역을 찾을 수 없습니다.');
+                        // 파일이 없으면 기존 PDF 생성 방식 사용
+                        const elements = document.querySelectorAll('#admin-tab-receipt .a4-paper');
+                        if (elements.length > 0) {
+                            const { jsPDF } = window.jspdf;
+                            const pdf = new jsPDF('p', 'mm', 'a4');
+                            const pdfWidth = pdf.internal.pageSize.getWidth();
+                            const pageHeight = pdf.internal.pageSize.getHeight();
+
+                            showToast("현금영수증 PDF를 준비 중입니다...");
+
+                            for (let i = 0; i < elements.length; i++) {
+                                const el = elements[i];
+                                const canvas = await html2canvas(el, { scale: 3, useCORS: true, logging: false });
+                                const imgData = canvas.toDataURL('image/jpeg', 0.95);
+                                const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+                                if (i > 0) pdf.addPage();
+                                const yOffset = (pageHeight > pdfHeight) ? (pageHeight - pdfHeight) / 2 : 0;
+                                pdf.addImage(imgData, 'JPEG', 0, yOffset, pdfWidth, pdfHeight);
+                            }
+
+                            blob = pdf.output('blob');
+                            const dateStr = moment().format('YYYYMMDDHHmm');
+                            fileName = `현금영수증_${dateStr}.pdf`;
+                        } else {
+                            throw new Error('PDF 생성 영역을 찾을 수 없습니다.');
+                        }
                     }
 
                     showToast('이메일을 발송하는 중입니다...');
@@ -2315,16 +2372,44 @@
 
                     if (response.ok && resData.status === 'succ') {
                         showToast('현금영수증이 성공적으로 발송되었습니다.');
+                        await recordDocHistory('현금영수증', '이메일 발송 완료');
+
+                        // 성공 후 UI 변경
+                        document.getElementById('rc_send_actions').classList.add('hidden');
+                        document.getElementById('rc_post_actions').classList.remove('hidden');
                     } else {
                         throw new Error(resData.message || '이메일 발송에 실패했습니다.');
                     }
                 } catch (err) {
                     console.error('Email Send Error:', err);
                     showToast(err.message || '처리 중 오류가 발생했습니다.');
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                    btn.className = originalClasses;
                 }
                 btn.disabled = false;
                 btn.innerHTML = originalText;
                 btn.className = originalClasses;
+            }
+
+            function handleReceiptFileUpload(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const preview = document.getElementById('rc_image_preview');
+                    const previewContainer = document.getElementById('rc_image_preview_container');
+                    const defaultPreview = document.getElementById('rc_default_preview');
+
+                    if (preview && previewContainer && defaultPreview) {
+                        preview.src = e.target.result;
+                        previewContainer.classList.remove('hidden');
+                        defaultPreview.classList.add('hidden');
+                        showToast('이미지가 선택되었습니다.');
+                    }
+                };
+                reader.readAsDataURL(file);
             }
 
             async function sendPledge(btn) {
@@ -2371,9 +2456,8 @@
                         }
 
                         blob = pdf.output('blob');
-                        const reqName = document.getElementById('pl_name')?.value || '수요자';
-                        const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-                        fileName = `보안서약서_${reqName}_${dateStr}.pdf`;
+                        const dateStr = moment().format('YYYYMMDDHHmm');
+                        fileName = `보안서약서_${dateStr}.pdf`;
                     } else {
                         throw new Error('PDF 생성 영역을 찾을 수 없습니다.');
                     }
@@ -2394,6 +2478,7 @@
 
                     if (response.ok && resData.status === 'succ') {
                         showToast('보안서약서가 성공적으로 발송되었습니다.');
+                        await recordDocHistory('보안서약서', '이메일 발송 완료');
                     } else {
                         throw new Error(resData.message || '이메일 발송에 실패했습니다.');
                     }
@@ -2450,7 +2535,7 @@
                         }
 
                         blob = pdf.output('blob');
-                        const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+                        const dateStr = moment().format('YYYYMMDDHHmm');
                         fileName = `파기확인서_${dateStr}.pdf`;
                     } else {
                         throw new Error('PDF 생성 영역을 찾을 수 없습니다.');
@@ -2472,6 +2557,7 @@
 
                     if (response.ok && resData.status === 'succ') {
                         showToast('파기확인서가 성공적으로 발송되었습니다.');
+                        await recordDocHistory('파기확인서', '이메일 발송 완료');
                     } else {
                         throw new Error(resData.message || '이메일 발송에 실패했습니다.');
                     }
@@ -2526,6 +2612,10 @@
                         const anyActive = document.querySelector('.modal.active');
                         if (!anyActive) document.body.style.overflow = '';
                     }
+                    // 관리자 모달 닫을 때 자동 새로고침 정리
+                    if (modalId === 'adminModal' && typeof stopAdminAutoRefresh === 'function') {
+                        stopAdminAutoRefresh();
+                    }
                 } catch (err) {
                     console.error('Error closing modal:', err);
                 }
@@ -2534,20 +2624,24 @@
             // --- Responsive Preview Scaling ---
             function updatePreviewScale() {
                 const wrapper = document.querySelector('#quoteModal .doc-preview-wrapper');
+                const scaleWrapper = document.getElementById('invoice-scale-wrapper');
                 const preview = document.getElementById('invoice-preview');
-                if (!wrapper || !preview) return;
+                if (!wrapper || !scaleWrapper || !preview) return;
 
-                const containerWidth = wrapper.clientWidth - 40; // 20px padding each side
-                const paperWidth = 210 * 3.7795275591; // 210mm to px at 96dpi
+                const containerWidth = wrapper.clientWidth;
+                const padding = 40; // 20px padding left/right
+                const paperWidth = 794; // approx A4 width in px (210mm)
+                const paperHeight = 1123; // approx A4 height in px (297mm)
 
-                if (containerWidth < paperWidth) {
-                    const scale = containerWidth / paperWidth;
-                    preview.style.transform = `scale(${scale})`;
-                    preview.style.marginBottom = `-${paperWidth * (1 - scale)}px`; // Adjust spacing
-                } else {
-                    preview.style.transform = 'none';
-                    preview.style.marginBottom = '0';
+                let scale = 1;
+                if (containerWidth < paperWidth + padding) {
+                    scale = (containerWidth - padding) / paperWidth;
                 }
+
+                scaleWrapper.style.width = `${paperWidth * scale}px`;
+                scaleWrapper.style.height = `${paperHeight * scale}px`;
+                preview.style.transformOrigin = 'top left';
+                preview.style.transform = `scale(${scale})`;
             }
 
             window.addEventListener('resize', updatePreviewScale);
@@ -2583,7 +2677,8 @@
                     if (uid === 'admin' && upw === 'admin1234') {
                         closeModal('adminLoginModal');
                         openModal('adminModal');
-                        if (typeof loadAdminMockData === 'function') loadAdminMockData();
+                        if (typeof loadAdminData === 'function') loadAdminData();
+                        startAdminAutoRefresh();
                         if (typeof updateContractPreview === 'function') updateContractPreview();
                         if (typeof updatePledgePreview === 'function') updatePledgePreview();
                         if (typeof updateDestroyPreview === 'function') updateDestroyPreview();
@@ -2757,7 +2852,13 @@
 
             function calculateQuote() {
                 const name = document.getElementById('q_name').value || "홍길동";
-                const contact = document.getElementById('q_contact').value;
+                const phone1 = document.getElementById('q_phone1') ? document.getElementById('q_phone1').value : '010';
+                const phone2 = document.getElementById('q_phone2') ? document.getElementById('q_phone2').value : '';
+                const phone3 = document.getElementById('q_phone3') ? document.getElementById('q_phone3').value : '';
+                let contact = '';
+                if (phone2 && phone3) {
+                    contact = `${phone1}-${phone2}-${phone3}`;
+                }
 
                 let totalSubTotal = 0;
                 const tbody = document.getElementById('inv_tbody');
@@ -2877,6 +2978,9 @@
                             el.style.transform = 'none';
                             el.style.boxShadow = 'none';
                             el.style.margin = '0 auto';
+                            el.style.position = 'relative';
+                            el.style.left = '0';
+                            el.style.top = '0';
                         }
                     }
                 };
@@ -2894,9 +2998,8 @@
 
                     pdf.addImage(imgData, 'JPEG', 0, yOffset, pdfWidth, pdfHeight);
 
-                    const clientName = document.getElementById('inv_client_name').innerText.trim() || '고객';
-                    const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-                    const fileName = `비디와이드_견적서_${clientName}_${dateStr}.pdf`;
+                    const dateStr = moment().format('YYYYMMDDHHmm');
+                    const fileName = `비디와이드_견적서_${dateStr}.pdf`;
 
                     // Generate a Blob object directly and trigger an anchor download.
                     const blob = pdf.output('blob');
@@ -2954,7 +3057,9 @@
 
                 try {
                     const telegramMsg = `[긴급 상담 요청]\n이름: ${name}\n연락처: ${phone}\n이메일: ${email}\n내용: ${msg}`;
-                    const response = await fetch('http://49.247.41.71:9910/api/sendTelegram', {
+
+                    // 1) 텔레그램 발송
+                    const tgResponse = await fetch('http://49.247.41.71:9910/api/sendTelegram', {
                         method: 'POST',
                         headers: {
                             'accept': 'application/json',
@@ -2963,8 +3068,25 @@
                         body: 'msg=' + encodeURIComponent(telegramMsg)
                     });
 
-                    const resData = await response.json();
-                    if (response.ok && resData.status === 'succ') {
+                    // 2) DB 저장 (insConsult)
+                    const consultForm = new URLSearchParams();
+                    consultForm.append('name', name);
+                    consultForm.append('contact', phone);
+                    consultForm.append('email', email);
+                    consultForm.append('msg', msg);
+                    consultForm.append('comment', '요청');
+
+                    const dbResponse = await fetch('http://49.247.41.71:9910/api/insConsult', {
+                        method: 'POST',
+                        headers: {
+                            'accept': 'application/json',
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: consultForm.toString()
+                    });
+
+                    const resData = await tgResponse.json();
+                    if (tgResponse.ok && resData.status === 'succ') {
                         showToast(`${name}님, 상담 요청이 전송되었습니다.`);
                         closeModal('consultModal');
                         // Reset form
@@ -2980,7 +3102,7 @@
                         throw new Error(resData.message || '상담 요청 전송에 실패했습니다.');
                     }
                 } catch (err) {
-                    console.error('Telegram Send Error:', err);
+                    console.error('Consultation Submit Error:', err);
                     showToast('처리 중 오류가 발생했습니다.');
                 }
             }
@@ -3296,50 +3418,71 @@
                 }, 100);
             }
 
-            // --- Admin Data & Logic ---
-            let ADMIN_REQUESTS = [
-                {
-                    id: '12356',
-                    date: '26.01.10 22:30',
-                    name: '시흥경찰서',
-                    phone: '010-4769-3707',
-                    email: 'bdwide88@gmail.com',
-                    status: '대기',
-                    msg: '주차장에서 사고로, 차량 번호판도 가려야합니다. 시흥경찰서에서 영상을 받아야합니다. 의뢰자 성함은 홍길동이며, 시흥경찰서 담당자님 성함과 연락처는 문자로 보내준다고함',
-                    consult_notes: '',
-                    consult_date: ''
-                },
-                {
-                    id: '12355',
-                    date: '26.01.10 14:15',
-                    name: '신갈초등학교',
-                    phone: '010-1234-5678',
-                    email: 'school@example.com',
-                    status: '완료',
-                    msg: '학교 내 CCTV 모자이크 건입니다. 학생 얼굴만 가리면 됩니다.',
-                    consult_notes: '상담 완료. 17일 작업 착수 예정.',
-                    consult_date: '26.01.11 09:30'
-                },
-                {
-                    id: '12354',
-                    date: '26.01.10 10:00',
-                    name: '안양시청',
-                    phone: '010-9999-8888',
-                    email: 'anyang@example.com',
-                    status: '대기',
-                    msg: '도로 소음 측정 관련 모자이크 요청입니다.',
-                    consult_notes: '',
-                    consult_date: ''
-                }
-            ];
+            // --- Admin Data & Logic (API 연동) ---
+            const API_BASE = 'http://49.247.41.71:9910';
+            let ADMIN_REQUESTS = [];
 
-            function loadAdminMockData() {
+            async function loadAdminData() {
+                const btn = document.getElementById('admin-manual-refresh-btn');
+                const icon = btn?.querySelector('i');
+                if (icon) icon.classList.add('fa-spin');
+                
                 const list = document.getElementById('admin-request-list');
                 if (!list) return;
 
+                try {
+                    const response = await fetch(`${API_BASE}/api/selConsult`, {
+                        method: 'POST',
+                        headers: { 'accept': 'application/json' }
+                    });
+                    const resData = await response.json();
+
+                    if (resData.status === 'succ' && resData.data) {
+                        ADMIN_REQUESTS = resData.data.map(item => ({
+                            id: String(item.ID),
+                            date: item.REG_DATE || '',
+                            name: item.NAME || '',
+                            phone: item.CONTACT || '',
+                            email: item.EMAIL || '',
+                            status: (item.COMMENT === '완료' || item.hst?.length > 0) ? '완료' : '대기',
+                            msg: item.MSG || '',
+                            comment: item.COMMENT || '',
+                            consult_notes: item.hst?.map(h => `[${h.DOC_TYPE}] ${h.MEMO} (${h.REG_DATE})`).join('\n') || '',
+                            consult_date: item.hst?.length > 0 ? item.hst[0].REG_DATE : '',
+                            hst: item.hst || []
+                        }));
+                    } else {
+                        ADMIN_REQUESTS = [];
+                    }
+                } catch (err) {
+                    console.error('Failed to load admin data:', err);
+                    ADMIN_REQUESTS = [];
+                } finally {
+                    const icon = document.getElementById('admin-manual-refresh-btn')?.querySelector('i');
+                    if (icon) icon.classList.remove('fa-spin');
+                    adminRefreshCountdown = 10;
+                    renderAdminList();
+                }
+            }
+
+            function renderAdminList() {
+                const list = document.getElementById('admin-request-list');
+                if (!list) return;
+
+                // 카운터 업데이트
+                const totalEl = document.getElementById('admin-count-total');
+                const pendingEl = document.getElementById('admin-count-pending');
+                if (totalEl) totalEl.innerText = ADMIN_REQUESTS.length;
+                if (pendingEl) pendingEl.innerText = ADMIN_REQUESTS.filter(r => r.status === '대기').length;
+
                 // Sorting: 대기 (1) -> 완료 (2)
                 const statusOrder = { '대기': 1, '완료': 2 };
-                const sortedRequests = [...ADMIN_REQUESTS].sort((a, b) => statusOrder[a.status] - statusOrder[b.status]);
+                const sortedRequests = [...ADMIN_REQUESTS].sort((a, b) => (statusOrder[a.status] || 99) - (statusOrder[b.status] || 99));
+
+                if (sortedRequests.length === 0) {
+                    list.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400">상담 요청 데이터가 없습니다.</td></tr>`;
+                    return;
+                }
 
                 list.innerHTML = sortedRequests.map(req => {
                     let statusHtml = '';
@@ -3386,6 +3529,33 @@
                 document.getElementById('detail-msg').innerText = req.msg;
                 document.getElementById('detail-consult-notes').value = req.consult_notes || '';
 
+                // 이력 표시
+                const histArea = document.getElementById('detail-hist-area');
+                if (histArea && req.hst && req.hst.length > 0) {
+                    histArea.innerHTML = `<div class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">📋 발송 이력</div>` +
+                        req.hst.map(h => `<div class="text-xs text-slate-600 bg-slate-50 rounded-lg p-2 mb-1 border border-slate-100">
+                            <span class="font-bold text-blue-600">[${h.DOC_TYPE}]</span> ${h.MEMO} <span class="text-slate-400 ml-1">${h.REG_DATE}</span>
+                        </div>`).join('');
+                } else if (histArea) {
+                    histArea.innerHTML = '<div class="text-xs text-slate-400">발송 이력이 없습니다.</div>';
+                }
+
+                // 현금영수증 정보 초기화
+                const rcMailTo = document.getElementById('rc_mail_to');
+                if (rcMailTo) rcMailTo.value = req.email || '';
+                const rcCustomer = document.getElementById('rc_customer');
+                if (rcCustomer) {
+                    rcCustomer.value = req.name || '';
+                    updateReceiptPreview();
+                }
+                
+                // UI 초기화
+                document.getElementById('rc_send_actions')?.classList.remove('hidden');
+                document.getElementById('rc_post_actions')?.classList.add('hidden');
+                document.getElementById('rc_file_input').value = '';
+                document.getElementById('rc_image_preview_container')?.classList.add('hidden');
+                document.getElementById('rc_default_preview')?.classList.remove('hidden');
+
                 // Status Badge
                 const statusBadge = document.getElementById('detail-status');
                 if (req.status === '완료') {
@@ -3397,20 +3567,51 @@
                 }
             }
 
-            function saveConsultation() {
+            async function saveConsultation() {
                 const notes = document.getElementById('detail-consult-notes').value;
-                const req = ADMIN_REQUESTS.find(r => r.id === currentRequestDetailId);
+                if (!currentRequestDetailId) return;
 
-                if (req) {
-                    req.consult_notes = notes;
-                    req.status = '완료';
+                try {
+                    // insConsultHist API 호출
+                    const histForm = new URLSearchParams();
+                    histForm.append('consultId', currentRequestDetailId);
+                    histForm.append('docType', '상담완료');
+                    histForm.append('memo', notes || '상담 완료 처리');
 
-                    const now = new Date();
-                    req.consult_date = `${String(now.getFullYear()).slice(2)}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+                    await fetch(`${API_BASE}/api/insConsultHist`, {
+                        method: 'POST',
+                        headers: { 'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: histForm.toString()
+                    });
 
                     showToast("상담 내용이 저장되었습니다.");
-                    loadAdminMockData();
+                    await loadAdminData();
                     closeAdminDetail();
+                } catch (err) {
+                    console.error('Save consultation error:', err);
+                    showToast("저장 중 오류가 발생했습니다.");
+                }
+            }
+
+            // 문서 발송 이력 기록 헬퍼
+            async function recordDocHistory(docType, memo) {
+                if (!currentRequestDetailId) return;
+                try {
+                    const histForm = new URLSearchParams();
+                    histForm.append('consultId', currentRequestDetailId);
+                    histForm.append('docType', docType);
+                    histForm.append('memo', memo || '발송 완료');
+
+                    await fetch(`${API_BASE}/api/insConsultHist`, {
+                        method: 'POST',
+                        headers: { 'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: histForm.toString()
+                    });
+
+                    // 목록 갱신
+                    await loadAdminData();
+                } catch (err) {
+                    console.error('Record doc history error:', err);
                 }
             }
 
@@ -3418,6 +3619,44 @@
                 document.getElementById('request-list-view').classList.remove('hidden');
                 document.getElementById('request-detail-view').classList.add('hidden');
                 currentRequestDetailId = null;
+            }
+
+            // --- 자동 새로고침 (10초 카운트다운) ---
+            let adminUpdateTimer = null;
+            let adminRefreshCountdown = 10;
+
+            async function updateAdminCountdown() {
+                const elTop = document.getElementById('admin-last-refresh-time-top');
+                
+                adminRefreshCountdown--;
+                
+                if (adminRefreshCountdown <= 0) {
+                    // 0초가 되면 무조건 조회 수행 (UI 상태 무관)
+                    if (elTop) elTop.innerText = '갱신중..';
+                    await loadAdminData();
+                    adminRefreshCountdown = 10;
+                }
+                
+                if (elTop && adminRefreshCountdown > 0) {
+                    elTop.innerText = adminRefreshCountdown + '초 전';
+                }
+            }
+
+            function startAdminAutoRefresh() {
+                stopAdminAutoRefresh();
+                
+                adminRefreshCountdown = 10;
+                const elTop = document.getElementById('admin-last-refresh-time-top');
+                if (elTop) elTop.innerText = adminRefreshCountdown + '초 전';
+                
+                adminUpdateTimer = setInterval(updateAdminCountdown, 1000);
+            }
+
+            function stopAdminAutoRefresh() {
+                if (adminUpdateTimer) {
+                    clearInterval(adminUpdateTimer);
+                    adminUpdateTimer = null;
+                }
             }
 
             // Preview Updaters
