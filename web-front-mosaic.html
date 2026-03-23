@@ -17,12 +17,22 @@
     <link rel="stylesheet" as="style" crossorigin
         href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 
-    <style>
-        @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
 
+    <style>
         /* Global Reset & Typography */
         body {
-            font-family: 'Pretendard';
+            font-family: 'Pretendard', sans-serif;
             background-color: #f8fafc;
             color: #1e293b;
             scroll-behavior: smooth;
@@ -1149,12 +1159,15 @@
                 </div>
                 <div class="flex items-center gap-6">
                     <div class="flex items-center gap-3">
-                        <div class="flex items-center gap-2 text-xs font-medium text-slate-500 bg-slate-100 px-4 py-2 rounded-full border border-slate-200 shadow-sm">
+                        <div
+                            class="flex items-center gap-2 text-xs font-medium text-slate-500 bg-slate-100 px-4 py-2 rounded-full border border-slate-200 shadow-sm">
                             <div class="relative flex h-2 w-2">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                <span
+                                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                                 <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
                             </div>
-                            자동 새로고침: <span id="admin-last-refresh-time-top" class="font-bold text-slate-700 ml-1">0초 전</span>
+                            자동 새로고침: <span id="admin-last-refresh-time-top" class="font-bold text-slate-700 ml-1">0초
+                                전</span>
                         </div>
                         <button id="admin-manual-refresh-btn" onclick="loadAdminData()" title="즉시 새로고침"
                             class="w-10 h-10 flex items-center justify-center bg-white text-slate-600 rounded-full hover:bg-blue-600 hover:text-white transition-all shadow-md border border-slate-200 group">
@@ -1264,22 +1277,26 @@
                                         접수된 상담 요청을 실시간으로 확인하고 관리합니다.
                                     </p>
                                 </div>
-                                <div class="flex gap-4 items-center">
-                                    <div
-                                        class="bg-white px-5 py-2.5 rounded-2xl shadow-sm border border-slate-200 text-sm font-semibold text-slate-600 flex items-center gap-2">
+                                <div class="flex gap-2 items-center">
+                                    <button onclick="setAdminListFilter('all', this)" id="admin-filter-all"
+                                        class="admin-list-filter bg-white/50 px-5 py-2.5 rounded-2xl shadow-sm border border-slate-100 text-sm font-semibold text-slate-500 flex items-center gap-2 transition-all hover:bg-white hover:border-slate-200">
                                         <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
-                                        전체 <span id="admin-count-total" class="text-blue-600 font-black">0</span>
-                                    </div>
-                                    <div
-                                        class="bg-white px-5 py-2.5 rounded-2xl shadow-sm border border-slate-200 text-sm font-semibold text-slate-600 flex items-center gap-2">
+                                        전체 <span id="admin-count-total" class="font-black">0</span>
+                                    </button>
+                                    <button onclick="setAdminListFilter('대기', this)" id="admin-filter-wait"
+                                        class="admin-list-filter active bg-white px-5 py-2.5 rounded-2xl shadow-sm border border-red-200 text-sm font-bold text-red-600 flex items-center gap-2 transition-all">
                                         <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
-                                        대기 <span id="admin-count-pending" class="text-red-500 font-black">0</span>
-                                    </div>
+                                        대기 <span id="admin-count-pending" class="font-black">0</span>
+                                    </button>
+                                    <button onclick="setAdminListFilter('완료', this)" id="admin-filter-done"
+                                        class="admin-list-filter bg-white/50 px-5 py-2.5 rounded-2xl shadow-sm border border-slate-100 text-sm font-semibold text-slate-500 flex items-center gap-2 transition-all hover:bg-white hover:border-slate-200">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+                                        완료 <span id="admin-count-done" class="font-black">0</span>
+                                    </button>
                                 </div>
                             </div>
-
-                            <div
-                                class="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden flex-1">
+                            
+                            <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden flex-1">
                                 <table class="w-full text-sm text-left">
                                     <thead class="bg-slate-50 text-slate-500 border-b border-slate-100">
                                         <tr>
@@ -1289,7 +1306,7 @@
                                             <th class="p-5 font-bold">메일 주소</th>
                                             <th class="p-5 font-bold">성함 또는 기관명</th>
                                             <th class="p-5 font-bold">작성 내용</th>
-                                            <th class="p-5 font-bold text-center">상담</th>
+                                            <th class="p-5 font-bold text-center">상태</th>
                                         </tr>
                                     </thead>
                                     <tbody id="admin-request-list" class="divide-y divide-slate-50">
@@ -1333,7 +1350,7 @@
                                             <label
                                                 class="block text-[10px] md:text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">연락처</label>
                                             <div id="detail-phone"
-                                                class="text-lg md:text-xl font-bold text-slate-800 font-mono">
+                                                class="text-lg md:text-xl font-bold text-slate-800 font-mono text-blue-600">
                                             </div>
                                         </div>
                                         <div>
@@ -1341,33 +1358,64 @@
                                                 class="block text-[10px] md:text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">메일
                                                 주소</label>
                                             <div id="detail-email"
-                                                class="text-sm md:text-base font-bold text-slate-600">
+                                                class="text-sm md:text-base font-bold text-slate-600 break-all">
+                                            </div>
+                                        </div>
+                                        <!-- Status Switch -->
+                                        <div class="pt-4 border-t border-slate-100">
+                                            <label
+                                                class="block text-[10px] md:text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider">상태</label>
+                                            <div class="bg-slate-100 p-1 rounded-xl flex gap-1">
+                                                <button onclick="changeConsultStatus('대기')" id="status-btn-wait"
+                                                    class="flex-1 py-3 text-xs font-bold rounded-lg transition-all">대기</button>
+                                                <button onclick="changeConsultStatus('완료')" id="status-btn-done"
+                                                    class="flex-1 py-3 text-xs font-bold rounded-lg transition-all">완료</button>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="md:col-span-1">
-                                        <label
-                                            class="block text-[10px] md:text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">상담
-                                            요청 내용</label>
-                                        <div id="detail-msg"
-                                            class="bg-slate-50 p-4 rounded-2xl border border-slate-100 h-48 overflow-y-auto text-sm text-slate-700 leading-relaxed font-medium">
+
+                                    <div class="md:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6">
+                                        <!-- Request Message Area -->
+                                        <div class="md:col-span-1">
+                                            <label
+                                                class="block text-[10px] md:text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider">상담
+                                                요청 내용</label>
+                                            <div id="detail-msg"
+                                                class="bg-slate-50 p-5 rounded-2xl border border-slate-100 h-[calc(100%-2rem)] min-h-[120px] max-h-[380px] overflow-y-auto text-sm text-slate-700 leading-relaxed font-medium">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="md:col-span-2">
-                                        <label
-                                            class="block text-[10px] md:text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider text-blue-600">상담
-                                            사항 (기록용)</label>
-                                        <textarea id="detail-consult-notes"
-                                            class="w-full bg-blue-50/30 p-4 md:p-6 rounded-2xl border border-blue-100 h-48 overflow-y-auto text-sm md:text-base text-slate-700 leading-relaxed font-medium outline-none focus:ring-2 focus:ring-blue-500/20 transition-all resize-none"
-                                            placeholder="상담 내용을 입력하세요..."></textarea>
-                                    </div>
-                                    <div class="md:col-span-2">
-                                        <label
-                                            class="block text-[10px] md:text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">📋
-                                            문서 발송 이력</label>
-                                        <div id="detail-hist-area"
-                                            class="bg-slate-50/50 p-4 rounded-2xl border border-slate-100 min-h-[60px] max-h-48 overflow-y-auto">
-                                            <div class="text-xs text-slate-400">발송 이력이 없습니다.</div>
+
+                                        <!-- History Area -->
+                                        <div class="md:col-span-2">
+                                            <div
+                                                class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 pb-2 border-b border-slate-100">
+                                                <label
+                                                    class="text-[11px] md:text-xs font-black text-blue-600 uppercase tracking-[0.2em] flex items-center gap-2">
+                                                    <i class="fa-solid fa-clock-rotate-left"></i> 발송 및 상담 이력
+                                                </label>
+                                                <div class="flex flex-wrap gap-1 bg-slate-100 p-1 rounded-xl">
+                                                    <button onclick="setHistoryTab('all')" id="hist-tab-all"
+                                                        class="hist-tab active px-2.5 py-1.5 text-[10px] font-bold rounded-lg transition-all">전체</button>
+                                                    <button onclick="setHistoryTab('위탁계약서')" id="hist-tab-contract"
+                                                        class="hist-tab px-2.5 py-1.5 text-[10px] font-bold rounded-lg transition-all text-slate-500">계약</button>
+                                                    <button onclick="setHistoryTab('보안서약서')" id="hist-tab-pledge"
+                                                        class="hist-tab px-2.5 py-1.5 text-[10px] font-bold rounded-lg transition-all text-slate-500">보안</button>
+                                                    <button onclick="setHistoryTab('파기확인서')" id="hist-tab-destroy"
+                                                        class="hist-tab px-2.5 py-1.5 text-[10px] font-bold rounded-lg transition-all text-slate-500">파기</button>
+                                                    <button onclick="setHistoryTab('현금영수증')" id="hist-tab-receipt"
+                                                        class="hist-tab px-2.5 py-1.5 text-[10px] font-bold rounded-lg transition-all text-slate-500">영수</button>
+                                                    <button onclick="setHistoryTab('상담완료')" id="hist-tab-memo"
+                                                        class="hist-tab px-2.5 py-1.5 text-[10px] font-bold rounded-lg transition-all text-slate-500">메모</button>
+                                                </div>
+                                            </div>
+
+                                            <div id="detail-hist-area"
+                                                class="space-y-2.5 max-h-[340px] overflow-y-auto pr-2 scrollbar-thin">
+                                                <div class="text-center py-10 opacity-30">
+                                                    <i class="fa-solid fa-folder-open text-3xl mb-2"></i>
+                                                    <p class="text-xs">이력이 없습니다.</p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1375,33 +1423,29 @@
                                 <!-- Detail View Actions -->
                                 <div class="mt-auto pt-6 border-t border-slate-100 shrink-0">
                                     <div class="flex flex-wrap gap-3 mb-6">
-                                        <button onclick="saveConsultation()"
-                                            class="flex-1 bg-slate-900 hover:bg-blue-600 text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg">
-                                            저장하기
-                                        </button>
                                         <button onclick="closeAdminDetail()"
                                             class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2">
                                             닫기
                                         </button>
                                     </div>
 
-                                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-                                        <!--                                        <button onclick="showDocPreview('contract')"-->
-                                        <!--                                            class="bg-white hover:bg-blue-50 text-blue-600 border border-blue-100 font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-xs md:text-sm">-->
-                                        <!--                                            <i class="fa-solid fa-file-contract"></i> 위탁계약서-->
-                                        <!--                                        </button>-->
-                                        <!--                                        <button onclick="showDocPreview('pledge')"-->
-                                        <!--                                            class="bg-white hover:bg-blue-50 text-blue-600 border border-blue-100 font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-xs md:text-sm">-->
-                                        <!--                                            <i class="fa-solid fa-file-signature"></i> 보안서약서-->
-                                        <!--                                        </button>-->
-                                        <!--                                        <button onclick="showDocPreview('destroy')"-->
-                                        <!--                                            class="bg-white hover:bg-red-50 text-red-600 border border-red-100 font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-xs md:text-sm">-->
-                                        <!--                                            <i class="fa-solid fa-file-shredder"></i> 파기확인서-->
-                                        <!--                                        </button>-->
-                                        <!--                                        <button onclick="showDocPreview('receipt')"-->
-                                        <!--                                            class="bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-xs md:text-sm">-->
-                                        <!--                                            <i class="fa-solid fa-receipt"></i> 현금영수증-->
-                                        <!--                                        </button>-->
+                                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mt-6 border-t border-slate-50 pt-6">
+                                        <button onclick="autoFillAndSwitch('contract')"
+                                            class="bg-white hover:bg-blue-600 hover:text-white text-blue-600 border border-blue-100 font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2 text-xs md:text-sm shadow-sm active:scale-95">
+                                            <i class="fa-solid fa-file-contract"></i> 위탁계약서
+                                        </button>
+                                        <button onclick="autoFillAndSwitch('pledge')"
+                                            class="bg-white hover:bg-emerald-600 hover:text-white text-emerald-600 border border-emerald-100 font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2 text-xs md:text-sm shadow-sm active:scale-95">
+                                            <i class="fa-solid fa-shield-halved"></i> 보안서약서
+                                        </button>
+                                        <button onclick="autoFillAndSwitch('destroy')"
+                                            class="bg-white hover:bg-red-600 hover:text-white text-red-600 border border-red-100 font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2 text-xs md:text-sm shadow-sm active:scale-95">
+                                            <i class="fa-solid fa-trash-can"></i> 파기확인서
+                                        </button>
+                                        <button onclick="autoFillAndSwitch('receipt')"
+                                            class="bg-white hover:bg-amber-500 hover:text-white text-amber-500 border border-amber-100 font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2 text-xs md:text-sm shadow-sm active:scale-95">
+                                            <i class="fa-solid fa-receipt"></i> 현금영수증
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -1445,6 +1489,25 @@
                                         <i class="fa-solid fa-pen-to-square text-blue-500"></i> 정보 입력
                                     </h5>
                                     <div class="space-y-3">
+                                        <div class="relative">
+                                            <label
+                                                class="text-xs font-bold text-slate-500 mb-1 block flex items-center justify-between gap-1">
+                                                <span>연계 번호ID <span class="text-red-500">*</span></span>
+                                                <span class="text-[9px] text-blue-500 font-normal">신규 요청 상단 배치</span>
+                                            </label>
+                                            <div class="flex bg-slate-100 p-1 rounded-xl mb-2">
+                                                <button type="button" onclick="setAdminSelectTab(this, '대기', 'contract')"
+                                                    class="admin-select-tab active flex-1 py-1.5 text-[10px] font-bold rounded-lg bg-white text-slate-800 shadow-sm transition-all">대기</button>
+                                                <button type="button" onclick="setAdminSelectTab(this, '완료', 'contract')"
+                                                    class="admin-select-tab flex-1 py-1.5 text-[10px] font-bold rounded-lg text-slate-500 hover:text-slate-700 transition-all">완료</button>
+                                            </div>
+                                            <div class="mb-2 relative group">
+                                                <select onchange="handleAdminIdSelect(this, 'contract')"
+                                                    class="consult-id-select w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all font-bold text-slate-700 cursor-pointer">
+                                                    <option value="">번호ID를 선택해주세요</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                         <div>
                                             <label class="text-xs font-bold text-slate-500 mb-1 block">위탁자</label>
                                             <input type="text" id="ct_truster"
@@ -1488,7 +1551,7 @@
                                                 placeholder="CCTV 영상 모자이크" value="CCTV 영상 모자이크"
                                                 oninput="updateContractPreview()">
                                         </div>
-<!--                                        <button onclick="updateContractPreview()" class="w-full bg-blue-100 text-blue-600 py-3 rounded-xl font-bold hover:bg-blue-200 transition-all">미리보기</button>-->
+                                        <!--                                        <button onclick="updateContractPreview()" class="w-full bg-blue-100 text-blue-600 py-3 rounded-xl font-bold hover:bg-blue-200 transition-all">미리보기</button>-->
                                         <div class="pt-6 border-t border-slate-100 space-y-4">
                                             <h5 class="font-bold text-slate-800 flex items-center gap-2 mb-2">
                                                 <i class="fa-solid fa-paper-plane text-blue-500"></i> 메일 발송
@@ -1703,6 +1766,25 @@
                                         <i class="fa-solid fa-pen-to-square text-blue-500"></i> 정보 입력
                                     </h5>
                                     <div class="space-y-4">
+                                        <div class="relative">
+                                            <label
+                                                class="text-xs font-bold text-slate-500 mb-1 block flex items-center justify-between gap-1">
+                                                <span>연계 번호ID <span class="text-red-500">*</span></span>
+                                                <span class="text-[9px] text-blue-500 font-normal">신규 요청 상단 배치</span>
+                                            </label>
+                                            <div class="flex bg-slate-100 p-1 rounded-xl mb-2">
+                                                <button type="button" onclick="setAdminSelectTab(this, '대기', 'pledge')"
+                                                    class="admin-select-tab active flex-1 py-1.5 text-[10px] font-bold rounded-lg bg-white text-slate-800 shadow-sm transition-all">대기</button>
+                                                <button type="button" onclick="setAdminSelectTab(this, '완료', 'pledge')"
+                                                    class="admin-select-tab flex-1 py-1.5 text-[10px] font-bold rounded-lg text-slate-500 hover:text-slate-700 transition-all">완료</button>
+                                            </div>
+                                            <div class="mb-2 relative group">
+                                                <select onchange="handleAdminIdSelect(this, 'pledge')"
+                                                    class="consult-id-select w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all font-bold text-slate-700 cursor-pointer">
+                                                    <option value="">번호ID를 선택해주세요 (필수)</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                         <div><label class="text-xs font-bold text-slate-500 mb-1 block">수요자</label>
                                             <input type="text" id="pl_name"
                                                 class="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
@@ -1729,7 +1811,7 @@
                                                 oninput="updatePledgePreview()">
                                         </div>
 
-<!--                                        <button onclick="updatePledgePreview()" class="w-full bg-blue-100 text-blue-600 py-3 rounded-xl font-bold hover:bg-blue-200 transition-all">미리보기</button>-->
+                                        <!--                                        <button onclick="updatePledgePreview()" class="w-full bg-blue-100 text-blue-600 py-3 rounded-xl font-bold hover:bg-blue-200 transition-all">미리보기</button>-->
 
                                         <div class="pt-6 border-t border-slate-100 space-y-4">
                                             <h5 class="font-bold text-slate-800 flex items-center gap-2 mb-2">
@@ -1850,6 +1932,25 @@
                                         <i class="fa-solid fa-pen-to-square text-blue-500"></i> 정보 입력
                                     </h5>
                                     <div class="space-y-4">
+                                        <div class="relative">
+                                            <label
+                                                class="text-xs font-bold text-slate-500 mb-1 block flex items-center justify-between gap-1">
+                                                <span>연계 번호ID <span class="text-red-500">*</span></span>
+                                                <span class="text-[9px] text-blue-500 font-normal">신규 요청 상단 배치</span>
+                                            </label>
+                                            <div class="flex bg-slate-100 p-1 rounded-xl mb-2">
+                                                <button type="button" onclick="setAdminSelectTab(this, '대기', 'destroy')"
+                                                    class="admin-select-tab active flex-1 py-1.5 text-[10px] font-bold rounded-lg bg-white text-slate-800 shadow-sm transition-all">대기</button>
+                                                <button type="button" onclick="setAdminSelectTab(this, '완료', 'destroy')"
+                                                    class="admin-select-tab flex-1 py-1.5 text-[10px] font-bold rounded-lg text-slate-500 hover:text-slate-700 transition-all">완료</button>
+                                            </div>
+                                            <div class="mb-2 relative group">
+                                                <select onchange="handleAdminIdSelect(this, 'destroy')"
+                                                    class="consult-id-select w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all font-bold text-slate-700 cursor-pointer">
+                                                    <option value="">번호ID를 선택해주세요 (필수)</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                         <div><label class="text-xs font-bold text-slate-500 mb-1 block">작성일</label>
                                             <input type="text" id="ds_date"
                                                 class="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
@@ -1902,7 +2003,7 @@
                                                 oninput="updateDestroyPreview()">
                                         </div>
 
-<!--                                        <button onclick="updateDestroyPreview()" class="w-full bg-blue-100 text-blue-600 py-3 rounded-xl font-bold hover:bg-blue-200 transition-all">미리보기</button>-->
+                                        <!--                                        <button onclick="updateDestroyPreview()" class="w-full bg-blue-100 text-blue-600 py-3 rounded-xl font-bold hover:bg-blue-200 transition-all">미리보기</button>-->
 
                                         <div class="pt-6 border-t border-slate-100 space-y-4">
                                             <h5 class="font-bold text-slate-800 flex items-center gap-2 mb-2">
@@ -2072,6 +2173,25 @@
                                         class="font-bold border-b border-slate-100 pb-3 mb-2 text-slate-800 flex items-center gap-2">
                                         <i class="fa-solid fa-cloud-arrow-up text-blue-500"></i> 이미지 업로드
                                     </h5>
+                                    <div class="mb-4 relative">
+                                        <label
+                                            class="text-xs font-bold text-slate-500 mb-1 block flex items-center justify-between gap-1">
+                                            <span>연계 번호ID <span class="text-red-500">*</span></span>
+                                            <span class="text-[9px] text-blue-500 font-normal">신규 요청 상단 배치</span>
+                                        </label>
+                                        <div class="flex bg-slate-100 p-1 rounded-xl mb-2">
+                                            <button type="button" onclick="setAdminSelectTab(this, '대기', 'receipt')"
+                                                class="admin-select-tab active flex-1 py-1.5 text-[10px] font-bold rounded-lg bg-white text-slate-800 shadow-sm transition-all">대기</button>
+                                            <button type="button" onclick="setAdminSelectTab(this, '완료', 'receipt')"
+                                                class="admin-select-tab flex-1 py-1.5 text-[10px] font-bold rounded-lg text-slate-500 hover:text-slate-700 transition-all">완료</button>
+                                        </div>
+                                        <div class="mb-2 relative group">
+                                            <select onchange="handleAdminIdSelect(this, 'receipt')"
+                                                class="consult-id-select w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all font-bold text-slate-700 cursor-pointer">
+                                                <option value="">번호ID를 선택해주세요</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                     <input type="file" id="rc_file_input" accept="image/*" class="hidden"
                                         onchange="handleReceiptFileUpload(event)">
                                     <div onclick="document.getElementById('rc_file_input').click()"
@@ -2144,21 +2264,24 @@
                                 <div
                                     class="flex-1 bg-slate-200/50 rounded-2xl overflow-y-auto overflow-x-hidden border border-slate-200/50 scrollbar-thin">
                                     <div class="doc-preview-wrapper min-h-full p-8 flex justify-center">
-                                            <div id="rc_image_preview_container" class="hidden w-full h-full">
-                                                <img id="rc_image_preview" src=""
-                                                    class="w-full h-auto rounded-lg shadow-sm border border-slate-100"
-                                                    alt="업로드 이미지">
-                                            </div>
-                                            <!-- '이미지 없음' 기본 표시 -->
-                                            <div id="rc_default_preview" class="w-full h-full min-h-[500px] flex items-center justify-center p-20">
-                                                <div class="text-center space-y-4 opacity-40">
-                                                    <div class="w-32 h-32 bg-white/50 rounded-3xl flex items-center justify-center mx-auto border-4 border-dashed border-slate-200">
-                                                        <i class="fa-solid fa-image text-5xl text-slate-200"></i>
-                                                    </div>
-                                                    <p class="text-slate-400 font-black tracking-[0.2em] text-lg">이미지 없음</p>
-                                                    <p class="text-slate-300 text-xs text-center leading-relaxed">왼쪽의 업로드 버튼을 눌러<br>현금영수증 원본 이미지를 선택해주세요.</p>
+                                        <div id="rc_image_preview_container" class="hidden w-full h-full">
+                                            <img id="rc_image_preview" src=""
+                                                class="w-full h-auto rounded-lg shadow-sm border border-slate-100"
+                                                alt="업로드 이미지">
+                                        </div>
+                                        <!-- '이미지 없음' 기본 표시 -->
+                                        <div id="rc_default_preview"
+                                            class="w-full h-full min-h-[500px] flex items-center justify-center p-20">
+                                            <div class="text-center space-y-4 opacity-40">
+                                                <div
+                                                    class="w-32 h-32 bg-white/50 rounded-3xl flex items-center justify-center mx-auto border-4 border-dashed border-slate-200">
+                                                    <i class="fa-solid fa-image text-5xl text-slate-200"></i>
                                                 </div>
+                                                <p class="text-slate-400 font-black tracking-[0.2em] text-lg">이미지 없음</p>
+                                                <p class="text-slate-300 text-xs text-center leading-relaxed">왼쪽의 업로드
+                                                    버튼을 눌러<br>현금영수증 원본 이미지를 선택해주세요.</p>
                                             </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -2218,6 +2341,16 @@
                 const rEmail = document.getElementById('ct_mail_to')?.value;
                 const rSubject = document.getElementById('ct_mail_subject')?.value;
                 const rContent = document.getElementById('ct_mail_body')?.value;
+
+                // Validation: ID Selection Required
+                const select = document.querySelector('#admin-tab-contract .consult-id-select');
+                if (!select || !select.value) {
+                    showToast('위탁계약서 연계 번호ID를 선택해주세요.');
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                    btn.className = originalClasses;
+                    return;
+                }
 
                 if (!rEmail || !rEmail.includes('@')) {
                     showToast('유효한 이메일 주소를 입력해주세요.');
@@ -2312,6 +2445,16 @@
 
                 if (!rEmail || !rEmail.includes('@')) {
                     showToast('유효한 이메일 주소를 입력해주세요.');
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                    btn.className = originalClasses;
+                    return;
+                }
+
+                // Validation: ID Selection Required
+                const select = document.querySelector('#admin-tab-receipt .consult-id-select');
+                if (!select || !select.value) {
+                    showToast('현금영수증 연계 번호ID를 선택해주세요.');
                     btn.disabled = false;
                     btn.innerHTML = originalText;
                     btn.className = originalClasses;
@@ -2423,6 +2566,16 @@
                 const rSubject = document.getElementById('pl_mail_subject')?.value;
                 const rContent = document.getElementById('pl_mail_body')?.value;
 
+                // Validation: ID Selection Required
+                const select = document.querySelector('#admin-tab-pledge .consult-id-select');
+                if (!select || !select.value) {
+                    showToast('보안서약서 연계 번호ID를 선택해주세요.');
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                    btn.className = originalClasses;
+                    return;
+                }
+
                 if (!rEmail || !rEmail.includes('@')) {
                     showToast('유효한 이메일 주소를 입력해주세요.');
                     btn.disabled = false;
@@ -2501,6 +2654,16 @@
                 const rEmail = document.getElementById('ds_mail_to')?.value;
                 const rSubject = document.getElementById('ds_mail_subject')?.value;
                 const rContent = document.getElementById('ds_mail_body')?.value;
+
+                // Validation: ID Selection Required
+                const select = document.querySelector('#admin-tab-destroy .consult-id-select');
+                if (!select || !select.value) {
+                    showToast('파기확인서 연계 번호ID를 선택해주세요.');
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                    btn.className = originalClasses;
+                    return;
+                }
 
                 if (!rEmail || !rEmail.includes('@')) {
                     showToast('유효한 이메일 주소를 입력해주세요.');
@@ -3074,7 +3237,7 @@
                     consultForm.append('contact', phone);
                     consultForm.append('email', email);
                     consultForm.append('msg', msg);
-                    consultForm.append('comment', '요청');
+                    consultForm.append('status', '대기');
 
                     const dbResponse = await fetch('http://49.247.41.71:9910/api/insConsult', {
                         method: 'POST',
@@ -3386,6 +3549,15 @@
                     updateReceiptPreview();
                     switchAdminTab('receipt');
                 }
+
+                // ID 선택 드롭다운 업데이트
+                const tab = document.getElementById(`admin-tab-${type}`);
+                if (tab) {
+                    const select = tab.querySelector('.consult-id-select');
+                    if (select) select.value = currentRequestDetailId;
+                }
+
+                showToast(`No.${currentRequestDetailId} (${name}) 정보가 연계되었습니다.`);
                 closeAdminDetail();
             }
 
@@ -3422,11 +3594,12 @@
             const API_BASE = 'http://49.247.41.71:9910';
             let ADMIN_REQUESTS = [];
 
+
             async function loadAdminData() {
                 const btn = document.getElementById('admin-manual-refresh-btn');
                 const icon = btn?.querySelector('i');
                 if (icon) icon.classList.add('fa-spin');
-                
+
                 const list = document.getElementById('admin-request-list');
                 if (!list) return;
 
@@ -3438,19 +3611,32 @@
                     const resData = await response.json();
 
                     if (resData.status === 'succ' && resData.data) {
-                        ADMIN_REQUESTS = resData.data.map(item => ({
-                            id: String(item.ID),
-                            date: item.REG_DATE || '',
-                            name: item.NAME || '',
-                            phone: item.CONTACT || '',
-                            email: item.EMAIL || '',
-                            status: (item.COMMENT === '완료' || item.hst?.length > 0) ? '완료' : '대기',
-                            msg: item.MSG || '',
-                            comment: item.COMMENT || '',
-                            consult_notes: item.hst?.map(h => `[${h.DOC_TYPE}] ${h.MEMO} (${h.REG_DATE})`).join('\n') || '',
-                            consult_date: item.hst?.length > 0 ? item.hst[0].REG_DATE : '',
-                            hst: item.hst || []
-                        }));
+                        ADMIN_REQUESTS = (resData.data || []).map(item => {
+                            const hst = item.hst || [];
+                            const derivedStatus = item.STATUS || '대기';
+                            
+                            // 최근 상담완료일 derivation
+                            const doneEntry = hst
+                                .filter(h => h.DOC_TYPE === '상담완료')
+                                .sort((a, b) => new Date(b.REG_DATE) - new Date(a.REG_DATE))[0];
+
+                            return {
+                                id: String(item.ID),
+                                date: item.REG_DATE || '',
+                                name: item.NAME || '',
+                                phone: item.CONTACT || '',
+                                email: item.EMAIL || '',
+                                msg: item.MSG || '',
+                                status: derivedStatus,
+                                consult_date: doneEntry ? doneEntry.REG_DATE : null,
+                                history: hst.map(h => ({
+                                    type: h.DOC_TYPE,
+                                    content: h.MEMO,
+                                    date: h.REG_DATE
+                                })),
+                                hst: hst
+                            };
+                        });
                     } else {
                         ADMIN_REQUESTS = [];
                     }
@@ -3462,7 +3648,144 @@
                     if (icon) icon.classList.remove('fa-spin');
                     adminRefreshCountdown = 10;
                     renderAdminList();
+                    updateAdminIdSelects();
                 }
+            }
+
+            let adminSelectTabState = {
+                contract: '대기',
+                pledge: '대기',
+                destroy: '대기',
+                receipt: '대기'
+            };
+
+            function setAdminSelectTab(btn, status, type) {
+                adminSelectTabState[type] = status;
+                
+                // UI 전환
+                const container = btn.parentElement;
+                container.querySelectorAll('button').forEach(b => {
+                    b.classList.remove('active', 'bg-white', 'text-slate-800', 'shadow-sm');
+                    b.classList.add('text-slate-500');
+                });
+                btn.classList.add('active', 'bg-white', 'text-slate-800', 'shadow-sm');
+                btn.classList.remove('text-slate-500');
+                
+                updateAdminIdSelects();
+            }
+
+            function updateAdminIdSelects() {
+                const types = ['contract', 'pledge', 'destroy', 'receipt'];
+                
+                types.forEach(type => {
+                    const select = document.querySelector(`#admin-tab-${type} .consult-id-select`);
+                    if (!select) return;
+                    
+                    const status = adminSelectTabState[type];
+                    const filtered = ADMIN_REQUESTS.filter(r => r.status === status)
+                        .sort((a, b) => parseInt(b.id) - parseInt(a.id));
+
+                    const createOption = req => {
+                        const phoneSuffix = req.phone.split('-').pop();
+                        const searchData = `${req.id} ${req.name} ${phoneSuffix}`.toLowerCase();
+                        return `<option value="${req.id}" data-search="${searchData}">No.${req.id} - ${req.name} (${phoneSuffix})</option>`;
+                    };
+
+                    const defaultOption = `<option value="">${status} 목록에서 선택 (필수)</option>`;
+                    select.innerHTML = defaultOption + filtered.map(createOption).join('');
+                });
+            }
+
+            function filterConsultIds(input, type) {
+                const query = input.value.toLowerCase().trim();
+                const container = input.closest('.relative');
+                const select = container.querySelector('.consult-id-select');
+                const options = select.querySelectorAll('option');
+                const groups = select.querySelectorAll('optgroup');
+
+                if (!query) {
+                    options.forEach(opt => opt.style.display = '');
+                    groups.forEach(grp => grp.style.display = '');
+                    return;
+                }
+
+                let visibleCount = 0;
+                options.forEach(opt => {
+                    if (!opt.value) return; // Skip default option
+                    const searchData = opt.getAttribute('data-search') || '';
+                    if (searchData.includes(query)) {
+                        opt.style.display = '';
+                        visibleCount++;
+                    } else {
+                        opt.style.display = 'none';
+                    }
+                });
+
+                // Hide empty groups
+                groups.forEach(grp => {
+                    const groupOptions = Array.from(grp.querySelectorAll('option'));
+                    const hasVisible = groupOptions.some(opt => opt.style.display !== 'none');
+                    grp.style.display = hasVisible ? '' : 'none';
+                });
+            }
+
+            function handleAdminIdSelect(select, type) {
+                const id = select.value;
+                if (!id) return;
+
+                const req = ADMIN_REQUESTS.find(r => r.id === id);
+                if (!req) return;
+
+                const today = new Date();
+                const dateDot = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
+                const dateKR = `${today.getFullYear()}년 ${String(today.getMonth() + 1).padStart(2, '0')}월 ${String(today.getDate()).padStart(2, '0')}일`;
+
+                if (type === 'contract') {
+                    document.getElementById('ct_truster').value = req.name;
+                    document.getElementById('ct_date').value = dateDot;
+                    document.getElementById('ct_period').value = `${dateKR} ~ ${dateKR}`;
+                    document.getElementById('ct_mail_to').value = req.email;
+                    updateContractPreview();
+                } else if (type === 'pledge') {
+                    document.getElementById('pl_name').value = req.name;
+                    document.getElementById('pl_date').value = dateKR;
+                    document.getElementById('pl_mail_to').value = req.email;
+                    updatePledgePreview();
+                } else if (type === 'destroy') {
+                    document.getElementById('ds_date').value = dateDot;
+                    document.getElementById('ds_file').value = req.msg;
+                    document.getElementById('ds_mail_to').value = req.email;
+                    updateDestroyPreview();
+                } else if (type === 'receipt') {
+                    document.getElementById('rc_customer').value = req.name;
+                    document.getElementById('rc_mail_to').value = req.email;
+                    updateReceiptPreview();
+                }
+
+                // 해당 ID로 현재 작업 컨텍스트 설정
+                currentRequestDetailId = id;
+                showToast(`No.${id} (${req.name}) 정보가 연계되었습니다.`);
+            }
+
+            let currentAdminListFilter = '대기';
+
+            function setAdminListFilter(status, btn) {
+                currentAdminListFilter = status;
+                
+                // UI 전환
+                document.querySelectorAll('.admin-list-filter').forEach(b => {
+                    b.classList.remove('active', 'border-blue-200', 'text-blue-600', 'bg-white', 'font-bold', 'border-red-200', 'text-red-600');
+                    b.classList.add('bg-white/50', 'border-slate-100', 'text-slate-500', 'font-semibold');
+                });
+                
+                const isWait = status === '대기';
+                const colorClass = isWait ? 'border-red-200 text-red-600' : 'border-blue-200 text-blue-600';
+                
+                btn.classList.add('active', 'bg-white', 'font-bold');
+                colorClass.split(' ').forEach(c => btn.classList.add(c));
+                btn.classList.remove('bg-white/50', 'border-slate-100', 'text-slate-500', 'font-semibold');
+                
+                renderAdminList();
             }
 
             function renderAdminList() {
@@ -3472,15 +3795,27 @@
                 // 카운터 업데이트
                 const totalEl = document.getElementById('admin-count-total');
                 const pendingEl = document.getElementById('admin-count-pending');
+                const doneEl = document.getElementById('admin-count-done');
+                
                 if (totalEl) totalEl.innerText = ADMIN_REQUESTS.length;
                 if (pendingEl) pendingEl.innerText = ADMIN_REQUESTS.filter(r => r.status === '대기').length;
+                if (doneEl) doneEl.innerText = ADMIN_REQUESTS.filter(r => r.status === '완료').length;
+
+                // 필터링 적용
+                let filtered = ADMIN_REQUESTS;
+                if (currentAdminListFilter !== 'all') {
+                    filtered = ADMIN_REQUESTS.filter(r => r.status === currentAdminListFilter);
+                }
 
                 // Sorting: 대기 (1) -> 완료 (2)
                 const statusOrder = { '대기': 1, '완료': 2 };
-                const sortedRequests = [...ADMIN_REQUESTS].sort((a, b) => (statusOrder[a.status] || 99) - (statusOrder[b.status] || 99));
+                const sortedRequests = [...filtered].sort((a, b) => {
+                    if (a.status !== b.status) return (statusOrder[a.status] || 99) - (statusOrder[b.status] || 99);
+                    return parseInt(b.id) - parseInt(a.id); // 동일 상태 시 ID 내림차순
+                });
 
                 if (sortedRequests.length === 0) {
-                    list.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400">상담 요청 데이터가 없습니다.</td></tr>`;
+                    list.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400">데이터가 없습니다.</td></tr>`;
                     return;
                 }
 
@@ -3489,23 +3824,45 @@
                     if (req.status === '완료') {
                         statusHtml = `
                                         <div class="flex flex-col items-center">
-                                            <span class="bg-blue-100 text-blue-600 px-2 py-1 rounded text-xs font-bold mb-1">완료</span>
-                                            <span class="text-[10px] text-slate-400">${req.consult_date}</span>
+                                            <span class="bg-blue-100 text-blue-600 px-2.5 py-1 rounded-lg text-[10px] font-black mb-1">상담완료</span>
+                                            <span class="text-[9px] text-slate-400 font-bold">${req.consult_date || ''}</span>
                                         </div>
                                     `;
                     } else {
-                        statusHtml = `<span class="bg-red-100 text-red-600 px-2 py-1 rounded text-xs font-bold">대기</span>`;
+                        statusHtml = `<span class="bg-red-50 text-red-500 border border-red-100 px-2.5 py-1 rounded-lg text-[10px] font-black">집계대기</span>`;
                     }
+
+                    // 발송된 서류 아이콘 체크
+                    const hasContract = req.history.some(h => h.type === '위탁계약서');
+                    const hasPledge = req.history.some(h => h.type === '보안서약서');
+                    const hasDestroy = req.history.some(h => h.type === '파기확인서');
+                    const hasReceipt = req.history.some(h => h.type === '현금영수증');
+
+                    const getBadge = (show, icon, color) => show ? `<span class="w-6 h-6 rounded-lg ${color} flex items-center justify-center text-[10px] shadow-sm"><i class="fa-solid ${icon}"></i></span>` : '';
+
+                    const badgesHtml = `
+                        <div class="flex gap-1 justify-center mt-1 scale-90">
+                            ${getBadge(hasContract, 'fa-file-contract', 'bg-blue-600 text-white')}
+                            ${getBadge(hasPledge, 'fa-shield-halved', 'bg-emerald-600 text-white')}
+                            ${getBadge(hasDestroy, 'fa-trash-can', 'bg-red-500 text-white')}
+                            ${getBadge(hasReceipt, 'fa-receipt', 'bg-amber-500 text-white')}
+                        </div>
+                    `;
 
                     return `
                 <tr class="border-b hover:bg-slate-50 transition cursor-pointer" onclick="openAdminDetail('${req.id}')">
                     <td class="p-4 pl-8 font-medium text-slate-600">${req.id}</td>
-                    <td class="p-4 text-slate-500">${req.date}</td>
+                    <td class="p-4 text-slate-400 text-xs">${req.date}</td>
                     <td class="p-4">${req.phone}</td>
-                    <td class="p-4 text-slate-500">${req.email}</td>
+                    <td class="p-4 text-slate-500 text-xs">${req.email}</td>
                     <td class="p-4 font-bold text-slate-800">${req.name}</td>
-                    <td class="p-4 text-slate-500 truncate max-w-[200px]">${req.msg}</td>
-                    <td class="p-4 text-center">${statusHtml}</td>
+                    <td class="p-4 text-slate-500 truncate max-w-[150px] font-medium text-xs">${req.msg}</td>
+                    <td class="p-4">
+                        <div class="flex flex-col items-center gap-1">
+                            ${statusHtml}
+                            ${badgesHtml}
+                        </div>
+                    </td>
                 </tr>`;
                 }).join('');
             }
@@ -3529,16 +3886,8 @@
                 document.getElementById('detail-msg').innerText = req.msg;
                 document.getElementById('detail-consult-notes').value = req.consult_notes || '';
 
-                // 이력 표시
-                const histArea = document.getElementById('detail-hist-area');
-                if (histArea && req.hst && req.hst.length > 0) {
-                    histArea.innerHTML = `<div class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">📋 발송 이력</div>` +
-                        req.hst.map(h => `<div class="text-xs text-slate-600 bg-slate-50 rounded-lg p-2 mb-1 border border-slate-100">
-                            <span class="font-bold text-blue-600">[${h.DOC_TYPE}]</span> ${h.MEMO} <span class="text-slate-400 ml-1">${h.REG_DATE}</span>
-                        </div>`).join('');
-                } else if (histArea) {
-                    histArea.innerHTML = '<div class="text-xs text-slate-400">발송 이력이 없습니다.</div>';
-                }
+                // 이력 표시 초기화 (전체 탭)
+                setHistoryTab('all');
 
                 // 현금영수증 정보 초기화
                 const rcMailTo = document.getElementById('rc_mail_to');
@@ -3548,7 +3897,7 @@
                     rcCustomer.value = req.name || '';
                     updateReceiptPreview();
                 }
-                
+
                 // UI 초기화
                 document.getElementById('rc_send_actions')?.classList.remove('hidden');
                 document.getElementById('rc_post_actions')?.classList.add('hidden');
@@ -3556,14 +3905,51 @@
                 document.getElementById('rc_image_preview_container')?.classList.add('hidden');
                 document.getElementById('rc_default_preview')?.classList.remove('hidden');
 
-                // Status Badge
-                const statusBadge = document.getElementById('detail-status');
-                if (req.status === '완료') {
-                    statusBadge.className = 'px-3 py-1 rounded-full font-bold text-[10px] md:text-xs bg-blue-100 text-blue-600';
-                    statusBadge.innerText = '완료 (' + req.consult_date + ')';
+                // Status Toggle UI 업데이트
+                updateStatusToggleUI(req.status);
+            }
+
+            function updateStatusToggleUI(status) {
+                const waitBtn = document.getElementById('status-btn-wait');
+                const doneBtn = document.getElementById('status-btn-done');
+                if (!waitBtn || !doneBtn) return;
+
+                if (status === '대기') {
+                    waitBtn.className = 'flex-1 py-3 text-xs font-bold rounded-lg bg-red-500 text-white shadow-md transition-all active:scale-95';
+                    doneBtn.className = 'flex-1 py-3 text-xs font-bold rounded-lg bg-transparent text-slate-400 hover:bg-slate-200 transition-all';
                 } else {
-                    statusBadge.className = 'px-3 py-1 rounded-full font-bold text-[10px] md:text-xs bg-red-100 text-red-600';
-                    statusBadge.innerText = '대기';
+                    waitBtn.className = 'flex-1 py-3 text-xs font-bold rounded-lg bg-transparent text-slate-400 hover:bg-slate-200 transition-all';
+                    doneBtn.className = 'flex-1 py-3 text-xs font-bold rounded-lg bg-blue-600 text-white shadow-md transition-all active:scale-95';
+                }
+            }
+
+            async function changeConsultStatus(newStatus) {
+                if (!currentRequestDetailId) return;
+
+                const req = ADMIN_REQUESTS.find(r => r.id === currentRequestDetailId);
+                if (req && req.status === newStatus) return;
+
+                try {
+                    // 1) TB_CONSULT.STATUS 컬럼 직접 업데이트
+                    const form = new URLSearchParams();
+                    form.append('consultId', currentRequestDetailId);
+                    form.append('status', newStatus);
+
+                    await fetch(`${API_BASE}/api/updConsultStatus`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: form.toString()
+                    });
+
+
+                    showToast(`상태가 [${newStatus}]로 변경되었습니다.`);
+                    updateStatusToggleUI(newStatus);
+
+                    // 데이터 리로드 (목록 상태 동기화)
+                    await loadAdminData();
+                } catch (err) {
+                    console.error('Status update error:', err);
+                    showToast("상태 변경 저장에 실패했습니다.");
                 }
             }
 
@@ -3593,6 +3979,87 @@
                 }
             }
 
+            // --- History Tab Logic ---
+            let currentHistoryTab = 'all';
+
+            function setHistoryTab(tabType) {
+                currentHistoryTab = tabType;
+
+                // Update UI: Tabs
+                const tabs = document.querySelectorAll('.hist-tab');
+                tabs.forEach(tab => {
+                    tab.classList.remove('active', 'bg-slate-900', 'text-white');
+                    tab.classList.add('text-slate-500', 'hover:bg-slate-50');
+                });
+
+                // Find the button by its onclick text (robust enough for this small app)
+                tabs.forEach(tab => {
+                    if (tab.getAttribute('onclick')?.includes(`'${tabType}'`)) {
+                        tab.classList.add('active', 'bg-slate-900', 'text-white');
+                        tab.classList.remove('text-slate-500', 'hover:bg-slate-50');
+                    }
+                });
+
+                // Re-render
+                const req = ADMIN_REQUESTS.find(r => r.id === currentRequestDetailId);
+                if (req) {
+                    renderHistoryItems(req.hst, tabType);
+                }
+            }
+
+            function renderHistoryItems(hst, filterType) {
+                const histArea = document.getElementById('detail-hist-area');
+                if (!histArea) return;
+
+                if (!hst || hst.length === 0) {
+                    histArea.innerHTML = `
+                        <div class="text-center py-10 opacity-30">
+                            <i class="fa-solid fa-folder-open text-3xl mb-2"></i>
+                            <p class="text-xs">이력이 없습니다.</p>
+                        </div>`;
+                    return;
+                }
+
+                const baseFiltered = hst;
+                const filtered = filterType === 'all' ? baseFiltered : baseFiltered.filter(h => h.DOC_TYPE === filterType);
+
+                if (filtered.length === 0) {
+                    histArea.innerHTML = `
+                        <div class="text-center py-10 opacity-30">
+                            <i class="fa-solid fa-filter text-3xl mb-2"></i>
+                            <p class="text-xs">해당 타입의 이력이 없습니다.</p>
+                        </div>`;
+                    return;
+                }
+
+                histArea.innerHTML = filtered.map(h => {
+                    let typeColor = 'text-slate-400 border-slate-200';
+                    let icon = 'fa-file-lines';
+
+                    if (h.DOC_TYPE === '위탁계약서') { typeColor = 'text-blue-600 border-blue-100 bg-blue-50/10'; icon = 'fa-file-contract'; }
+                    else if (h.DOC_TYPE === '보안서약서') { typeColor = 'text-emerald-600 border-emerald-100 bg-emerald-50/10'; icon = 'fa-shield-halved'; }
+                    else if (h.DOC_TYPE === '파기확인서') { typeColor = 'text-red-600 border-red-100 bg-red-50/10'; icon = 'fa-trash-can'; }
+                    else if (h.DOC_TYPE === '현금영수증') { typeColor = 'text-amber-600 border-amber-100 bg-amber-50/10'; icon = 'fa-receipt'; }
+                    else if (h.DOC_TYPE === '상담완료') { typeColor = 'text-blue-600 border-blue-100 bg-blue-50/10'; icon = 'fa-comment-dots'; }
+                    else if (h.DOC_TYPE === '상태변경') { typeColor = 'text-slate-600 border-slate-200 bg-slate-100/50'; icon = 'fa-rotate'; }
+
+                    return `
+                        <div class="flex items-start gap-3 p-3 rounded-xl border ${typeColor} animate-fadeInUp">
+                            <div class="w-8 h-8 rounded-lg bg-white border border-inherit flex items-center justify-center shrink-0 shadow-sm">
+                                <i class="fa-solid ${icon} text-sm"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between mb-0.5">
+                                    <span class="text-[9px] font-black uppercase tracking-wider">${h.DOC_TYPE}</span>
+                                    <span class="text-[9px] text-slate-400 font-mono">${h.REG_DATE}</span>
+                                </div>
+                                <p class="text-[11px] md:text-xs font-bold text-slate-700 leading-tight">${h.MEMO}</p>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
             // 문서 발송 이력 기록 헬퍼
             async function recordDocHistory(docType, memo) {
                 if (!currentRequestDetailId) return;
@@ -3608,8 +4075,14 @@
                         body: histForm.toString()
                     });
 
-                    // 목록 갱신
+                    // 목록 갱신 (목록과 현재 상세 뷰 동시 반영을 위해)
                     await loadAdminData();
+
+                    // 상세 뷰가 열려있다면 해당 요청의 이력 다시 렌더링
+                    const req = ADMIN_REQUESTS.find(r => r.id === currentRequestDetailId);
+                    if (req) {
+                        renderHistoryItems(req.hst, currentHistoryTab);
+                    }
                 } catch (err) {
                     console.error('Record doc history error:', err);
                 }
@@ -3627,16 +4100,16 @@
 
             async function updateAdminCountdown() {
                 const elTop = document.getElementById('admin-last-refresh-time-top');
-                
+
                 adminRefreshCountdown--;
-                
+
                 if (adminRefreshCountdown <= 0) {
                     // 0초가 되면 무조건 조회 수행 (UI 상태 무관)
                     if (elTop) elTop.innerText = '갱신중..';
                     await loadAdminData();
                     adminRefreshCountdown = 10;
                 }
-                
+
                 if (elTop && adminRefreshCountdown > 0) {
                     elTop.innerText = adminRefreshCountdown + '초 전';
                 }
@@ -3644,11 +4117,11 @@
 
             function startAdminAutoRefresh() {
                 stopAdminAutoRefresh();
-                
+
                 adminRefreshCountdown = 10;
                 const elTop = document.getElementById('admin-last-refresh-time-top');
                 if (elTop) elTop.innerText = adminRefreshCountdown + '초 전';
-                
+
                 adminUpdateTimer = setInterval(updateAdminCountdown, 1000);
             }
 
