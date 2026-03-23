@@ -3944,7 +3944,7 @@
                     form.append('consultId', currentRequestDetailId);
                     form.append('status', newStatus);
 
-                    const statusRes = await fetch(`${API_BASE}/api/updConsultStatus`, {
+                    const statusRes = await fetch(`${API_BASE}/api/updConsult`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                         body: form.toString()
