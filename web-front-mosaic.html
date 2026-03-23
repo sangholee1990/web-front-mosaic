@@ -2241,22 +2241,6 @@
                                             발송하기
                                         </button>
                                     </div>
-                                    <div id="rc_post_actions" class="w-full hidden space-y-3">
-                                        <button onclick="saveConsultation()"
-                                            class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-bold transition-all shadow-md">
-                                            저장하기 (상담완료)
-                                        </button>
-                                        <div class="grid grid-cols-2 gap-3">
-                                            <button onclick="closeAdminDetail()"
-                                                class="bg-slate-100 hover:bg-slate-200 text-slate-700 py-3 rounded-xl font-bold transition-all">
-                                                목록으로
-                                            </button>
-                                            <button onclick="closeModal('adminModal')"
-                                                class="bg-red-50 hover:bg-red-100 text-red-600 py-3 rounded-xl font-bold transition-all border border-red-100">
-                                                닫기
-                                            </button>
-                                        </div>
-                                    </div>
                                 </div>
 
                                 <div
@@ -2514,10 +2498,6 @@
                     if (response.ok && resData.status === 'succ') {
                         showToast('현금영수증이 성공적으로 발송되었습니다.');
                         await recordDocHistory('현금영수증', '이메일 발송 완료');
-
-                        // 성공 후 UI 변경
-                        document.getElementById('rc_send_actions').classList.add('hidden');
-                        document.getElementById('rc_post_actions').classList.remove('hidden');
                     } else {
                         throw new Error(resData.message || '이메일 발송에 실패했습니다.');
                     }
@@ -4064,7 +4044,7 @@
                             <div class="flex-1 min-w-0">
                                 <div class="flex items-center justify-between mb-0.5">
                                     <span class="text-[9px] font-black uppercase tracking-wider">${h.DOC_TYPE}</span>
-                                    <span class="text-[9px] text-slate-400">${h.REG_DATE}</span>
+                                    <span class="text-[11px] text-slate-400 flex items-center font-medium">${h.REG_DATE}</span>
                                 </div>
                                 <p class="text-[11px] md:text-xs font-bold text-slate-700 leading-tight">${h.MEMO}</p>
                             </div>
