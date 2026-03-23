@@ -1330,10 +1330,8 @@
                                             <span id="detail-date"
                                                 class="text-xs md:text-sm text-slate-400 font-medium"></span>
                                         </div>
-                                        <h4 class="text-2xl md:text-3xl font-black text-slate-800 mb-1"
-                                            id="detail-name"></h4>
-                                        <p class="text-slate-500 font-medium text-xs md:text-sm">No. <span
-                                                id="detail-id"></span>
+                                        <h4 class="text-2xl md:text-3xl font-black text-slate-800 mb-1" id="detail-name"></h4>
+                                        <p class="text-slate-500 font-medium text-xs md:text-sm">No. <span id="detail-id"></span>
                                         </p>
                                     </div>
                                     <button onclick="closeAdminDetail()"
@@ -1493,7 +1491,7 @@
                                             <label
                                                 class="text-xs font-bold text-slate-500 mb-1 block flex items-center justify-between gap-1">
                                                 <span>연계 번호ID <span class="text-red-500">*</span></span>
-                                                <span class="text-[9px] text-blue-500 font-normal">신규 요청 상단 배치</span>
+<!--                                                <span class="text-[9px] text-blue-500 font-normal">신규 요청 상단 배치</span>-->
                                             </label>
                                             <div class="flex bg-slate-100 p-1 rounded-xl mb-2">
                                                 <button type="button" onclick="setAdminSelectTab(this, '대기', 'contract')"
@@ -1769,8 +1767,8 @@
                                         <div class="relative">
                                             <label
                                                 class="text-xs font-bold text-slate-500 mb-1 block flex items-center justify-between gap-1">
-                                                <span>연계 번호ID <span class="text-red-500">*</span></span>
-                                                <span class="text-[9px] text-blue-500 font-normal">신규 요청 상단 배치</span>
+                                                <span>연계 번호ID<span class="text-red-500">*</span></span>
+<!--                                                <span class="text-[9px] text-blue-500 font-normal">신규 요청 상단 배치</span>-->
                                             </label>
                                             <div class="flex bg-slate-100 p-1 rounded-xl mb-2">
                                                 <button type="button" onclick="setAdminSelectTab(this, '대기', 'pledge')"
@@ -1936,7 +1934,7 @@
                                             <label
                                                 class="text-xs font-bold text-slate-500 mb-1 block flex items-center justify-between gap-1">
                                                 <span>연계 번호ID <span class="text-red-500">*</span></span>
-                                                <span class="text-[9px] text-blue-500 font-normal">신규 요청 상단 배치</span>
+<!--                                                <span class="text-[9px] text-blue-500 font-normal">신규 요청 상단 배치</span>-->
                                             </label>
                                             <div class="flex bg-slate-100 p-1 rounded-xl mb-2">
                                                 <button type="button" onclick="setAdminSelectTab(this, '대기', 'destroy')"
@@ -2177,7 +2175,7 @@
                                         <label
                                             class="text-xs font-bold text-slate-500 mb-1 block flex items-center justify-between gap-1">
                                             <span>연계 번호ID <span class="text-red-500">*</span></span>
-                                            <span class="text-[9px] text-blue-500 font-normal">신규 요청 상단 배치</span>
+<!--                                            <span class="text-[9px] text-blue-500 font-normal">신규 요청 상단 배치</span>-->
                                         </label>
                                         <div class="flex bg-slate-100 p-1 rounded-xl mb-2">
                                             <button type="button" onclick="setAdminSelectTab(this, '대기', 'receipt')"
@@ -3557,7 +3555,7 @@
                     if (select) select.value = currentRequestDetailId;
                 }
 
-                showToast(`No.${currentRequestDetailId} (${name}) 정보가 연계되었습니다.`);
+                showToast(`No${currentRequestDetailId} (${name}) 정보가 연계되었습니다.`);
                 closeAdminDetail();
             }
 
@@ -3686,13 +3684,12 @@
                         .sort((a, b) => parseInt(b.id) - parseInt(a.id));
 
                     const createOption = req => {
-                        const phoneSuffix = req.phone.split('-').pop();
-                        const searchData = `${req.id} ${req.name} ${phoneSuffix}`.toLowerCase();
-                        return `<option value="${req.id}" data-search="${searchData}">No.${req.id} - ${req.name} (${phoneSuffix})</option>`;
+                        const searchData = `${req.id} ${req.name} ${req.phone}`;
+                        return `<option value="${req.id}" data-search="${searchData}">${req.id}. ${req.name} (${req.phone})</option>`;
                     };
 
-                    const defaultOption = `<option value="">${status} 목록에서 선택 (필수)</option>`;
-                    select.innerHTML = defaultOption + filtered.map(createOption).join('');
+                    select.innerHTML = filtered.map(createOption).join('');
+                    select.disabled = filtered.length === 0;
                 });
             }
 
