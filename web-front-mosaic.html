@@ -1315,6 +1315,8 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <!-- Pagination -->
+                            <div id="admin-pagination" class="flex items-center justify-center gap-1 mt-4 shrink-0"></div>
                         </div>
 
                         <!-- Detail View -->
@@ -3769,6 +3771,7 @@
 
             function setAdminListFilter(status, btn) {
                 currentAdminListFilter = status;
+                adminCurrentPage = 1;
 
                 // UI 전환
                 document.querySelectorAll('.admin-list-filter').forEach(b => {
@@ -3783,6 +3786,14 @@
                 colorClass.split(' ').forEach(c => btn.classList.add(c));
                 btn.classList.remove('bg-white/50', 'border-slate-100', 'text-slate-500', 'font-semibold');
 
+                renderAdminList();
+            }
+
+            let adminCurrentPage = 1;
+            const ADMIN_PAGE_SIZE = 5;
+
+            function goAdminPage(page) {
+                adminCurrentPage = page;
                 renderAdminList();
             }
 
@@ -3805,19 +3816,23 @@
                     filtered = ADMIN_REQUESTS.filter(r => r.status === currentAdminListFilter);
                 }
 
-                // Sorting: 대기 (1) -> 완료 (2)
-                const statusOrder = { '대기': 1, '완료': 2 };
-                const sortedRequests = [...filtered].sort((a, b) => {
-                    if (a.status !== b.status) return (statusOrder[a.status] || 99) - (statusOrder[b.status] || 99);
-                    return parseInt(b.id) - parseInt(a.id); // 동일 상태 시 ID 내림차순
-                });
+                // Sorting: ID 내림차순
+                const sortedRequests = [...filtered].sort((a, b) => parseInt(b.id) - parseInt(a.id));
 
-                if (sortedRequests.length === 0) {
+                // 페이징 계산
+                const totalItems = sortedRequests.length;
+                const totalPages = Math.max(1, Math.ceil(totalItems / ADMIN_PAGE_SIZE));
+                if (adminCurrentPage > totalPages) adminCurrentPage = totalPages;
+                const startIdx = (adminCurrentPage - 1) * ADMIN_PAGE_SIZE;
+                const pageItems = sortedRequests.slice(startIdx, startIdx + ADMIN_PAGE_SIZE);
+
+                if (pageItems.length === 0) {
                     list.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400">데이터가 없습니다.</td></tr>`;
+                    renderAdminPagination(0, 1);
                     return;
                 }
 
-                list.innerHTML = sortedRequests.map(req => {
+                list.innerHTML = pageItems.map(req => {
                     let statusHtml = '';
                     if (req.status === '완료') {
                         statusHtml = `
@@ -3830,7 +3845,6 @@
                         statusHtml = `<span class="bg-red-50 text-red-500 border border-red-100 px-2.5 py-1 rounded-lg text-[10px] font-black">대기</span>`;
                     }
 
-                    // 발송된 서류 아이콘 체크
                     const hasContract = req.history.some(h => h.type === '위탁계약서');
                     const hasPledge = req.history.some(h => h.type === '보안서약서');
                     const hasDestroy = req.history.some(h => h.type === '파기확인서');
@@ -3863,6 +3877,58 @@
                     </td>
                 </tr>`;
                 }).join('');
+
+                renderAdminPagination(totalItems, totalPages);
+            }
+
+            function renderAdminPagination(totalItems, totalPages) {
+                const container = document.getElementById('admin-pagination');
+                if (!container) return;
+
+                if (totalPages <= 1) {
+                    container.innerHTML = `<span class="text-xs text-slate-400">전체 ${totalItems}건</span>`;
+                    return;
+                }
+
+                let html = '';
+                const btnBase = 'w-9 h-9 rounded-xl text-xs font-bold flex items-center justify-center transition-all';
+                const btnActive = 'bg-slate-800 text-white shadow-md';
+                const btnNormal = 'bg-white text-slate-500 border border-slate-200 hover:bg-slate-100';
+
+                // Prev
+                html += `<button onclick="goAdminPage(${Math.max(1, adminCurrentPage - 1)})" 
+                    class="${btnBase} ${adminCurrentPage === 1 ? 'opacity-30 cursor-not-allowed bg-slate-100 text-slate-400' : btnNormal}" 
+                    ${adminCurrentPage === 1 ? 'disabled' : ''}>
+                    <i class="fa-solid fa-chevron-left text-[10px]"></i></button>`;
+
+                // Page numbers (show max 5 around current)
+                let startPage = Math.max(1, adminCurrentPage - 2);
+                let endPage = Math.min(totalPages, startPage + 4);
+                if (endPage - startPage < 4) startPage = Math.max(1, endPage - 4);
+
+                if (startPage > 1) {
+                    html += `<button onclick="goAdminPage(1)" class="${btnBase} ${btnNormal}">1</button>`;
+                    if (startPage > 2) html += `<span class="text-slate-300 text-xs px-1">···</span>`;
+                }
+
+                for (let i = startPage; i <= endPage; i++) {
+                    html += `<button onclick="goAdminPage(${i})" class="${btnBase} ${i === adminCurrentPage ? btnActive : btnNormal}">${i}</button>`;
+                }
+
+                if (endPage < totalPages) {
+                    if (endPage < totalPages - 1) html += `<span class="text-slate-300 text-xs px-1">···</span>`;
+                    html += `<button onclick="goAdminPage(${totalPages})" class="${btnBase} ${btnNormal}">${totalPages}</button>`;
+                }
+
+                // Next
+                html += `<button onclick="goAdminPage(${Math.min(totalPages, adminCurrentPage + 1)})" 
+                    class="${btnBase} ${adminCurrentPage === totalPages ? 'opacity-30 cursor-not-allowed bg-slate-100 text-slate-400' : btnNormal}" 
+                    ${adminCurrentPage === totalPages ? 'disabled' : ''}>
+                    <i class="fa-solid fa-chevron-right text-[10px]"></i></button>`;
+
+                html += `<span class="text-[11px] text-slate-400 ml-2">${adminCurrentPage} / ${totalPages} (전체 ${totalItems}건)</span>`;
+
+                container.innerHTML = html;
             }
 
             // --- Detail View Logic ---
