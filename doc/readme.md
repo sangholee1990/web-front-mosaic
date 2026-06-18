@@ -1,6 +1,10 @@
 # 배포 방법
 ```
-# 작업경로 이동
+# 원도우 작업경로
+C:\SYSTEMS\PROG\WEB
+web-front-mosaic
+
+# 서버 작업경로
 cd /SYSTEMS/PROG/WEB/web-front-mosaic
 web-front-mosaic.html
 
