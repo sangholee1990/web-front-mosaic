@@ -13,8 +13,9 @@ nginx -t
 systemctl reload nginx
 
 # 모자이크 서버 API
+http://bdwide.kr:9910
 https://bdwide.kr:9911
 
-# 모자이크 화면
-http://bdwide.kr:9910/docs
+# 모자이크 화면 
+https://www.bdwide.kr
 ```
